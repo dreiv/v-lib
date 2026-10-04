@@ -62,4 +62,10 @@ describe('VCombobox', () => {
     expect(css).toContain('.v-combobox__anchor:has(:focus-visible)')
     expect(css).toContain('.v-combobox__input:focus-visible')
   })
+
+  test('id reaches the input and the label', () => {
+    const wrapper = mount(VCombobox, { props: { label: 'Country', options, id: 'country' } })
+    expect(wrapper.get('input').attributes('id')).toBe('country')
+    expect(wrapper.get('label').attributes('for')).toBe('country')
+  })
 })

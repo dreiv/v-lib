@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { VField } from '../field'
-import VTextFieldControl from './VTextFieldControl.vue'
-import type { VTextFieldProps } from './text-field.types'
+import VSelectControl from './VSelectControl.vue'
+import type { VSelectProps } from './select.types'
 
 defineOptions({ inheritAttrs: false })
 
@@ -12,12 +12,11 @@ const {
   error,
   required = false,
   disabled = false,
-  type = 'text',
+  options,
   placeholder,
-  autocomplete,
-} = defineProps<VTextFieldProps>()
+} = defineProps<VSelectProps>()
 
-const model = defineModel<string>({ default: '' })
+const model = defineModel<string | null>({ default: null })
 </script>
 
 <template>
@@ -29,12 +28,6 @@ const model = defineModel<string>({ default: '' })
     :required="required"
     :disabled="disabled"
   >
-    <VTextFieldControl
-      v-model="model"
-      v-bind="$attrs"
-      :type="type"
-      :placeholder="placeholder"
-      :autocomplete="autocomplete"
-    />
+    <VSelectControl v-model="model" v-bind="$attrs" :options="options" :placeholder="placeholder" />
   </VField>
 </template>

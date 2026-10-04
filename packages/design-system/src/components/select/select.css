@@ -1,0 +1,6 @@
+@layer v.components {
+  .v-select {
+    min-block-size: var(--v-control-height-medium);
+    padding-inline: var(--v-space-3);
+  }
+}

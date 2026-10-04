@@ -98,4 +98,15 @@ describe('VRadioGroup', () => {
       .map((group) => group.get('input').attributes('name'))
     expect(first).not.toBe(second)
   })
+
+  test('id goes to the first radio so a link can focus the group', () => {
+    const inputs = mountGroup({ id: 'plan' }).findAll('input')
+    expect(inputs[0]!.attributes('id')).toBe('plan')
+    expect(inputs[1]!.attributes('id')).toBeUndefined()
+  })
+
+  test('id drives the message ids of the group', () => {
+    const wrapper = mountGroup({ id: 'plan', description: 'Hint', error: 'Invalid' })
+    expect(wrapper.attributes('aria-describedby')).toBe('plan-description plan-error')
+  })
 })

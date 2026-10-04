@@ -10,7 +10,7 @@
 
 - Accessible name: label text.
 - Accessible description: description id, then error id, space separated, omitted when neither exists.
-- Ids come from `useId()` and are provided to the control through `useFieldContext()`.
+- The control id is the `id` prop, or a generated id from `useId()`. Description and error ids are `<id>-description` and `<id>-error`. All are provided to the control through `useFieldContext()` and follow a changing `id`.
 
 ## Keyboard
 

@@ -61,4 +61,21 @@ describe('VCheckbox', () => {
     expect(wrapper.get('input').attributes('disabled')).toBeDefined()
     expect(wrapper.attributes('data-disabled')).toBeDefined()
   })
+
+  test('id reaches the input and drives the message ids', () => {
+    const wrapper = mount(VCheckbox, {
+      props: { label: 'Terms', id: 'terms', description: 'Hint', error: 'Invalid' },
+    })
+    const input = wrapper.get('input')
+    expect(input.attributes('id')).toBe('terms')
+    expect(input.attributes('aria-describedby')).toBe('terms-description terms-error')
+  })
+
+  test('has a generated id by default', () => {
+    expect(
+      mount(VCheckbox, { props: { label: 'Updates' } })
+        .get('input')
+        .attributes('id'),
+    ).toBeTruthy()
+  })
 })

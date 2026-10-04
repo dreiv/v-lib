@@ -1,5 +1,5 @@
 import { mount } from '@vue/test-utils'
-import { defineComponent, h } from 'vue'
+import { defineComponent, h, nextTick, ref } from 'vue'
 import { describe, expect, test } from 'vite-plus/test'
 import { VField, useFieldContext } from '../src/components/field'
 
@@ -8,7 +8,7 @@ const Control = defineComponent({
     const { id, describedby, invalid, required, disabled } = useFieldContext()
     return () =>
       h('input', {
-        id,
+        id: id.value,
         'aria-describedby': describedby.value,
         'aria-invalid': invalid.value || undefined,
         required: required.value,
@@ -94,5 +94,28 @@ describe('VField', () => {
 
   test('the context throws outside VField', () => {
     expect(() => mount(Control)).toThrow('useFieldContext must be used inside VField')
+  })
+
+  test('uses an explicit id for the control and derives the message ids from it', () => {
+    const wrapper = mountField({ id: 'email', description: 'Hint', error: 'Wrong' })
+    expect(wrapper.get('input').attributes('id')).toBe('email')
+    expect(wrapper.get('label').attributes('for')).toBe('email')
+    expect(wrapper.get('.v-field__description').attributes('id')).toBe('email-description')
+    expect(wrapper.get('.v-field__error').attributes('id')).toBe('email-error')
+    expect(wrapper.get('input').attributes('aria-describedby')).toBe(
+      'email-description email-error',
+    )
+  })
+
+  test('follows a changing id', async () => {
+    const id = ref('first')
+    const Host = defineComponent({
+      render: () => h(VField, { label: 'Email', error: 'Wrong', id: id.value }, () => h(Control)),
+    })
+    const wrapper = mount(Host)
+    id.value = 'second'
+    await nextTick()
+    expect(wrapper.get('input').attributes('id')).toBe('second')
+    expect(wrapper.get('.v-field__error').attributes('id')).toBe('second-error')
   })
 })

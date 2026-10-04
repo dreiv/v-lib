@@ -61,4 +61,10 @@ describe('VTextField', () => {
     expect(input.attributes('required')).toBeDefined()
     expect(input.attributes('disabled')).toBeDefined()
   })
+
+  test('id reaches the input and the label', () => {
+    const wrapper = mount(VTextField, { props: { label: 'Email', id: 'email' } })
+    expect(wrapper.get('input').attributes('id')).toBe('email')
+    expect(wrapper.get('label').attributes('for')).toBe('email')
+  })
 })

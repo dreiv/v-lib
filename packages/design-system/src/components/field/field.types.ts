@@ -1,6 +1,7 @@
 import type { ComputedRef } from 'vue'
 
 export interface VFieldProps {
+  id?: string
   label: string
   description?: string
   error?: string
@@ -9,9 +10,9 @@ export interface VFieldProps {
 }
 
 export interface VFieldContext {
-  id: string
-  descriptionId: string
-  errorId: string
+  id: ComputedRef<string>
+  descriptionId: ComputedRef<string>
+  errorId: ComputedRef<string>
   describedby: ComputedRef<string | undefined>
   invalid: ComputedRef<boolean>
   required: ComputedRef<boolean>

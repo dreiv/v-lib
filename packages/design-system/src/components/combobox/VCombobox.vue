@@ -4,6 +4,7 @@ import VComboboxControl from './VComboboxControl.vue'
 import type { VComboboxProps } from './combobox.types'
 
 const {
+  id,
   label,
   description,
   error,
@@ -18,6 +19,7 @@ const model = defineModel<string | null>({ default: null })
 
 <template>
   <VField
+    :id="id"
     :label="label"
     :description="description"
     :error="error"

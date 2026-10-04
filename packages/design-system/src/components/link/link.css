@@ -1,0 +1,18 @@
+@layer v.components {
+  .v-link {
+    color: var(--v-color-accent-ink);
+    text-decoration: underline;
+    text-decoration-thickness: from-font;
+    text-underline-offset: 0.18em;
+  }
+
+  .v-link:hover {
+    text-decoration-thickness: 0.125em;
+  }
+
+  @media (forced-colors: active) {
+    .v-link {
+      color: LinkText;
+    }
+  }
+}

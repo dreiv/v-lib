@@ -1,12 +1,19 @@
 <script setup lang="ts">
-import { computed, useId } from 'vue'
+import { computed } from 'vue'
 import { provideFieldContext } from './field.context'
-import { useFieldMessages } from './field.messages'
+import { useFieldId, useFieldMessages } from './field.messages'
 import type { VFieldProps } from './field.types'
 
-const { label, description, error, required = false, disabled = false } = defineProps<VFieldProps>()
+const {
+  id: explicitId,
+  label,
+  description,
+  error,
+  required = false,
+  disabled = false,
+} = defineProps<VFieldProps>()
 
-const id = useId()
+const id = useFieldId(() => explicitId)
 const { descriptionId, errorId, invalid, describedby } = useFieldMessages(
   id,
   () => description,

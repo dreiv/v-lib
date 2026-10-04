@@ -6,6 +6,7 @@ import type { VTextAreaProps } from './text-area.types'
 defineOptions({ inheritAttrs: false })
 
 const {
+  id,
   label,
   description,
   error,
@@ -20,6 +21,7 @@ const model = defineModel<string>({ default: '' })
 
 <template>
   <VField
+    :id="id"
     :label="label"
     :description="description"
     :error="error"

@@ -10,6 +10,7 @@
 
 - Accessible name: label text.
 - Accessible description: description id, then error id, omitted when neither exists.
+- The input id is the `id` prop, or a generated id; description and error ids are `<id>-description` and `<id>-error`.
 - Remaining attributes (`name`, `value`, ...) go to the input.
 
 ## Keyboard

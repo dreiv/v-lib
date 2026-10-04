@@ -11,6 +11,7 @@
 - Accessible name: legend text.
 - Group description: description id, then error id, omitted when neither exists.
 - Each radio is named by its option label.
+- The `id` prop (or a generated id) is set on the first radio, so a VErrorSummary link can focus the group; description and error ids are `<id>-description` and `<id>-error`.
 
 ## Keyboard
 

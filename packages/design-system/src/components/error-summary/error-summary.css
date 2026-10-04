@@ -1,0 +1,38 @@
+@layer v.components {
+  .v-error-summary {
+    padding: var(--v-space-4);
+    border: var(--v-border-width) solid var(--v-color-danger);
+    border-inline-start-width: var(--v-space-1);
+    border-radius: var(--v-radius-2);
+  }
+
+  .v-error-summary__heading {
+    margin: 0 0 var(--v-space-2);
+    font-size: var(--v-font-size-lg);
+    font-weight: var(--v-font-weight-bold);
+  }
+
+  .v-error-summary__list {
+    margin: 0;
+    padding-inline-start: var(--v-space-4);
+  }
+
+  .v-error-summary__item {
+    padding-block: var(--v-space-1);
+  }
+
+  .v-error-summary__link {
+    color: var(--v-color-danger);
+    text-decoration: underline;
+  }
+
+  @media (forced-colors: active) {
+    .v-error-summary {
+      border-color: CanvasText;
+    }
+
+    .v-error-summary__link {
+      color: LinkText;
+    }
+  }
+}

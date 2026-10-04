@@ -26,13 +26,29 @@
       "types": "./dist/components/combobox/index.d.mts",
       "import": "./dist/components/combobox/index.mjs"
     },
+    "./error-summary": {
+      "types": "./dist/components/error-summary/index.d.mts",
+      "import": "./dist/components/error-summary/index.mjs"
+    },
     "./field": {
       "types": "./dist/components/field/index.d.mts",
       "import": "./dist/components/field/index.mjs"
     },
+    "./icon-button": {
+      "types": "./dist/components/icon-button/index.d.mts",
+      "import": "./dist/components/icon-button/index.mjs"
+    },
+    "./link": {
+      "types": "./dist/components/link/index.d.mts",
+      "import": "./dist/components/link/index.mjs"
+    },
     "./radio-group": {
       "types": "./dist/components/radio-group/index.d.mts",
       "import": "./dist/components/radio-group/index.mjs"
+    },
+    "./select": {
+      "types": "./dist/components/select/index.d.mts",
+      "import": "./dist/components/select/index.mjs"
     },
     "./text-area": {
       "types": "./dist/components/text-area/index.d.mts",

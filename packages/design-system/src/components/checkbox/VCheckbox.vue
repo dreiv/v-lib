@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import { useId } from 'vue'
-import { useFieldMessages } from '../field/field.messages'
+import { useFieldId, useFieldMessages } from '../field/field.messages'
 import type { VCheckboxProps } from './checkbox.types'
 
 defineOptions({ inheritAttrs: false })
 
 const {
+  id: explicitId,
   label,
   description,
   error,
@@ -15,8 +15,9 @@ const {
 
 const model = defineModel<boolean>({ default: false })
 
+const id = useFieldId(() => explicitId)
 const { descriptionId, errorId, invalid, describedby } = useFieldMessages(
-  useId(),
+  id,
   () => description,
   () => error,
 )
@@ -32,6 +33,7 @@ const { descriptionId, errorId, invalid, describedby } = useFieldMessages(
       <input
         v-bind="$attrs"
         v-model="model"
+        :id="id"
         class="v-checkbox__input"
         type="checkbox"
         :required="required"

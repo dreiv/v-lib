@@ -56,4 +56,10 @@ describe('VTextArea', () => {
     expect(textarea.attributes('required')).toBeDefined()
     expect(textarea.attributes('disabled')).toBeDefined()
   })
+
+  test('id reaches the textarea and the label', () => {
+    const wrapper = mount(VTextArea, { props: { label: 'Notes', id: 'notes' } })
+    expect(wrapper.get('textarea').attributes('id')).toBe('notes')
+    expect(wrapper.get('label').attributes('for')).toBe('notes')
+  })
 })

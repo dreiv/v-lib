@@ -1,12 +1,17 @@
-import { computed } from 'vue'
+import { computed, useId, type ComputedRef } from 'vue'
+
+export function useFieldId(explicit: () => string | undefined) {
+  const generated = useId()
+  return computed(() => explicit() || generated)
+}
 
 export function useFieldMessages(
-  id: string,
+  id: ComputedRef<string>,
   description: () => string | undefined,
   error: () => string | undefined,
 ) {
-  const descriptionId = `${id}-description`
-  const errorId = `${id}-error`
+  const descriptionId = computed(() => `${id.value}-description`)
+  const errorId = computed(() => `${id.value}-error`)
 
   return {
     descriptionId,
@@ -14,8 +19,9 @@ export function useFieldMessages(
     invalid: computed(() => Boolean(error())),
     describedby: computed(
       () =>
-        [description() ? descriptionId : '', error() ? errorId : ''].filter(Boolean).join(' ') ||
-        undefined,
+        [description() ? descriptionId.value : '', error() ? errorId.value : '']
+          .filter(Boolean)
+          .join(' ') || undefined,
     ),
   }
 }

@@ -1,9 +1,10 @@
 <script setup lang="ts">
-import { computed, useId } from 'vue'
-import { useFieldMessages } from '../field/field.messages'
+import { computed } from 'vue'
+import { useFieldId, useFieldMessages } from '../field/field.messages'
 import type { VRadioGroupProps } from './radio-group.types'
 
 const {
+  id: explicitId,
   label,
   description,
   error,
@@ -15,8 +16,8 @@ const {
 
 const model = defineModel<string | null>({ default: null })
 
-const id = useId()
-const groupName = computed(() => name ?? id)
+const id = useFieldId(() => explicitId)
+const groupName = computed(() => name ?? id.value)
 const { descriptionId, errorId, invalid, describedby } = useFieldMessages(
   id,
   () => description,
@@ -40,8 +41,9 @@ const { descriptionId, errorId, invalid, describedby } = useFieldMessages(
     </legend>
     <p v-if="description" :id="descriptionId" class="v-field__description">{{ description }}</p>
     <div class="v-radio-group__options">
-      <label v-for="option in options" :key="option.value" class="v-radio-group__option">
+      <label v-for="(option, index) in options" :key="option.value" class="v-radio-group__option">
         <input
+          :id="index === 0 ? id : undefined"
           v-model="model"
           class="v-radio-group__input"
           type="radio"
