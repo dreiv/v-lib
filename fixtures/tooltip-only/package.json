@@ -1,5 +1,5 @@
 {
-  "name": "fixture-combobox-only",
+  "name": "fixture-tooltip-only",
   "version": "0.0.0",
   "private": true,
   "type": "module",
@@ -19,21 +19,21 @@
   },
   "bundle": {
     "present": [
-      "VCombobox",
-      "ComboboxRoot",
-      "v-field"
+      "VTooltip",
+      "TooltipRoot",
+      "v-tooltip"
     ],
     "absent": [
       "VButton",
+      "VCombobox",
+      "ComboboxRoot",
       "DialogRoot",
-      "TooltipRoot",
       "DropdownMenuRoot",
-      "ToastRoot",
-      "PopoverRoot"
+      "ToastRoot"
     ],
     "maxGzip": {
-      "js": 128000,
-      "css": 900
+      "js": 104000,
+      "css": 600
     }
   }
 }

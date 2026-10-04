@@ -25,4 +25,6 @@ jobs:
           node-version-file: .node-version
           cache: true
           run-install: true
+      - run: pnpm exec playwright install --with-deps chromium
+        working-directory: tools/e2e
       - run: vp run ready

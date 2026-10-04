@@ -30,6 +30,9 @@
   }
 
   .v-combobox__trigger {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     min-inline-size: var(--v-control-height-medium);
     min-block-size: var(--v-control-height-medium);
     border: 0;

@@ -28,7 +28,10 @@
       "ComboboxRoot",
       "reka-ui",
       "DialogRoot",
-      "TooltipRoot"
+      "TooltipRoot",
+      "DropdownMenuRoot",
+      "ToastRoot",
+      "PopoverRoot"
     ],
     "maxGzip": {
       "js": 46000,

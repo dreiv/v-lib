@@ -1,0 +1,33 @@
+@layer v.components {
+  .v-tooltip__content {
+    z-index: var(--v-z-tooltip);
+    max-inline-size: 20rem;
+    padding: var(--v-space-1) var(--v-space-2);
+    border-radius: var(--v-radius-1);
+    background: var(--v-color-text);
+    color: var(--v-color-surface);
+    font-size: var(--v-font-size-sm);
+    line-height: var(--v-line-height-tight);
+    overflow-wrap: anywhere;
+    box-shadow: var(--v-elevation-1);
+  }
+
+  .v-tooltip__content[data-state='delayed-open'],
+  .v-tooltip__content[data-state='instant-open'] {
+    animation: v-tooltip-in var(--v-duration-fast) var(--v-easing-standard);
+  }
+
+  @keyframes v-tooltip-in {
+    from {
+      opacity: 0;
+    }
+  }
+
+  @media (forced-colors: active) {
+    .v-tooltip__content {
+      border: var(--v-border-width) solid CanvasText;
+      background: Canvas;
+      color: CanvasText;
+    }
+  }
+}

@@ -10,6 +10,8 @@ import { VRadioGroup } from '@v/design-system/radio-group'
 import { VSelect } from '@v/design-system/select'
 import { VTextArea } from '@v/design-system/text-area'
 import { VTextField } from '@v/design-system/text-field'
+import { VTooltip } from '@v/design-system/tooltip'
+import { VIconClose } from '@v/icons'
 
 const summary = useTemplateRef<InstanceType<typeof VErrorSummary>>('summary')
 const submitted = ref(false)
@@ -76,17 +78,9 @@ async function submit() {
       />
       <VCombobox v-model="country" label="Country" :options="options" />
       <VButton type="submit">Save</VButton>
-      <VIconButton aria-label="Reset form" type="reset">
-        <svg
-          viewBox="0 0 20 20"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          aria-hidden="true"
-        >
-          <path d="M4 4l12 12M16 4L4 16" />
-        </svg>
-      </VIconButton>
+      <VTooltip text="Clear every field">
+        <VIconButton aria-label="Reset form" type="reset"><VIconClose /></VIconButton>
+      </VTooltip>
       <p>By saving you accept the <VLink href="#terms">terms</VLink>.</p>
     </form>
   </main>

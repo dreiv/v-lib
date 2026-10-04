@@ -1,10 +1,8 @@
 import { defineConfig } from 'vite-plus'
 
 export default defineConfig({
-  pack: {
-    format: ['esm'],
-    dts: true,
-    sourcemap: true,
-    exports: false,
+  test: {
+    environment: 'jsdom',
+    include: ['tests/**/*.test.ts'],
   },
 })

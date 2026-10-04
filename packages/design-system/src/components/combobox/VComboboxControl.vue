@@ -10,6 +10,7 @@ import {
   ComboboxTrigger,
   ComboboxViewport,
 } from 'reka-ui'
+import { VIconChevronDown } from '@v/icons'
 import { useFieldContext } from '../field/field.context'
 import type { VComboboxOption } from './combobox.types'
 
@@ -43,7 +44,7 @@ function displayValue(value: unknown) {
         :aria-describedby="describedby"
       />
       <ComboboxTrigger class="v-combobox__trigger" aria-label="Show options">
-        <span aria-hidden="true">▾</span>
+        <VIconChevronDown />
       </ComboboxTrigger>
     </ComboboxAnchor>
     <ComboboxPortal>

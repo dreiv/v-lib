@@ -25,6 +25,7 @@ export default defineConfig({
       'src/components/select/index.ts',
       'src/components/text-area/index.ts',
       'src/components/text-field/index.ts',
+      'src/components/tooltip/index.ts',
     ],
     format: ['esm'],
     dts: { vue: true },

@@ -11,8 +11,9 @@
     "tokens": "node tools/scripts/src/generate-tokens.ts",
     "verify": "vp run -r verify",
     "verify:packed": "node tools/scripts/src/verify-packed.ts",
-    "ready": "vp run -r build && vp check && vp run typecheck && vp run -r test && vp run -r verify && vp run verify:packed",
-    "prepare": "vp config"
+    "ready": "vp run -r build && vp check && vp run typecheck && vp run -r test && vp run -r verify && vp run verify:packed && vp run e2e",
+    "prepare": "vp config",
+    "e2e": "vp run -F e2e e2e"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "catalog:",

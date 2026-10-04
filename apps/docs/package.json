@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "@v/design-system": "workspace:*",
+    "@v/icons": "workspace:*",
     "vue": "catalog:"
   },
   "devDependencies": {

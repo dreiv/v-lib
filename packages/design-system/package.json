@@ -58,6 +58,10 @@
       "types": "./dist/components/text-field/index.d.mts",
       "import": "./dist/components/text-field/index.mjs"
     },
+    "./tooltip": {
+      "types": "./dist/components/tooltip/index.d.mts",
+      "import": "./dist/components/tooltip/index.mjs"
+    },
     "./styles": "./dist/styles/index.css",
     "./tokens": "./dist/styles/tokens.css",
     "./package.json": "./package.json"
@@ -72,6 +76,7 @@
   },
   "devDependencies": {
     "@types/node": "catalog:",
+    "@v/icons": "workspace:*",
     "@vitejs/plugin-vue": "catalog:",
     "@vue/test-utils": "catalog:",
     "jsdom": "catalog:",

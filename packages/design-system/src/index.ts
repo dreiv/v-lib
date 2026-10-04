@@ -29,3 +29,6 @@ export { VLink } from './components/link'
 
 export { VRadioGroup } from './components/radio-group'
 export type { VRadioGroupProps, VRadioOption } from './components/radio-group'
+
+export { VTooltip } from './components/tooltip'
+export type { VTooltipProps } from './components/tooltip'
