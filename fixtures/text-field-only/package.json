@@ -1,5 +1,5 @@
 {
-  "name": "fixture-combobox-only",
+  "name": "fixture-text-field-only",
   "version": "0.0.0",
   "private": true,
   "type": "module",
@@ -19,18 +19,20 @@
   },
   "bundle": {
     "present": [
-      "VCombobox",
-      "ComboboxRoot",
+      "VTextField",
       "v-field"
     ],
     "absent": [
       "VButton",
+      "VCombobox",
+      "ComboboxRoot",
+      "reka-ui",
       "DialogRoot",
       "TooltipRoot"
     ],
     "maxGzip": {
-      "js": 128000,
-      "css": 900
+      "js": 46000,
+      "css": 600
     }
   }
 }

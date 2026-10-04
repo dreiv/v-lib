@@ -1,0 +1,32 @@
+@layer v.components {
+  .v-checkbox {
+    display: grid;
+  }
+
+  .v-checkbox__row {
+    display: flex;
+    align-items: center;
+    gap: var(--v-space-3);
+    min-block-size: var(--v-control-height-medium);
+    cursor: pointer;
+  }
+
+  .v-checkbox__input {
+    flex: none;
+    inline-size: var(--v-control-indicator);
+    block-size: var(--v-control-indicator);
+    margin: 0;
+    accent-color: var(--v-color-accent);
+    cursor: inherit;
+  }
+
+  .v-checkbox .v-field__description,
+  .v-checkbox .v-field__error {
+    margin-inline-start: calc(var(--v-control-indicator) + var(--v-space-3));
+  }
+
+  .v-checkbox[data-disabled] .v-checkbox__row {
+    cursor: not-allowed;
+    opacity: 0.6;
+  }
+}

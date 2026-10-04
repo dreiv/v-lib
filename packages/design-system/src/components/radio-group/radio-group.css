@@ -1,0 +1,48 @@
+@layer v.components {
+  .v-radio-group {
+    min-inline-size: 0;
+    margin: 0;
+    padding: 0;
+    border: 0;
+  }
+
+  .v-radio-group__legend {
+    margin-block-end: var(--v-space-1);
+    padding: 0;
+    font-weight: var(--v-font-weight-medium);
+  }
+
+  .v-radio-group__options {
+    display: grid;
+  }
+
+  .v-radio-group__option {
+    display: flex;
+    align-items: center;
+    gap: var(--v-space-3);
+    min-block-size: var(--v-control-height-medium);
+    cursor: pointer;
+  }
+
+  .v-radio-group__input {
+    flex: none;
+    inline-size: var(--v-control-indicator);
+    block-size: var(--v-control-indicator);
+    margin: 0;
+    accent-color: var(--v-color-accent);
+    cursor: inherit;
+  }
+
+  .v-radio-group .v-field__description {
+    margin-block-end: var(--v-space-1);
+  }
+
+  .v-radio-group .v-field__error {
+    margin-block-start: var(--v-space-1);
+  }
+
+  .v-radio-group[data-disabled] .v-radio-group__option {
+    cursor: not-allowed;
+    opacity: 0.6;
+  }
+}

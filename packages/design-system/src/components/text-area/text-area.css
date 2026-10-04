@@ -1,0 +1,8 @@
+@layer v.components {
+  .v-text-area {
+    display: block;
+    min-block-size: calc(var(--v-control-height-medium) * 2);
+    padding: var(--v-space-2) var(--v-space-3);
+    resize: vertical;
+  }
+}

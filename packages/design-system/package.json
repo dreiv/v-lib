@@ -18,16 +18,35 @@
       "types": "./dist/components/button/index.d.mts",
       "import": "./dist/components/button/index.mjs"
     },
+    "./checkbox": {
+      "types": "./dist/components/checkbox/index.d.mts",
+      "import": "./dist/components/checkbox/index.mjs"
+    },
     "./combobox": {
       "types": "./dist/components/combobox/index.d.mts",
       "import": "./dist/components/combobox/index.mjs"
+    },
+    "./field": {
+      "types": "./dist/components/field/index.d.mts",
+      "import": "./dist/components/field/index.mjs"
+    },
+    "./radio-group": {
+      "types": "./dist/components/radio-group/index.d.mts",
+      "import": "./dist/components/radio-group/index.mjs"
+    },
+    "./text-area": {
+      "types": "./dist/components/text-area/index.d.mts",
+      "import": "./dist/components/text-area/index.mjs"
+    },
+    "./text-field": {
+      "types": "./dist/components/text-field/index.d.mts",
+      "import": "./dist/components/text-field/index.mjs"
     },
     "./styles": "./dist/styles/index.css",
     "./tokens": "./dist/styles/tokens.css",
     "./package.json": "./package.json"
   },
   "scripts": {
-    "build": "vp pack",
     "dev": "vp pack --watch",
     "test": "vp test",
     "typecheck": "vue-tsc --noEmit"

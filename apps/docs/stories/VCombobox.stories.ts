@@ -24,4 +24,7 @@ export default meta
 type Story = StoryObj<typeof meta>
 
 export const Default: Story = {}
+export const WithDescription: Story = { args: { description: 'Where your order ships to.' } }
+export const Required: Story = { args: { required: true } }
+export const WithError: Story = { args: { error: 'Select a country.' } }
 export const Disabled: Story = { args: { disabled: true } }

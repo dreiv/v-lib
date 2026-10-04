@@ -62,6 +62,7 @@ export const tokens = {
       medium: '2.75rem',
       large: '3.25rem',
     },
+    indicator: '1.25rem',
   },
   ref: {
     ink: Object.fromEntries(

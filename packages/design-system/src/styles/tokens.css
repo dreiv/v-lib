@@ -37,6 +37,7 @@
     --v-control-height-small: 2rem;
     --v-control-height-medium: 2.75rem;
     --v-control-height-large: 3.25rem;
+    --v-control-indicator: 1.25rem;
 
     --v-ref-ink-6: color-mix(in oklab, CanvasText 6%, Canvas);
     --v-ref-ink-8: color-mix(in oklab, CanvasText 8%, Canvas);

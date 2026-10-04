@@ -1,0 +1,67 @@
+@layer v.components {
+  .v-field {
+    display: grid;
+    gap: var(--v-space-1);
+  }
+
+  .v-field__label {
+    font-weight: var(--v-font-weight-medium);
+  }
+
+  .v-field__required {
+    margin-inline-start: var(--v-space-1);
+  }
+
+  .v-field__description,
+  .v-field__error {
+    margin: 0;
+    font-size: var(--v-font-size-sm);
+  }
+
+  .v-field__description {
+    color: var(--v-color-text-muted);
+  }
+
+  .v-field__error {
+    color: var(--v-color-danger);
+  }
+
+  .v-field[data-disabled] .v-field__label {
+    opacity: 0.6;
+  }
+
+  .v-field__control {
+    inline-size: 100%;
+    border: var(--v-border-width) solid var(--v-color-border);
+    border-radius: var(--v-radius-2);
+    background: var(--v-color-surface);
+    color: var(--v-color-text);
+    font: inherit;
+    transition: border-color var(--v-duration-fast) var(--v-easing-standard);
+  }
+
+  .v-field__control::placeholder {
+    color: var(--v-color-text-muted);
+    opacity: 1;
+  }
+
+  .v-field__control:is([aria-invalid='true'], [data-invalid]) {
+    border-color: var(--v-color-danger);
+  }
+
+  .v-field__control:is(:disabled, [data-disabled]) {
+    cursor: not-allowed;
+    opacity: 0.6;
+  }
+
+  @media (forced-colors: active) {
+    .v-field__control {
+      border-color: FieldText;
+    }
+
+    .v-field__control:is(:disabled, [data-disabled]) {
+      border-color: GrayText;
+      color: GrayText;
+    }
+  }
+}
