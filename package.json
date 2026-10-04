@@ -7,8 +7,11 @@
     "dev": "vp run -F docs dev",
     "dev:playground": "vp run -F playground dev",
     "build": "vp run -r build",
+    "typecheck": "vp run -F @v/design-system typecheck",
+    "tokens": "node tools/scripts/src/generate-tokens.ts",
     "verify": "vp run -r verify",
-    "ready": "vp run -r build && vp check && vp run -r test && vp run -r verify",
+    "verify:packed": "node tools/scripts/src/verify-packed.ts",
+    "ready": "vp run -r build && vp check && vp run typecheck && vp run -r test && vp run -r verify && vp run verify:packed",
     "prepare": "vp config"
   },
   "devDependencies": {

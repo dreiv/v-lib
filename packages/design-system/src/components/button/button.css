@@ -6,11 +6,11 @@
     gap: var(--v-space-2);
     min-block-size: var(--v-control-height-medium);
     padding-inline: var(--v-space-4);
-    border: 1px solid transparent;
+    border: var(--v-border-width) solid transparent;
     border-radius: var(--v-radius-2);
     font: inherit;
     cursor: pointer;
-    transition: background-color var(--v-duration-fast);
+    transition: background-color var(--v-duration-fast) var(--v-easing-standard);
   }
 
   .v-button[data-size='small'] {
@@ -40,7 +40,7 @@
 
   .v-button[data-variant='quiet'] {
     background: transparent;
-    color: var(--v-color-accent);
+    color: var(--v-color-accent-ink);
   }
 
   .v-button:disabled {
@@ -51,6 +51,11 @@
   @media (forced-colors: active) {
     .v-button {
       border-color: ButtonText;
+    }
+
+    .v-button:disabled {
+      border-color: GrayText;
+      color: GrayText;
     }
   }
 }

@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "build": "vp build",
-    "verify": "node ../../tools/scripts/src/assert-absent.ts dist ComboboxRoot reka-ui DialogRoot"
+    "verify": "node ../../tools/scripts/src/assert-bundle.ts dist package.json"
   },
   "dependencies": {
     "@v/design-system": "workspace:*",
@@ -16,5 +16,21 @@
     "typescript": "catalog:",
     "vite": "catalog:",
     "vite-plus": "catalog:"
+  },
+  "bundle": {
+    "present": [
+      "VButton"
+    ],
+    "absent": [
+      "VCombobox",
+      "ComboboxRoot",
+      "reka-ui",
+      "DialogRoot",
+      "TooltipRoot"
+    ],
+    "maxGzip": {
+      "js": 42000,
+      "css": 600
+    }
   }
 }

@@ -15,10 +15,10 @@ export default defineConfig({
     semi: false,
     printWidth: 100,
     trailingComma: 'all',
-    ignorePatterns: ['**/dist/**', '**/storybook-static/**'],
+    ignorePatterns: ['**/dist/**', '**/storybook-static/**', '.packed/**'],
   },
   lint: {
-    ignorePatterns: ['**/dist/**', '**/storybook-static/**'],
+    ignorePatterns: ['**/dist/**', '**/storybook-static/**', '.packed/**'],
     jsPlugins: [{ name: 'vite-plus', specifier: 'vite-plus/oxlint-plugin' }],
     plugins: ['typescript', 'vue', 'vitest'],
     options: {

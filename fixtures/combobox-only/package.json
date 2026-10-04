@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "build": "vp build",
-    "verify": "node ../../tools/scripts/src/assert-absent.ts dist DialogRoot TooltipRoot"
+    "verify": "node ../../tools/scripts/src/assert-bundle.ts dist package.json"
   },
   "dependencies": {
     "@v/design-system": "workspace:*",
@@ -16,5 +16,20 @@
     "typescript": "catalog:",
     "vite": "catalog:",
     "vite-plus": "catalog:"
+  },
+  "bundle": {
+    "present": [
+      "VCombobox",
+      "ComboboxRoot"
+    ],
+    "absent": [
+      "VButton",
+      "DialogRoot",
+      "TooltipRoot"
+    ],
+    "maxGzip": {
+      "js": 128000,
+      "css": 600
+    }
   }
 }

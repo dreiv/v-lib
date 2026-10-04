@@ -7,7 +7,7 @@
   .v-combobox__anchor {
     display: flex;
     align-items: center;
-    border: 1px solid var(--v-color-border);
+    border: var(--v-border-width) solid var(--v-color-border);
     border-radius: var(--v-radius-2);
     background: var(--v-color-surface);
   }
@@ -36,10 +36,11 @@
     inline-size: var(--reka-combobox-trigger-width);
     max-block-size: 16rem;
     overflow: auto;
-    border: 1px solid var(--v-color-border);
+    border: var(--v-border-width) solid var(--v-color-border);
     border-radius: var(--v-radius-2);
     background: var(--v-color-surface);
     color: var(--v-color-text);
+    box-shadow: var(--v-elevation-2);
   }
 
   .v-combobox__item,
@@ -54,5 +55,12 @@
 
   .v-combobox__item[data-disabled] {
     opacity: 0.6;
+  }
+
+  @media (forced-colors: active) {
+    .v-combobox__item[data-highlighted] {
+      background: Highlight;
+      color: HighlightText;
+    }
   }
 }
