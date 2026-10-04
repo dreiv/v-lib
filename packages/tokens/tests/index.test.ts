@@ -1,6 +1,6 @@
-import { expect, test } from "vite-plus/test";
-import { fn } from "../src/index.ts";
+import { expect, test } from 'vite-plus/test'
+import { tokenPrefix } from '../src/index.ts'
 
-test("fn", () => {
-  expect(fn()).toBe("Hello, tsdown!");
-});
+test('tokenPrefix', () => {
+  expect(tokenPrefix).toBe('--v-')
+})

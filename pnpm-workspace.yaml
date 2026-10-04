@@ -7,14 +7,27 @@ packages:
 catalogMode: prefer
 
 catalog:
-  "@types/node": ^24
-  typescript: ^7.0.2
+  '@storybook/addon-a11y': 10.6.1
+  '@storybook/vue3-vite': 10.6.1
+  '@types/node': ^24
+  '@vitejs/plugin-vue': ^6.0.9
+  '@vue/test-utils': ^2.5.1
+  jsdom: ^30.1.1
+  reka-ui: ~2.10.5
+  storybook: 10.6.1
+  typescript: ~6.0.2
+  unplugin-vue: ^7.0.0
   vite: npm:@voidzero-dev/vite-plus-core@1.0.0
   vite-plus: 1.0.0
+  vue: ^3.5.43
+  vue-tsc: ^3.3.12
 overrides:
-  vite@*: "catalog:"
+  vite@*: 'catalog:'
 peerDependencyRules:
   allowAny:
     - vite
   allowedVersions:
-    vite: "*"
+    vite: '*'
+allowBuilds:
+  esbuild: true
+  vue-demi: true

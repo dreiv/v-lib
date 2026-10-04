@@ -1,39 +1,52 @@
 {
-  "name": "design-system",
+  "name": "@v/design-system",
   "version": "0.0.0",
-  "description": "A starter for creating a TypeScript package.",
-  "homepage": "https://github.com/author/library#readme",
-  "bugs": {
-    "url": "https://github.com/author/library/issues"
-  },
-  "license": "MIT",
-  "author": "Author Name <author.name@mail.com>",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/author/library.git"
-  },
+  "private": true,
   "files": [
     "dist"
   ],
   "type": "module",
+  "sideEffects": [
+    "**/*.css"
+  ],
   "exports": {
-    ".": "./dist/index.mjs",
+    ".": {
+      "types": "./dist/index.d.mts",
+      "import": "./dist/index.mjs"
+    },
+    "./button": {
+      "types": "./dist/components/button/index.d.mts",
+      "import": "./dist/components/button/index.mjs"
+    },
+    "./combobox": {
+      "types": "./dist/components/combobox/index.d.mts",
+      "import": "./dist/components/combobox/index.mjs"
+    },
+    "./styles": "./dist/styles/index.css",
+    "./tokens": "./dist/styles/tokens.css",
     "./package.json": "./package.json"
-  },
-  "publishConfig": {
-    "access": "public"
   },
   "scripts": {
     "build": "vp pack",
     "dev": "vp pack --watch",
     "test": "vp test",
-    "check": "vp check",
-    "prepublishOnly": "vp run build"
+    "typecheck": "vue-tsc --noEmit"
+  },
+  "dependencies": {
+    "reka-ui": "catalog:"
   },
   "devDependencies": {
-    "@types/node": "^26.1.1",
-    "bumpp": "^11.1.0",
-    "typescript": "^7.0.2",
-    "vite-plus": "catalog:"
+    "@types/node": "catalog:",
+    "@vitejs/plugin-vue": "catalog:",
+    "@vue/test-utils": "catalog:",
+    "jsdom": "catalog:",
+    "typescript": "catalog:",
+    "unplugin-vue": "catalog:",
+    "vite-plus": "catalog:",
+    "vue": "catalog:",
+    "vue-tsc": "catalog:"
+  },
+  "peerDependencies": {
+    "vue": "^3.5.0"
   }
 }

@@ -4,11 +4,16 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "ready": "vp check && vp run -r test && vp run -r build",
-    "dev": "vp run website#dev",
+    "dev": "vp run -F docs dev",
+    "dev:playground": "vp run -F playground dev",
+    "build": "vp run -r build",
+    "verify": "vp run -r verify",
+    "ready": "vp run -r build && vp check && vp run -r test && vp run -r verify",
     "prepare": "vp config"
   },
   "devDependencies": {
+    "@vitejs/plugin-vue": "catalog:",
+    "typescript": "catalog:",
     "vite-plus": "catalog:"
   },
   "devEngines": {
@@ -19,6 +24,6 @@
     }
   },
   "engines": {
-    "node": ">=22.18.0"
+    "node": ">=24.21.0"
   }
 }

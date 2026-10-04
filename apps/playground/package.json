@@ -5,11 +5,16 @@
   "type": "module",
   "scripts": {
     "dev": "vp dev",
-    "build": "tsc && vp build",
+    "build": "vp build",
     "preview": "vp preview"
   },
+  "dependencies": {
+    "@v/design-system": "workspace:*",
+    "vue": "catalog:"
+  },
   "devDependencies": {
-    "typescript": "~6.0.2",
+    "@vitejs/plugin-vue": "catalog:",
+    "typescript": "catalog:",
     "vite": "catalog:",
     "vite-plus": "catalog:"
   }

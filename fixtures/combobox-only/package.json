@@ -1,0 +1,20 @@
+{
+  "name": "fixture-combobox-only",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "vp build",
+    "verify": "node ../../tools/scripts/src/assert-absent.ts dist DialogRoot TooltipRoot"
+  },
+  "dependencies": {
+    "@v/design-system": "workspace:*",
+    "vue": "catalog:"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "catalog:",
+    "typescript": "catalog:",
+    "vite": "catalog:",
+    "vite-plus": "catalog:"
+  }
+}

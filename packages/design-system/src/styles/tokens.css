@@ -1,0 +1,38 @@
+@layer v.reset, v.tokens, v.base, v.components;
+
+@layer v.tokens {
+  :root {
+    color-scheme: light dark;
+
+    --v-font-sans: system-ui, -apple-system, 'Segoe UI', sans-serif;
+    --v-font-size-base: 1rem;
+    --v-line-height-base: 1.5;
+
+    --v-space-1: 0.25rem;
+    --v-space-2: 0.5rem;
+    --v-space-3: 0.75rem;
+    --v-space-4: 1rem;
+
+    --v-radius-1: 0.25rem;
+    --v-radius-2: 0.5rem;
+
+    --v-control-height-small: 2rem;
+    --v-control-height-medium: 2.5rem;
+    --v-control-height-large: 3rem;
+
+    --v-color-surface: light-dark(#ffffff, #14161a);
+    --v-color-text: light-dark(#14161a, #f2f3f5);
+    --v-color-text-muted: light-dark(#4a4f57, #b4b9c2);
+    --v-color-border: light-dark(#8a909b, #6b7280);
+    --v-color-accent: light-dark(#1d4ed8, #7aa2ff);
+    --v-color-accent-text: light-dark(#ffffff, #0b1020);
+    --v-color-danger: light-dark(#b91c1c, #ff8a8a);
+    --v-color-danger-text: light-dark(#ffffff, #1a0606);
+    --v-color-focus: light-dark(#1d4ed8, #7aa2ff);
+
+    --v-focus-width: 3px;
+    --v-focus-offset: 2px;
+    --v-duration-fast: 120ms;
+    --v-z-popover: 1000;
+  }
+}
