@@ -1,40 +1,87 @@
 # VTextArea
 
-## Semantics
+## Role
 
 - Native `textarea` wrapped by VField; no ARIA roles added.
 - `autocomplete` is a typed prop.
 
-## Name and description
+## Name source
 
-- Name from the VField label, description from VField description and error.
-- Remaining attributes (`name`, `rows`, `maxlength`, ...) go to the textarea.
+- The VField label.
 
-## Keyboard
+## Description source
+
+- VField description and error.
+
+## Keyboard commands
 
 - Native multi-line behavior only. Tab moves focus out; no focus trap.
 
-## States
+## Focus entry
 
-- `required` and `disabled` use the native attributes.
-- `aria-invalid="true"` when `error` is non-empty; border switches to `--v-color-danger`.
-- Focus ring comes from the base `:focus-visible` rule.
-- Vertical resize only, so the control cannot grow wider than its container.
+- Tab.
 
-## Forced colors and zoom
+## Focus movement
 
-- Border switches to `FieldText`, disabled to `GrayText`.
-- Minimum height is two medium control heights; text reflows at 200% and 400% zoom.
+- Native: none.
 
-## Automated coverage
+## Focus exit
+
+- Tab or Shift+Tab.
+
+## Focus restoration
+
+- Not applicable.
+
+## Announcements
+
+- Label, required state, description, invalid state and error are read from the native attributes when the control gains focus.
+- A new error while the control is focused is not announced by `aria-describedby` alone.
+
+## Required consumer content
+
+- A visible, meaningful `label`.
+- The same error message passed to the field `error` prop and to VErrorSummary.
+
+## WCAG mapping
+
+- 1.3.1 Info and Relationships, 3.3.2 Labels or Instructions: native label association.
+- 3.3.1 Error Identification: the error is text, referenced by `aria-describedby`, with `aria-invalid`.
+- 1.4.3 Contrast (Minimum), 1.4.11 Non-text Contrast: covered by the tokens contrast tests.
+- 2.4.7 Focus Visible, 2.4.11 Focus Not Obscured (Minimum): base `:focus-visible` rule; sticky overlays are the app’s responsibility.
+- 2.5.8 Target Size (Minimum): 44px medium control height.
+
+## Automated tests
 
 - tests/text-area.test.ts: labelling, v-model, placeholder and autocomplete, attribute forwarding, description and error wiring, required, disabled.
 - Storybook a11y addon on the VTextArea stories.
 
-## Manual verification
+## Manual tests
 
-- [ ] Screen readers announce label, required, description, invalid and error.
 - [ ] Resize handle usable with mouse and touch; keyboard users are not blocked.
-- [ ] Forced colors: border visible in all states, focus ring visible.
-- [ ] 200% zoom and 400% reflow with long labels, errors and content.
-- [ ] Mobile: on-screen keyboard does not hide the error or the field.
+- [ ] Mobile: the on-screen keyboard does not hide the error or the field.
+- [ ] Screen readers announce label, required, description, invalid state and error on focus.
+- [ ] An error that appears while the control is focused is announced.
+- [ ] Forced colors: border and focus ring visible in all states.
+- [ ] 200% zoom and 400% reflow with long labels and errors.
+- [ ] Keyboard: Tab order, focus ring visible on every theme and accent.
+
+## Screen-reader matrix
+
+| Assistive technology | Browser           | Result       |
+| -------------------- | ----------------- | ------------ |
+| NVDA                 | Firefox or Chrome | Not verified |
+| JAWS                 | Chrome            | Not verified |
+| VoiceOver            | Safari            | Not verified |
+
+## Known limitations
+
+- Vertical resize only.
+
+## Verification date
+
+Pending. Automated tests only; no manual verification has been done.
+
+## Verified versions
+
+Vue ^3.5.43 (3.5.43 installed), Reka UI not used.

@@ -1,0 +1,8 @@
+@layer v.components {
+  .v-inline {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    min-inline-size: 0;
+  }
+}

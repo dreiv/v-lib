@@ -8,6 +8,7 @@ test('opens on keyboard focus and closes on Escape with focus kept', async ({ pa
   const trigger = page.getByRole('button', { name: 'Reset form' })
   const content = page.locator('.v-tooltip__content')
 
+  await trigger.scrollIntoViewIfNeeded()
   await trigger.focus()
   await expect(content).toContainText('Clear every field')
   await expect(trigger).toHaveAttribute('aria-describedby', /.+/)

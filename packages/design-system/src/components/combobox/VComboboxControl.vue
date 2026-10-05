@@ -14,8 +14,10 @@ import { VIconChevronDown } from '@v/icons'
 import { useFieldContext } from '../field/field.context'
 import type { VComboboxOption } from './combobox.types'
 
-const { options, placeholder } = defineProps<{
+const { options, triggerLabel, emptyText, placeholder } = defineProps<{
   options: VComboboxOption[]
+  triggerLabel: string
+  emptyText: string
   placeholder?: string
 }>()
 
@@ -43,18 +45,18 @@ function displayValue(value: unknown) {
         :aria-invalid="invalid || undefined"
         :aria-describedby="describedby"
       />
-      <ComboboxTrigger class="v-combobox__trigger" aria-label="Show options">
+      <ComboboxTrigger class="v-combobox__trigger" :aria-label="triggerLabel">
         <VIconChevronDown />
       </ComboboxTrigger>
     </ComboboxAnchor>
     <ComboboxPortal>
-      <ComboboxContent class="v-combobox__content" position="popper" :side-offset="4">
+      <ComboboxContent class="v-popup v-combobox__content" position="popper" :side-offset="4">
         <ComboboxViewport>
-          <ComboboxEmpty class="v-combobox__empty">No results</ComboboxEmpty>
+          <ComboboxEmpty class="v-popup__empty">{{ emptyText }}</ComboboxEmpty>
           <ComboboxItem
             v-for="option in options"
             :key="option.value"
-            class="v-combobox__item"
+            class="v-popup__item"
             :value="option.value"
           >
             {{ option.label }}

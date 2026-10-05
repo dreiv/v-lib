@@ -81,8 +81,12 @@ export const tokens = {
     accentText: 'AccentColorText',
     accentInk: 'color-mix(in oklab, AccentColor 65%, CanvasText)',
     danger: lightDark('oklch(50% 0.19 27)', 'oklch(75% 0.14 20)'),
+    info: `var(${tokenPrefix}color-accent-ink)`,
+    success: lightDark('oklch(50% 0.14 150)', 'oklch(78% 0.15 150)'),
+    warning: lightDark('oklch(52% 0.12 70)', 'oklch(82% 0.14 85)'),
     dangerText: lightDark('oklch(100% 0 0)', 'oklch(20% 0.05 25)'),
     focus: `var(${tokenPrefix}color-accent-ink)`,
+    scrim: lightDark('rgb(0 0 0 / 40%)', 'rgb(0 0 0 / 60%)'),
   },
   elevation: {
     color: lightDark('rgb(0 0 0 / 12%)', 'rgb(0 0 0 / 55%)'),
@@ -97,6 +101,10 @@ export const tokens = {
   duration: {
     fast: '120ms',
     base: '200ms',
+    spin: '900ms',
+  },
+  container: {
+    inline: '72rem',
   },
   easing: {
     standard: 'cubic-bezier(0.22, 1, 0.36, 1)',
@@ -114,5 +122,6 @@ export const reducedMotion = {
   duration: {
     fast: '0.01ms',
     base: '0.01ms',
+    spin: '0s',
   },
 } satisfies TokenGroup

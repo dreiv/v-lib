@@ -7,5 +7,7 @@ export interface VComboboxOption {
 
 export interface VComboboxProps extends VFieldProps {
   options: VComboboxOption[]
+  triggerLabel: string
+  emptyText: string
   placeholder?: string
 }

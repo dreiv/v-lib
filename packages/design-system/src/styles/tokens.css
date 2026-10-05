@@ -56,8 +56,12 @@
     --v-color-accent-text: AccentColorText;
     --v-color-accent-ink: color-mix(in oklab, AccentColor 65%, CanvasText);
     --v-color-danger: light-dark(oklch(50% 0.19 27), oklch(75% 0.14 20));
+    --v-color-info: var(--v-color-accent-ink);
+    --v-color-success: light-dark(oklch(50% 0.14 150), oklch(78% 0.15 150));
+    --v-color-warning: light-dark(oklch(52% 0.12 70), oklch(82% 0.14 85));
     --v-color-danger-text: light-dark(oklch(100% 0 0), oklch(20% 0.05 25));
     --v-color-focus: var(--v-color-accent-ink);
+    --v-color-scrim: light-dark(rgb(0 0 0 / 40%), rgb(0 0 0 / 60%));
 
     --v-elevation-1: 0 2px 8px var(--v-elevation-color);
     --v-elevation-2: 0 4px 16px var(--v-elevation-color);
@@ -69,6 +73,9 @@
 
     --v-duration-fast: 120ms;
     --v-duration-base: 200ms;
+    --v-duration-spin: 900ms;
+
+    --v-container-inline: 72rem;
 
     --v-easing-standard: cubic-bezier(0.22, 1, 0.36, 1);
 
@@ -83,6 +90,7 @@
     :root {
       --v-duration-fast: 0.01ms;
       --v-duration-base: 0.01ms;
+      --v-duration-spin: 0s;
     }
   }
 }

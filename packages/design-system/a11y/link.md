@@ -1,43 +1,83 @@
 # VLink
 
-## Semantics
+## Role
 
-- Native `a`; `href` and every other attribute (`target`, `rel`, `download`, ...) are passed through.
+- Native `a`; `href` and every other attribute are passed through.
 - Without an `href` the element is not a link and not focusable; use VButton for actions.
 
-## Name and description
+## Name source
 
-- Name from slot content, or `aria-label` passed as an attribute.
-- Link text must make sense out of context; the component cannot check this.
+- Slot content, or `aria-label` passed as an attribute.
 
-## Keyboard
+## Description source
+
+- None.
+
+## Keyboard commands
 
 - Native: Tab focuses, Enter activates.
 
-## States
+## Focus entry
 
-- Underlined at rest, so the link does not rely on color alone; the underline thickens on hover.
-- Focus ring comes from the base `:focus-visible` rule.
-- Color is `--v-color-accent-ink`, which the contrast tests cover on the surface.
+- Tab.
 
-## Forced colors and zoom
+## Focus movement
 
-- Color switches to `LinkText`.
-- Inline: wraps with the surrounding text and is exempt from the minimum target size.
+- Native: none.
 
-## Automated coverage
+## Focus exit
+
+- Tab or Shift+Tab.
+
+## Focus restoration
+
+- Not applicable.
+
+## Announcements
+
+- None.
+
+## Required consumer content
+
+- Link text that makes sense out of context; the component cannot check this.
+- Text or `aria-label` that says so when the link opens a new window.
+
+## WCAG mapping
+
+- 1.4.1 Use of Color: underlined at rest.
+- 2.4.4 Link Purpose (In Context).
+- 1.4.3 Contrast (Minimum): accent ink on the surface, tokens contrast tests.
+- 2.5.8 Target Size (Minimum): inline links are exempt.
+
+## Automated tests
 
 - tests/link.test.ts: element, slot, attribute forwarding.
-- tokens contrast tests cover accent ink on the surface for every accent color.
+- Tokens contrast tests for accent ink on the surface.
 
-## Known limitations
-
-- A link that opens a new window must say so in its text or `aria-label`; the component adds no indicator.
-- No router integration. Apps that need client-side navigation handle the click themselves.
-
-## Manual verification
+## Manual tests
 
 - [ ] Screen readers announce the link role and name.
 - [ ] Underline visible and distinguishable in forced colors.
 - [ ] Focus ring visible against the surrounding text on every theme and accent.
 - [ ] 200% zoom and 400% reflow with long link text.
+
+## Screen-reader matrix
+
+| Assistive technology | Browser           | Result       |
+| -------------------- | ----------------- | ------------ |
+| NVDA                 | Firefox or Chrome | Not verified |
+| JAWS                 | Chrome            | Not verified |
+| VoiceOver            | Safari            | Not verified |
+
+## Known limitations
+
+- No external-link indicator; a link that opens a new window must say so itself.
+- No router integration.
+
+## Verification date
+
+Pending. Automated tests only; no manual verification has been done.
+
+## Verified versions
+
+Vue ^3.5.43 (3.5.43 installed), Reka UI not used.

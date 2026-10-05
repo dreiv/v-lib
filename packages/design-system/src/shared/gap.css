@@ -1,0 +1,33 @@
+@layer v.components {
+  :where(.v-stack, .v-inline)[data-gap='1'] {
+    gap: var(--v-space-1);
+  }
+
+  :where(.v-stack, .v-inline)[data-gap='2'] {
+    gap: var(--v-space-2);
+  }
+
+  :where(.v-stack, .v-inline)[data-gap='3'] {
+    gap: var(--v-space-3);
+  }
+
+  :where(.v-stack, .v-inline)[data-gap='4'] {
+    gap: var(--v-space-4);
+  }
+
+  :where(.v-stack, .v-inline)[data-gap='6'] {
+    gap: var(--v-space-6);
+  }
+
+  :where(.v-stack, .v-inline)[data-gap='8'] {
+    gap: var(--v-space-8);
+  }
+
+  :where(.v-stack, .v-inline)[data-gap='10'] {
+    gap: var(--v-space-10);
+  }
+
+  :where(.v-stack, .v-inline)[data-gap='16'] {
+    gap: var(--v-space-16);
+  }
+}

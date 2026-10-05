@@ -1,0 +1,36 @@
+@layer v.components {
+  .v-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: var(--v-space-1) var(--v-space-2);
+    border: var(--v-border-width) solid var(--v-color-border);
+    border-radius: var(--v-radius-1);
+    background: var(--v-color-surface-subtle);
+    color: var(--v-color-text);
+    font-size: var(--v-font-size-sm);
+    line-height: var(--v-line-height-tight);
+    overflow-wrap: anywhere;
+  }
+
+  .v-badge[data-tone='info'] {
+    border-color: var(--v-color-info);
+  }
+
+  .v-badge[data-tone='success'] {
+    border-color: var(--v-color-success);
+  }
+
+  .v-badge[data-tone='warning'] {
+    border-color: var(--v-color-warning);
+  }
+
+  .v-badge[data-tone='danger'] {
+    border-color: var(--v-color-danger);
+  }
+
+  @media (forced-colors: active) {
+    .v-badge {
+      border-color: CanvasText;
+    }
+  }
+}

@@ -1,0 +1,18 @@
+@layer v.components {
+  .v-tag {
+    display: inline-flex;
+    align-items: center;
+    padding: var(--v-space-1) var(--v-space-3);
+    border-radius: var(--v-radius-2);
+    background: var(--v-color-divider);
+    color: var(--v-color-text);
+    font-size: var(--v-font-size-sm);
+    line-height: var(--v-line-height-tight);
+  }
+
+  @media (forced-colors: active) {
+    .v-tag {
+      border: var(--v-border-width) solid CanvasText;
+    }
+  }
+}

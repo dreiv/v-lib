@@ -42,39 +42,13 @@
   }
 
   .v-combobox__content {
-    z-index: var(--v-z-popover);
     inline-size: var(--reka-combobox-trigger-width);
-    max-block-size: 16rem;
-    overflow: auto;
-    border: var(--v-border-width) solid var(--v-color-border);
-    border-radius: var(--v-radius-2);
-    background: var(--v-color-surface);
-    color: var(--v-color-text);
-    box-shadow: var(--v-elevation-2);
-  }
-
-  .v-combobox__item,
-  .v-combobox__empty {
-    padding: var(--v-space-2) var(--v-space-3);
-  }
-
-  .v-combobox__item[data-highlighted] {
-    background: var(--v-color-accent);
-    color: var(--v-color-accent-text);
-  }
-
-  .v-combobox__item[data-disabled] {
-    opacity: 0.6;
+    max-block-size: min(16rem, var(--reka-combobox-content-available-height));
   }
 
   @media (forced-colors: active) {
     .v-combobox__anchor:has(:focus-visible) {
       outline-color: Highlight;
-    }
-
-    .v-combobox__item[data-highlighted] {
-      background: Highlight;
-      color: HighlightText;
     }
   }
 }

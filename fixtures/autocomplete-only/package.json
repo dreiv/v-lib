@@ -1,0 +1,40 @@
+{
+  "name": "fixture-autocomplete-only",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "vp build",
+    "verify": "node ../../tools/scripts/src/assert-bundle.ts dist package.json"
+  },
+  "dependencies": {
+    "@v/design-system": "workspace:*",
+    "vue": "catalog:"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "catalog:",
+    "typescript": "catalog:",
+    "vite": "catalog:",
+    "vite-plus": "catalog:"
+  },
+  "bundle": {
+    "present": [
+      "VAutocomplete",
+      "AutocompleteRoot",
+      "v-field"
+    ],
+    "absent": [
+      "VButton",
+      "VCombobox",
+      "DialogRoot",
+      "DropdownMenuRoot",
+      "TooltipRoot",
+      "ToastRoot",
+      "PopoverRoot"
+    ],
+    "maxGzip": {
+      "js": 122000,
+      "css": 1000
+    }
+  }
+}

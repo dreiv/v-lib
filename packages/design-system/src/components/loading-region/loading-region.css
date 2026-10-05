@@ -1,0 +1,17 @@
+@layer v.components {
+  .v-loading-region {
+    position: relative;
+  }
+
+  .v-loading-region[aria-busy='true'] > .v-loading-region__content {
+    opacity: 0.6;
+  }
+
+  .v-loading-region__mark {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    pointer-events: none;
+  }
+}

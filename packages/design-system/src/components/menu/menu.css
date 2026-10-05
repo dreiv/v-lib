@@ -1,0 +1,6 @@
+@layer v.components {
+  .v-menu__content {
+    min-inline-size: 10rem;
+    max-block-size: var(--reka-dropdown-menu-content-available-height);
+  }
+}

@@ -1,0 +1,8 @@
+@layer v.components {
+  .v-container {
+    box-sizing: border-box;
+    inline-size: min(100%, var(--v-container-inline));
+    margin-inline: auto;
+    padding-inline: var(--v-space-4);
+  }
+}

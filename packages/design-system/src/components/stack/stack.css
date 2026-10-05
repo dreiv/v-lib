@@ -1,0 +1,7 @@
+@layer v.components {
+  .v-stack {
+    display: flex;
+    flex-direction: column;
+    min-inline-size: 0;
+  }
+}

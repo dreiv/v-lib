@@ -11,6 +11,8 @@ const {
   required = false,
   disabled = false,
   options,
+  triggerLabel,
+  emptyText,
   placeholder,
 } = defineProps<VComboboxProps>()
 
@@ -26,6 +28,12 @@ const model = defineModel<string | null>({ default: null })
     :required="required"
     :disabled="disabled"
   >
-    <VComboboxControl v-model="model" :options="options" :placeholder="placeholder" />
+    <VComboboxControl
+      v-model="model"
+      :options="options"
+      :trigger-label="triggerLabel"
+      :empty-text="emptyText"
+      :placeholder="placeholder"
+    />
   </VField>
 </template>

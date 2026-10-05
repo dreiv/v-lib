@@ -1,35 +1,81 @@
 # VButton
 
-## Semantics
+## Role
 
 - Native `button`, `type="button"` by default.
 
-## Name and description
+## Name source
 
-- Name from slot content or `aria-label` passed as an attribute.
+- Slot content, or `aria-label` passed as an attribute.
 
-## Keyboard
+## Description source
+
+- None by default; `aria-describedby` passed as an attribute.
+
+## Keyboard commands
 
 - Native: Enter and Space activate, Tab focuses.
 
-## States
+## Focus entry
 
-- `disabled` uses the native attribute.
-- `pending` sets `disabled` and `aria-busy="true"`.
-- Focus ring comes from the base `:focus-visible` rule.
+- Tab.
 
-## Forced colors and zoom
+## Focus movement
 
-- Border switches to `ButtonText`, disabled to `GrayText`.
-- Minimum height follows the control height tokens (44px at medium).
+- Native: none.
 
-## Automated coverage
+## Focus exit
+
+- Tab or Shift+Tab.
+
+## Focus restoration
+
+- Not applicable.
+
+## Announcements
+
+- `pending` sets `aria-busy="true"` and `disabled`; no live announcement is made.
+
+## Required consumer content
+
+- Visible text or an `aria-label`.
+- Visible text that says what happens.
+
+## WCAG mapping
+
+- 4.1.2 Name, Role, Value: native element.
+- 1.4.3 Contrast (Minimum), 1.4.11 Non-text Contrast: tokens contrast tests.
+- 2.4.7 Focus Visible: base `:focus-visible` rule.
+- 2.5.8 Target Size (Minimum): 44px at medium.
+
+## Automated tests
 
 - tests/button.test.ts: element, type, data attributes, attribute forwarding, pending.
+- Storybook a11y addon on the VButton stories.
 
-## Manual verification
+## Manual tests
 
 - [ ] Focus handling when a focused button becomes pending (disabled) in each browser.
-- [ ] Screen readers announce busy state.
+- [ ] Screen readers announce the busy state.
 - [ ] Forced colors: all variants distinguishable and bordered.
 - [ ] Contrast of every variant with Windows and macOS accent colors.
+
+## Screen-reader matrix
+
+| Assistive technology | Browser           | Result       |
+| -------------------- | ----------------- | ------------ |
+| NVDA                 | Firefox or Chrome | Not verified |
+| JAWS                 | Chrome            | Not verified |
+| VoiceOver            | Safari            | Not verified |
+
+## Known limitations
+
+- A pending button is disabled, so a focused button loses focus in some browsers.
+
+## Verification date
+
+Pending. Automated tests only; no manual verification has been done.
+
+## Verified versions
+
+Vue ^3.5.43 (3.5.43 installed), Reka UI not used.

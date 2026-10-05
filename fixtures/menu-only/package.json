@@ -1,0 +1,40 @@
+{
+  "name": "fixture-menu-only",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "vp build",
+    "verify": "node ../../tools/scripts/src/assert-bundle.ts dist package.json"
+  },
+  "dependencies": {
+    "@v/design-system": "workspace:*",
+    "vue": "catalog:"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "catalog:",
+    "typescript": "catalog:",
+    "vite": "catalog:",
+    "vite-plus": "catalog:"
+  },
+  "bundle": {
+    "present": [
+      "VMenu",
+      "DropdownMenuRoot",
+      "v-popup"
+    ],
+    "absent": [
+      "VButton",
+      "VCombobox",
+      "ComboboxRoot",
+      "DialogRoot",
+      "TooltipRoot",
+      "ToastRoot",
+      "PopoverRoot"
+    ],
+    "maxGzip": {
+      "js": 114000,
+      "css": 600
+    }
+  }
+}

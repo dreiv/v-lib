@@ -1,0 +1,43 @@
+@layer v.components {
+  .v-alert {
+    padding: var(--v-space-4);
+    border: var(--v-border-width) solid var(--v-color-border);
+    border-inline-start-width: var(--v-space-1);
+    border-radius: var(--v-radius-2);
+    background: var(--v-color-surface-subtle);
+    color: var(--v-color-text);
+  }
+
+  .v-alert[data-tone='info'] {
+    border-color: var(--v-color-info);
+  }
+
+  .v-alert[data-tone='success'] {
+    border-color: var(--v-color-success);
+  }
+
+  .v-alert[data-tone='warning'] {
+    border-color: var(--v-color-warning);
+  }
+
+  .v-alert[data-tone='danger'] {
+    border-color: var(--v-color-danger);
+  }
+
+  .v-alert__title {
+    margin: 0;
+    font-weight: var(--v-font-weight-bold);
+    overflow-wrap: anywhere;
+  }
+
+  .v-alert__body {
+    margin-block-start: var(--v-space-2);
+    overflow-wrap: anywhere;
+  }
+
+  @media (forced-colors: active) {
+    .v-alert {
+      border-color: CanvasText;
+    }
+  }
+}

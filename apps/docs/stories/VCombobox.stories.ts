@@ -7,6 +7,8 @@ const meta = {
   component: VCombobox,
   args: {
     label: 'Country',
+    triggerLabel: 'Show options',
+    emptyText: 'No results',
     options: [
       { value: 'ro', label: 'Romania' },
       { value: 'de', label: 'Germany' },

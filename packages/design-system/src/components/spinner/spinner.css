@@ -1,0 +1,34 @@
+@layer v.components {
+  .v-spinner {
+    display: inline-flex;
+    align-items: center;
+  }
+
+  .v-spinner__mark {
+    flex: none;
+    inline-size: var(--v-control-indicator);
+    block-size: var(--v-control-indicator);
+    color: var(--v-color-accent-ink);
+    animation: v-spin var(--v-duration-spin) linear infinite;
+  }
+
+  .v-spinner__mark circle {
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 3;
+    stroke-linecap: round;
+    stroke-dasharray: 40 100;
+  }
+
+  @keyframes v-spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  @media (forced-colors: active) {
+    .v-spinner__mark {
+      color: CanvasText;
+    }
+  }
+}

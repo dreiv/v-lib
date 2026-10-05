@@ -31,6 +31,11 @@ const pairs = [
   ['border', 'surface', 3],
   ['danger', 'surface', 4.5],
   ['danger-text', 'danger', 4.5],
+  ['danger', 'surface-subtle', 3],
+  ['success', 'surface', 3],
+  ['success', 'surface-subtle', 3],
+  ['warning', 'surface', 3],
+  ['warning', 'surface-subtle', 3],
 ] as const
 
 function context(scheme: (typeof schemes)[number], accent = accents[0]!.value): Context {
@@ -93,6 +98,12 @@ describe.each(schemes)('contrast: $name', (scheme) => {
 
     test('accent ink on surface >= 4.5', () => {
       expect(contrast(color('accent-ink', ctx), surface)).toBeGreaterThanOrEqual(4.5)
+    })
+
+    test('info on surface and surface-subtle >= 3', () => {
+      const subtle = color('surface-subtle', ctx)
+      expect(contrast(color('info', ctx), surface)).toBeGreaterThanOrEqual(3)
+      expect(contrast(color('info', ctx), subtle)).toBeGreaterThanOrEqual(3)
     })
 
     test('focus on surface >= 3', () => {

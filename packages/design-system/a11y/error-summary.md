@@ -1,48 +1,89 @@
 # VErrorSummary
 
-## Semantics
+## Role
 
 - A `section` named by its `h2` heading (`aria-labelledby`), containing a `ul` of links.
 - Nothing is rendered when `errors` is empty.
-- The heading has `tabindex="-1"` so the app can move focus to it.
-- Each link is `href="#<id>"`; `id` is the `id` prop passed to the field (the control id, the checkbox input id, or the first radio of a radio group).
 
-## Name and description
+## Name source
 
-- Section name: the `heading` text, which is required so no language is hard coded.
-- Link names: the error messages.
-- The summary does not reference the field error ids. The app passes the same message to the field `error` prop and to the summary.
+- Section: the required `heading` prop.
+- Links: the error messages.
 
-## Keyboard
+## Description source
 
-- `focus()` is exposed; the app calls it after a failed submit. It waits one tick, so it works when the errors are set in the same tick, then focuses the heading.
+- None. The summary does not reference the field error ids; the app passes the same message to the field `error` prop and to the summary.
+
+## Keyboard commands
+
 - Tab moves through the links; Enter activates a link, which focuses the target control and scrolls it into view.
 - If no element has the link id, the click keeps the browser default.
 
-## States
+## Focus entry
 
-- Single appearance: danger color border and links. The error is conveyed as text, not color alone.
-- Focus ring comes from the base `:focus-visible` rule.
+- `focus()` is exposed; the app calls it after a failed submit. It waits one tick, then focuses the heading (`tabindex="-1"`).
 
-## Forced colors and zoom
+## Focus movement
 
-- Border switches to `CanvasText` and links to `LinkText`.
-- Layout reflows at any width.
+- Tab through the links.
+- A link moves focus to the control with that id.
 
-## Automated coverage
+## Focus exit
+
+- Following a link, or Tab out of the last link.
+
+## Focus restoration
+
+- Not applicable.
+
+## Announcements
+
+- Focusing the heading announces the heading, and the list when the screen reader reports it.
+- There is no live region; the summary relies on the focus move.
+
+## Required consumer content
+
+- `heading` text in the page language.
+- Each error `id` must equal the `id` of a focusable control (for a radio group, the first radio).
+- Call `focus()` after a failed submit.
+
+## WCAG mapping
+
+- 3.3.1 Error Identification: errors are text, not color alone.
+- 2.4.3 Focus Order, 2.4.11 Focus Not Obscured (Minimum).
+- 1.4.3 Contrast (Minimum): tokens contrast tests.
+- 1.4.10 Reflow: layout reflows at any width.
+
+## Automated tests
 
 - tests/error-summary.test.ts: empty state, heading and landmark name, link targets, focusing text field, radio group and checkbox, missing target, `focus()` including before the summary appears.
 - Storybook a11y addon on the VErrorSummary stories.
 
-## Known limitations
-
-- The heading level is fixed at `h2`; the app owns the page heading hierarchy.
-
-## Manual verification
+## Manual tests
 
 - [ ] Screen readers announce the heading and the link count when focus moves to the heading.
 - [ ] Following a link announces the field label, required state and error.
 - [ ] The focused control is not hidden behind sticky headers or overlays after following a link.
 - [ ] Focus ring on the heading after submitting with a mouse and with the keyboard.
-- [ ] Forced colors: border and links distinguishable.
+- [ ] Forced colors: border is `CanvasText`, links are `LinkText`.
 - [ ] 200% zoom and 400% reflow with long messages.
+
+## Screen-reader matrix
+
+| Assistive technology | Browser           | Result       |
+| -------------------- | ----------------- | ------------ |
+| NVDA                 | Firefox or Chrome | Not verified |
+| JAWS                 | Chrome            | Not verified |
+| VoiceOver            | Safari            | Not verified |
+
+## Known limitations
+
+- The heading level is fixed at `h2`; the app owns the page heading hierarchy.
+
+## Verification date
+
+Pending. Automated tests only; no manual verification has been done.
+
+## Verified versions
+
+Vue ^3.5.43 (3.5.43 installed), Reka UI not used.

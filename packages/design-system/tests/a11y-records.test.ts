@@ -6,13 +6,23 @@ const components = resolve(import.meta.dirname, '../src/components')
 const records = resolve(import.meta.dirname, '../a11y')
 
 const sections = [
-  '## Semantics',
-  '## Name and description',
-  '## Keyboard',
-  '## States',
-  '## Forced colors and zoom',
-  '## Automated coverage',
-  '## Manual verification',
+  '## Role',
+  '## Name source',
+  '## Description source',
+  '## Keyboard commands',
+  '## Focus entry',
+  '## Focus movement',
+  '## Focus exit',
+  '## Focus restoration',
+  '## Announcements',
+  '## Required consumer content',
+  '## WCAG mapping',
+  '## Automated tests',
+  '## Manual tests',
+  '## Screen-reader matrix',
+  '## Known limitations',
+  '## Verification date',
+  '## Verified versions',
 ]
 
 const names = readdirSync(components, { withFileTypes: true })

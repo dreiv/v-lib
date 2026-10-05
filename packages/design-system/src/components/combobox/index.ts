@@ -1,3 +1,4 @@
+import '../../shared/popup.css'
 import './combobox.css'
 
 export { default as VCombobox } from './VCombobox.vue'

@@ -14,6 +14,18 @@
       "types": "./dist/index.d.mts",
       "import": "./dist/index.mjs"
     },
+    "./alert": {
+      "types": "./dist/components/alert/index.d.mts",
+      "import": "./dist/components/alert/index.mjs"
+    },
+    "./autocomplete": {
+      "types": "./dist/components/autocomplete/index.d.mts",
+      "import": "./dist/components/autocomplete/index.mjs"
+    },
+    "./badge": {
+      "types": "./dist/components/badge/index.d.mts",
+      "import": "./dist/components/badge/index.mjs"
+    },
     "./button": {
       "types": "./dist/components/button/index.d.mts",
       "import": "./dist/components/button/index.mjs"
@@ -25,6 +37,14 @@
     "./combobox": {
       "types": "./dist/components/combobox/index.d.mts",
       "import": "./dist/components/combobox/index.mjs"
+    },
+    "./container": {
+      "types": "./dist/components/container/index.d.mts",
+      "import": "./dist/components/container/index.mjs"
+    },
+    "./dialog": {
+      "types": "./dist/components/dialog/index.d.mts",
+      "import": "./dist/components/dialog/index.mjs"
     },
     "./error-summary": {
       "types": "./dist/components/error-summary/index.d.mts",
@@ -38,9 +58,25 @@
       "types": "./dist/components/icon-button/index.d.mts",
       "import": "./dist/components/icon-button/index.mjs"
     },
+    "./inline": {
+      "types": "./dist/components/inline/index.d.mts",
+      "import": "./dist/components/inline/index.mjs"
+    },
     "./link": {
       "types": "./dist/components/link/index.d.mts",
       "import": "./dist/components/link/index.mjs"
+    },
+    "./loading-region": {
+      "types": "./dist/components/loading-region/index.d.mts",
+      "import": "./dist/components/loading-region/index.mjs"
+    },
+    "./menu": {
+      "types": "./dist/components/menu/index.d.mts",
+      "import": "./dist/components/menu/index.mjs"
+    },
+    "./popover": {
+      "types": "./dist/components/popover/index.d.mts",
+      "import": "./dist/components/popover/index.mjs"
     },
     "./radio-group": {
       "types": "./dist/components/radio-group/index.d.mts",
@@ -50,6 +86,18 @@
       "types": "./dist/components/select/index.d.mts",
       "import": "./dist/components/select/index.mjs"
     },
+    "./spinner": {
+      "types": "./dist/components/spinner/index.d.mts",
+      "import": "./dist/components/spinner/index.mjs"
+    },
+    "./stack": {
+      "types": "./dist/components/stack/index.d.mts",
+      "import": "./dist/components/stack/index.mjs"
+    },
+    "./tag": {
+      "types": "./dist/components/tag/index.d.mts",
+      "import": "./dist/components/tag/index.mjs"
+    },
     "./text-area": {
       "types": "./dist/components/text-area/index.d.mts",
       "import": "./dist/components/text-area/index.mjs"
@@ -57,6 +105,10 @@
     "./text-field": {
       "types": "./dist/components/text-field/index.d.mts",
       "import": "./dist/components/text-field/index.mjs"
+    },
+    "./toast": {
+      "types": "./dist/components/toast/index.d.mts",
+      "import": "./dist/components/toast/index.mjs"
     },
     "./tooltip": {
       "types": "./dist/components/tooltip/index.d.mts",
