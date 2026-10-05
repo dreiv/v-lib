@@ -26,6 +26,8 @@ import { VToastRegion, useToast } from '@v/design-system/toast'
 import { VTooltip } from '@v/design-system/tooltip'
 import { VIconClose } from '@v/icons'
 
+const docsUrl = import.meta.env.DEV ? 'http://localhost:6006/' : `${import.meta.env.BASE_URL}docs/`
+
 const summary = useTemplateRef<InstanceType<typeof VErrorSummary>>('summary')
 const submitted = ref(false)
 
@@ -74,6 +76,9 @@ async function submit() {
 <template>
   <VContainer as="main">
     <VStack>
+      <nav aria-label="Project">
+        <VLink :href="docsUrl">Component documentation</VLink>
+      </nav>
       <VAlert title="Review the form" tone="info"
         >All fields are required unless marked optional.</VAlert
       >

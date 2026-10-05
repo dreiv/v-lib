@@ -3,5 +3,6 @@ import vue from '@vitejs/plugin-vue'
 import { vueFs } from '../../vite.shared'
 
 export default defineConfig({
+  base: './',
   plugins: [vue({ script: { fs: vueFs } })],
 })

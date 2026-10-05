@@ -7,6 +7,7 @@ node_modules
 dist
 dist-ssr
 storybook-static
+_site
 .packed
 test-results
 playwright-report
