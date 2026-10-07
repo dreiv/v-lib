@@ -1,0 +1,14 @@
+import { h } from 'vue'
+import { svg } from './svg'
+
+export const VIconMonitorOff = {
+  name: 'VIconMonitorOff',
+  setup: () => () =>
+    svg([
+      h('path', { d: 'M12 17v4' }),
+      h('path', { d: 'M17 17H4a2 2 0 0 1-2-2V5a2 2 0 0 1 1.184-1.826' }),
+      h('path', { d: 'm2 2 20 20' }),
+      h('path', { d: 'M8 21h8' }),
+      h('path', { d: 'M8.656 3H20a2 2 0 0 1 2 2v10a2 2 0 0 1-.293 1.042' }),
+    ]),
+}
