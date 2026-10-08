@@ -4,6 +4,8 @@ const config: StorybookConfig = {
   stories: ['../stories/**/*.stories.ts'],
   addons: ['@storybook/addon-a11y'],
   framework: '@storybook/vue3-vite',
+  features: { experimentalDocgenServer: true },
+  core: { disableWhatsNewNotifications: true, disableTelemetry: true },
 }
 
 export default config
