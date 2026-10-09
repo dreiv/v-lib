@@ -9,7 +9,6 @@ import { VCombobox } from '@v/design-system/combobox'
 import { VContainer } from '@v/design-system/container'
 import { VDialog } from '@v/design-system/dialog'
 import { VErrorSummary, type VErrorSummaryItem } from '@v/design-system/error-summary'
-import { VIconButton } from '@v/design-system/icon-button'
 import { VInline } from '@v/design-system/inline'
 import { VLink } from '@v/design-system/link'
 import { VLoadingRegion } from '@v/design-system/loading-region'
@@ -87,9 +86,9 @@ async function submit() {
         <VTag>Accessibility</VTag>
         <VSpinner label="Syncing" />
       </VInline>
-      <VLoadingRegion label="Loading preview" :loading="false"
-        ><p>Preview ready.</p></VLoadingRegion
-      >
+      <VLoadingRegion label="Loading preview" :loading="false">
+        <p>Preview ready.</p>
+      </VLoadingRegion>
       <form novalidate @submit.prevent="submit">
         <VErrorSummary ref="summary" heading="There is a problem" :errors="errors" />
         <VTextField
@@ -127,16 +126,22 @@ async function submit() {
         <VAutocomplete v-model="city" label="City" :suggestions="cities" />
         <VButton type="submit">Save</VButton>
         <VTooltip text="Clear every field">
-          <VIconButton aria-label="Reset form" type="reset"><VIconClose /></VIconButton>
+          <VButton variant="quiet" icon-only aria-label="Reset form" type="reset">
+            <VIconClose />
+          </VButton>
         </VTooltip>
         <VMenu>
-          <template #trigger><VButton variant="secondary">More</VButton></template>
+          <template #trigger>
+            <VButton variant="secondary">More</VButton>
+          </template>
           <VMenuItem @select="toast.show({ title: 'Draft saved' })">Save draft</VMenuItem>
           <VMenuSeparator />
           <VMenuItem @select="confirming = true">Discard</VMenuItem>
         </VMenu>
         <VPopover label="Privacy">
-          <template #trigger><VButton variant="quiet">Privacy</VButton></template>
+          <template #trigger>
+            <VButton variant="quiet">Privacy</VButton>
+          </template>
           <p>We only use your email to send receipts.</p>
         </VPopover>
         <VDialog v-model:open="confirming" title="Discard changes" close-label="Close">

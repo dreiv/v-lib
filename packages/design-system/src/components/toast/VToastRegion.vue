@@ -9,7 +9,7 @@ import {
 } from 'reka-ui'
 import { nextTick } from 'vue'
 import { VIconClose } from '@v/icons'
-import { VIconButton } from '../icon-button'
+import { VButton } from '../button'
 import { toasts, useToast } from './toast.state'
 import { readingTime } from './toast.timing'
 import type { VToastRegionProps } from './toast.types'
@@ -56,7 +56,9 @@ async function close(id: number, open: boolean) {
         </ToastDescription>
       </div>
       <ToastClose as-child>
-        <VIconButton :aria-label="closeLabel"><VIconClose /></VIconButton>
+        <VButton variant="quiet" icon-only :aria-label="closeLabel">
+          <VIconClose />
+        </VButton>
       </ToastClose>
     </ToastRoot>
     <ToastViewport class="v-toast__viewport" :label="label" @focusin="rememberFocus" />

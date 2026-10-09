@@ -54,10 +54,6 @@
       "types": "./dist/components/field/index.d.mts",
       "import": "./dist/components/field/index.mjs"
     },
-    "./icon-button": {
-      "types": "./dist/components/icon-button/index.d.mts",
-      "import": "./dist/components/icon-button/index.mjs"
-    },
     "./inline": {
       "types": "./dist/components/inline/index.d.mts",
       "import": "./dist/components/inline/index.mjs"

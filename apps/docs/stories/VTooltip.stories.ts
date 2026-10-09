@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/vue3-vite'
-import { VIconButton } from '@v/design-system/icon-button'
+import { VButton } from '@v/design-system/button'
 import { VTooltip } from '@v/design-system/tooltip'
 import { VIconClose } from '@v/icons'
 
@@ -8,12 +8,12 @@ const meta = {
   component: VTooltip,
   args: { text: 'Close dialog' },
   render: (args) => ({
-    components: { VIconButton, VIconClose, VTooltip },
+    components: { VButton, VIconClose, VTooltip },
     setup: () => ({ args }),
     template: `
       <div style="padding: 4rem">
         <VTooltip v-bind="args">
-          <VIconButton aria-label="Close"><VIconClose /></VIconButton>
+          <VButton variant="quiet" icon-only aria-label="Close"><VIconClose /></VButton>
         </VTooltip>
       </div>
     `,

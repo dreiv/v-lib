@@ -1,12 +1,14 @@
 import { mount } from '@vue/test-utils'
 import { afterEach, describe, expect, test } from 'vite-plus/test'
 import { defineComponent, h, nextTick } from 'vue'
-import { VIconButton } from '../src/components/icon-button'
+import { VButton } from '../src/components/button'
 import { VTooltip } from '../src/components/tooltip'
 
 const host = defineComponent({
   setup: () => () =>
-    h(VTooltip, { text: 'Close dialog' }, () => h(VIconButton, { 'aria-label': 'Close' })),
+    h(VTooltip, { text: 'Close dialog' }, () =>
+      h(VButton, { 'aria-label': 'Close', variant: 'quiet', iconOnly: true }),
+    ),
 })
 
 let wrapper: ReturnType<typeof mount> | undefined

@@ -10,7 +10,7 @@ import {
 } from 'reka-ui'
 import { watch } from 'vue'
 import { VIconClose } from '@v/icons'
-import { VIconButton } from '../icon-button'
+import { VButton } from '../button'
 import type { VDialogProps } from './dialog.types'
 
 const { title, closeLabel, description } = defineProps<VDialogProps>()
@@ -54,7 +54,9 @@ watch(
         <div class="v-dialog__header">
           <DialogTitle class="v-dialog__title">{{ title }}</DialogTitle>
           <DialogClose as-child>
-            <VIconButton :aria-label="closeLabel"><VIconClose /></VIconButton>
+            <VButton variant="quiet" icon-only :aria-label="closeLabel">
+              <VIconClose />
+            </VButton>
           </DialogClose>
         </div>
         <DialogDescription v-if="description" class="v-dialog__description">

@@ -24,7 +24,6 @@ export default defineConfig({
       'src/components/dialog/index.ts',
       'src/components/error-summary/index.ts',
       'src/components/field/index.ts',
-      'src/components/icon-button/index.ts',
       'src/components/inline/index.ts',
       'src/components/link/index.ts',
       'src/components/loading-region/index.ts',

@@ -22,9 +22,6 @@ export type { VTextAreaProps } from './components/text-area'
 export { VCheckbox } from './components/checkbox'
 export type { VCheckboxProps } from './components/checkbox'
 
-export { VIconButton } from './components/icon-button'
-export type { VIconButtonProps, VIconButtonSize } from './components/icon-button'
-
 export { VLink } from './components/link'
 
 export { VRadioGroup } from './components/radio-group'

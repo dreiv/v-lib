@@ -34,7 +34,7 @@
 
 ## Announcements
 
-- `pending` sets `aria-busy="true"` and `disabled`; no live announcement is made.
+- `pending` sets `aria-disabled="true"` and `aria-busy="true"` (not native `disabled`); no live announcement is made.
 
 ## Required consumer content
 
@@ -70,7 +70,7 @@
 
 ## Known limitations
 
-- A pending button is disabled, so a focused button loses focus in some browsers.
+- A pending button uses `aria-disabled` rather than native `disabled`, so it stays in the tab order and remains focusable; screen-reader support for `aria-disabled` on buttons is inconsistent.
 
 ## Verification date
 

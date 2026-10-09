@@ -47,7 +47,7 @@
 
 - A trigger with an accessible name (visible text or `aria-label`).
 - Items that perform actions. Navigation belongs in links.
-- A trigger that is a single element passing attributes and a ref through (VButton and VIconButton do).
+- A trigger that is a single element passing attributes and a ref through (VButton does).
 
 ## WCAG mapping
 
