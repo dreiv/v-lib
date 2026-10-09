@@ -6,8 +6,8 @@ const { label } = defineProps<VSpinnerProps>()
 </script>
 
 <template>
-  <span class="v-spinner" role="status">
+  <span class="v-spinner" :role="label ? 'status' : undefined">
     <SpinnerMark />
-    <span class="v-visually-hidden">{{ label }}</span>
+    <span v-if="label" class="v-visually-hidden">{{ label }}</span>
   </span>
 </template>

@@ -8,7 +8,6 @@
     flex: none;
     inline-size: var(--v-control-indicator);
     block-size: var(--v-control-indicator);
-    color: var(--v-color-accent-ink);
     animation: v-spin var(--v-duration-spin) linear infinite;
   }
 
@@ -26,9 +25,15 @@
     }
   }
 
-  @media (forced-colors: active) {
+  @keyframes v-pulse {
+    50% {
+      opacity: 0.35;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
     .v-spinner__mark {
-      color: CanvasText;
+      animation: v-pulse var(--v-duration-pulse) ease-in-out infinite;
     }
   }
 }

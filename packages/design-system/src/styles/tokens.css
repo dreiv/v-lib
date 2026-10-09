@@ -54,7 +54,7 @@
     --v-color-hover: var(--v-ref-ink-8);
     --v-color-accent: AccentColor;
     --v-color-accent-text: AccentColorText;
-    --v-color-accent-ink: color-mix(in oklab, AccentColor 65%, CanvasText);
+    --v-color-accent-ink: color-mix(in oklab, AccentColor 60%, CanvasText);
     --v-color-danger: light-dark(oklch(50% 0.19 27), oklch(75% 0.14 20));
     --v-color-info: var(--v-color-accent-ink);
     --v-color-success: light-dark(oklch(50% 0.14 150), oklch(78% 0.15 150));
@@ -74,6 +74,13 @@
     --v-duration-fast: 120ms;
     --v-duration-base: 200ms;
     --v-duration-spin: 900ms;
+    --v-duration-pulse: 1.6s;
+
+    --v-opacity-hover: 0.06;
+    --v-opacity-press: 0.08;
+    --v-opacity-disabled: 0.45;
+
+    --v-scale-press: 0.97;
 
     --v-container-inline: 72rem;
 

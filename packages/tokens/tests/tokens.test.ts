@@ -46,6 +46,24 @@ function color(name: string, ctx: Context) {
   return resolve(`var(${tokenPrefix}color-${name})`, ctx)
 }
 
+function overlaid(foreground: string, background: string, ctx: Context, opacity: string) {
+  const percent = Math.round(Number(opacity) * 100)
+  return resolve(
+    `color-mix(in oklab, var(${tokenPrefix}color-${foreground}) ${percent}%, var(${tokenPrefix}color-${background}))`,
+    ctx,
+  )
+}
+
+const overlays = [
+  ['hover', tokens.opacity.hover],
+  ['press', tokens.opacity.press],
+] as const
+
+const overlaidPairs = [
+  ['text', 'surface-subtle'],
+  ['danger-text', 'danger'],
+] as const
+
 describe('tokens', () => {
   test('every name uses the prefix and kebab-case', () => {
     for (const { name } of flatten(tokens)) {
@@ -76,6 +94,12 @@ describe('tokens', () => {
     expect(tokens.control.height.medium).toBe('2.75rem')
   })
 
+  test('state opacities are ordered and below disabled', () => {
+    const { hover, press, disabled } = tokens.opacity
+    expect(Number(hover)).toBeLessThan(Number(press))
+    expect(Number(press)).toBeLessThan(Number(disabled))
+  })
+
   test('z-index layers are ordered', () => {
     const order = ['sticky', 'modal', 'popover', 'toast', 'tooltip'] as const
     const numbers = order.map((key) => Number(tokens.z[key]))
@@ -92,9 +116,23 @@ describe.each(schemes)('contrast: $name', (scheme) => {
     )
   })
 
+  describe.each(overlays)('%s overlay', (_state, opacity) => {
+    test.each(overlaidPairs)('%s on %s stays >= 4.5', (foreground, background) => {
+      expect(
+        contrast(color(foreground, base), overlaid(foreground, background, base, opacity)),
+      ).toBeGreaterThanOrEqual(4.5)
+    })
+  })
+
   describe.each(accents)('with $name accent', (accent) => {
     const ctx = context(scheme, accent.value)
     const surface = color('surface', ctx)
+
+    test.each(overlays)('accent ink on surface under %s overlay >= 4.5', (_state, opacity) => {
+      expect(
+        contrast(color('accent-ink', ctx), overlaid('accent-ink', 'surface', ctx, opacity)),
+      ).toBeGreaterThanOrEqual(4.5)
+    })
 
     test('accent ink on surface >= 4.5', () => {
       expect(contrast(color('accent-ink', ctx), surface)).toBeGreaterThanOrEqual(4.5)

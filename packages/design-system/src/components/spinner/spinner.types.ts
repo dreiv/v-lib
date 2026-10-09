@@ -1,3 +1,3 @@
 export interface VSpinnerProps {
-  label: string
+  label?: string
 }

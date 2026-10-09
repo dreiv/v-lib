@@ -79,7 +79,7 @@ export const tokens = {
     hover: ink(8),
     accent: 'AccentColor',
     accentText: 'AccentColorText',
-    accentInk: 'color-mix(in oklab, AccentColor 65%, CanvasText)',
+    accentInk: 'color-mix(in oklab, AccentColor 60%, CanvasText)',
     danger: lightDark('oklch(50% 0.19 27)', 'oklch(75% 0.14 20)'),
     info: `var(${tokenPrefix}color-accent-ink)`,
     success: lightDark('oklch(50% 0.14 150)', 'oklch(78% 0.15 150)'),
@@ -102,6 +102,15 @@ export const tokens = {
     fast: '120ms',
     base: '200ms',
     spin: '900ms',
+    pulse: '1.6s',
+  },
+  opacity: {
+    hover: '0.06',
+    press: '0.08',
+    disabled: '0.45',
+  },
+  scale: {
+    press: '0.97',
   },
   container: {
     inline: '72rem',
