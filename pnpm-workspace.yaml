@@ -9,6 +9,7 @@ catalogMode: prefer
 catalog:
   '@playwright/test': ^1.63.0
   '@storybook/addon-a11y': 10.6.1
+  '@storybook/addon-docs': ^10.6.1
   '@storybook/vue3-vite': 10.6.1
   '@types/node': ^24
   '@vitejs/plugin-vue': ^6.0.9

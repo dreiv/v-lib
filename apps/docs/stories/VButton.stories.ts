@@ -33,3 +33,29 @@ export const IconOnly: Story = {
     template: '<VButton v-bind="args" aria-label="Add"><VIconPlus /></VButton>',
   }),
 }
+
+export const Matrix: Story = {
+  tags: ['!dev'],
+  render: () => ({
+    components: { VButton },
+    setup: () => ({
+      variants: ['primary', 'secondary', 'danger', 'quiet'] as const,
+      sizes: ['small', 'medium', 'large'] as const,
+    }),
+    template: `
+      <div style="display: grid; gap: 1rem; justify-items: start">
+        <div
+          v-for="variant in variants"
+          :key="variant"
+          style="display: flex; flex-wrap: wrap; align-items: center; gap: 1rem"
+        >
+          <VButton v-for="size in sizes" :key="size" :variant="variant" :size="size">
+            {{ variant }}
+          </VButton>
+          <VButton :variant="variant" disabled>Disabled</VButton>
+          <VButton :variant="variant" pending>Pending</VButton>
+        </div>
+      </div>
+    `,
+  }),
+}

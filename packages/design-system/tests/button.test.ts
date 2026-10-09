@@ -70,28 +70,28 @@ describe('VButton', () => {
   })
 
   test('click handlers run when idle', async () => {
-    const onClick = vi.fn()
+    const onClick = vi.fn<() => void>()
     const wrapper = mount(VButton, { attrs: { onClick } })
     await wrapper.trigger('click')
     expect(onClick).toHaveBeenCalledTimes(1)
   })
 
   test('pending swallows clicks', async () => {
-    const onClick = vi.fn()
+    const onClick = vi.fn<() => void>()
     const wrapper = mount(VButton, { props: { pending: true }, attrs: { onClick } })
     await wrapper.trigger('click')
     expect(onClick).not.toHaveBeenCalled()
   })
 
   test('consumer aria-disabled swallows clicks', async () => {
-    const onClick = vi.fn()
+    const onClick = vi.fn<() => void>()
     const wrapper = mount(VButton, { attrs: { onClick, 'aria-disabled': 'true' } })
     await wrapper.trigger('click')
     expect(onClick).not.toHaveBeenCalled()
   })
 
   test('pending does not submit a form', async () => {
-    const onSubmit = vi.fn((event: Event) => event.preventDefault())
+    const onSubmit = vi.fn<(event: Event) => void>((event: Event) => event.preventDefault())
     const Host = defineComponent({
       render: () =>
         h('form', { onSubmit }, [h(VButton, { type: 'submit', pending: true }, () => 'Go')]),
