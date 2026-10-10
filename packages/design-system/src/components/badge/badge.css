@@ -2,7 +2,9 @@
   .v-badge {
     display: inline-flex;
     align-items: center;
-    padding: var(--v-space-1) var(--v-space-2);
+    gap: var(--v-space-1);
+    min-block-size: var(--v-control-height-xs);
+    padding-inline: var(--v-space-2);
     border: var(--v-border-width) solid var(--v-color-border);
     border-radius: var(--v-radius-1);
     background: var(--v-color-surface-subtle);
@@ -13,18 +15,26 @@
   }
 
   .v-badge[data-tone='info'] {
+    background: var(--v-color-info-surface);
+    color: var(--v-color-info);
     border-color: var(--v-color-info);
   }
 
   .v-badge[data-tone='success'] {
+    background: var(--v-color-success-surface);
+    color: var(--v-color-success);
     border-color: var(--v-color-success);
   }
 
   .v-badge[data-tone='warning'] {
+    background: var(--v-color-warning-surface);
+    color: var(--v-color-warning);
     border-color: var(--v-color-warning);
   }
 
   .v-badge[data-tone='danger'] {
+    background: var(--v-color-danger-surface);
+    color: var(--v-color-danger);
     border-color: var(--v-color-danger);
   }
 

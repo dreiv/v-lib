@@ -34,6 +34,7 @@
 
     --v-border-width: 1px;
 
+    --v-control-height-xs: 1.5rem;
     --v-control-height-small: 2rem;
     --v-control-height-medium: 2.75rem;
     --v-control-height-large: 3.25rem;
@@ -44,6 +45,7 @@
     --v-ref-ink-18: color-mix(in oklab, CanvasText 18%, Canvas);
     --v-ref-ink-45: color-mix(in oklab, CanvasText 45%, Canvas);
     --v-ref-ink-60: color-mix(in oklab, CanvasText 60%, Canvas);
+    --v-ref-tone-tint: 12%;
 
     --v-color-surface: Canvas;
     --v-color-surface-subtle: var(--v-ref-ink-6);
@@ -60,6 +62,26 @@
     --v-color-success: light-dark(oklch(50% 0.14 150), oklch(78% 0.15 150));
     --v-color-warning: light-dark(oklch(52% 0.12 70), oklch(82% 0.14 85));
     --v-color-danger-text: light-dark(oklch(100% 0 0), oklch(20% 0.05 25));
+    --v-color-info-surface: color-mix(
+      in oklab,
+      var(--v-color-info) var(--v-ref-tone-tint),
+      var(--v-color-surface)
+    );
+    --v-color-success-surface: color-mix(
+      in oklab,
+      var(--v-color-success) var(--v-ref-tone-tint),
+      var(--v-color-surface)
+    );
+    --v-color-warning-surface: color-mix(
+      in oklab,
+      var(--v-color-warning) var(--v-ref-tone-tint),
+      var(--v-color-surface)
+    );
+    --v-color-danger-surface: color-mix(
+      in oklab,
+      var(--v-color-danger) var(--v-ref-tone-tint),
+      var(--v-color-surface)
+    );
     --v-color-focus: var(--v-color-accent-ink);
     --v-color-scrim: light-dark(rgb(0 0 0 / 40%), rgb(0 0 0 / 60%));
 

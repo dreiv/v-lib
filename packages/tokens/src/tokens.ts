@@ -16,6 +16,9 @@ const ink = (step: (typeof inkSteps)[number]) => `var(${tokenPrefix}ref-ink-${st
 
 const lightDark = (light: string, dark: string) => `light-dark(${light}, ${dark})`
 
+const tint = (color: string) =>
+  `color-mix(in oklab, ${color} var(${tokenPrefix}ref-tone-tint), var(${tokenPrefix}color-surface))`
+
 export const tokens = {
   font: {
     sans: "system-ui, -apple-system, 'Segoe UI', sans-serif",
@@ -58,6 +61,7 @@ export const tokens = {
   },
   control: {
     height: {
+      xs: '1.5rem',
       small: '2rem',
       medium: '2.75rem',
       large: '3.25rem',
@@ -68,6 +72,7 @@ export const tokens = {
     ink: Object.fromEntries(
       inkSteps.map((step) => [step, `color-mix(in oklab, CanvasText ${step}%, Canvas)`]),
     ),
+    toneTint: '12%',
   },
   color: {
     surface: 'Canvas',
@@ -85,6 +90,10 @@ export const tokens = {
     success: lightDark('oklch(50% 0.14 150)', 'oklch(78% 0.15 150)'),
     warning: lightDark('oklch(52% 0.12 70)', 'oklch(82% 0.14 85)'),
     dangerText: lightDark('oklch(100% 0 0)', 'oklch(20% 0.05 25)'),
+    infoSurface: tint(`var(${tokenPrefix}color-info)`),
+    successSurface: tint(`var(${tokenPrefix}color-success)`),
+    warningSurface: tint(`var(${tokenPrefix}color-warning)`),
+    dangerSurface: tint(`var(${tokenPrefix}color-danger)`),
     focus: `var(${tokenPrefix}color-accent-ink)`,
     scrim: lightDark('rgb(0 0 0 / 40%)', 'rgb(0 0 0 / 60%)'),
   },
