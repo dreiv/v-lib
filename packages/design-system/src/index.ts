@@ -1,3 +1,6 @@
+export { defaultStrings, useVStrings, V_STRINGS } from './strings'
+export type { VStrings } from './strings'
+
 export { VButton } from './components/button'
 export type { VButtonProps, VButtonSize, VButtonVariant } from './components/button'
 

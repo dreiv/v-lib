@@ -1,17 +1,25 @@
 @layer v.components {
   .v-link {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.25em;
+
     color: var(--v-color-accent-ink);
     text-decoration: underline;
     text-decoration-thickness: from-font;
     text-underline-offset: 0.18em;
-  }
 
-  .v-link:hover {
-    text-decoration-thickness: 0.125em;
-  }
+    &:hover {
+      text-decoration-thickness: 0.125em;
+    }
 
-  @media (forced-colors: active) {
-    .v-link {
+    & > .v-link__icon {
+      flex: none;
+      inline-size: 0.85em;
+      block-size: 0.85em;
+    }
+
+    @media (forced-colors: active) {
       color: LinkText;
     }
   }
