@@ -1,12 +1,20 @@
 <script setup lang="ts">
+import { useAttrs } from 'vue'
 import { VSpinner } from '../spinner'
 import type { VButtonProps } from './button.types'
 
-const { variant = 'primary', size = 'medium', type = 'button' } = defineProps<VButtonProps>()
+const {
+  variant = 'primary',
+  size = 'medium',
+  type = 'button',
+  pending = false,
+} = defineProps<VButtonProps>()
+
+const attrs = useAttrs()
 
 function blockInactive(event: Event) {
-  const button = event.currentTarget as HTMLElement
-  if (button.getAttribute('aria-disabled') !== 'true') return
+  const isInactive = pending || attrs['aria-disabled'] === 'true'
+  if (!isInactive) return
   event.preventDefault()
   event.stopImmediatePropagation()
 }

@@ -35,6 +35,7 @@
 ## Announcements
 
 - `pending` sets `aria-disabled="true"` and `aria-busy="true"` (not native `disabled`); no live announcement is made.
+- Passing `aria-disabled="true"` directly (without `pending`) also suppresses clicks and form submission, independent of the `pending` prop.
 
 ## Required consumer content
 
@@ -50,7 +51,8 @@
 
 ## Automated tests
 
-- tests/button.test.ts: element, type, data attributes, attribute forwarding, pending.
+- tests/button.test.ts: element, type, data attributes, attribute forwarding, pending state,
+  click suppression (pending, consumer aria-disabled, form submission).
 - Storybook a11y addon on the VButton stories.
 
 ## Manual tests
