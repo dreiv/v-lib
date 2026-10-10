@@ -51,7 +51,7 @@
 
 ## Automated tests
 
-- tests/spinner.test.ts: content kept, busy state, persistent status, label announced, cleared when loading ends.
+- tests/loading-region.test.ts: content kept, busy state, persistent status, label announced, cleared when loading ends.
 
 ## Manual tests
 

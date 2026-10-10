@@ -41,12 +41,18 @@
 
 - A `label` in the page language that says what is loading ("Loading orders").
 
+## Usage guidance
+
+- Do not conditionally mount `VSpinner` on its own (`v-if`) to signal a loading state. A fresh `role="status"` node that appears already populated is exactly the "varies" case noted above: some AT never announce it because the region wasn't being observed before the content showed up. Use `VLoadingRegion` instead — it keeps the `role="status"` node in the DOM the whole time and only toggles its text and `aria-busy`, which is what 4.1.3 actually requires.
+- `label` is optional on `VSpinner` only for the decorative mark rendered inside a region that already owns the status announcement itself (e.g. inside `VLoadingRegion`). A standalone, always-visible `VSpinner` should still get a `label`.
+
 ## WCAG mapping
 
 - 1.1.1 Non-text Content: text alternative through the label.
 - 2.2.2 Pause, Stop, Hide: a loading indicator is essential to the activity it reports.
 - 1.4.11 Non-text Contrast: accent ink on the surface, tokens contrast tests.
 - 2.3.3 Animation from Interactions: the rotation stops under `prefers-reduced-motion`.
+- 4.1.3 Status Messages: the `role="status"` node, kept persistently mounted via `VLoadingRegion` for appear/disappear cases, exposes the message without moving focus.
 
 ## Automated tests
 
