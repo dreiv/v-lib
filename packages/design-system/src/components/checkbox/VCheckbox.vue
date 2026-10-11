@@ -38,7 +38,7 @@ watchEffect(() => {
     :data-disabled="disabled || undefined"
     :data-indeterminate="indeterminate || undefined"
   >
-    <label class="v-checkbox__row">
+    <label class="v-checkbox__row v-items-center v-gap-3">
       <input
         v-bind="$attrs"
         ref="input"

@@ -1,8 +1,6 @@
 @layer v.components {
   .v-badge {
     display: inline-flex;
-    align-items: center;
-    gap: var(--v-space-1);
     min-block-size: var(--v-control-height-xs);
     padding-inline: var(--v-space-2);
     border: var(--v-border-width) solid var(--v-color-border);

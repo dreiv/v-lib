@@ -18,8 +18,6 @@
 
   .v-radio-group__option {
     display: flex;
-    align-items: center;
-    gap: var(--v-space-3);
     min-block-size: var(--v-control-height-medium);
     padding-inline: var(--v-space-2);
     margin-inline: calc(var(--v-space-2) * -1);

@@ -54,7 +54,7 @@ const decreaseLabel = computed(
   <NumberFieldRoot
     :id="id"
     v-model="model"
-    class="v-number-field"
+    class="v-number-field v-items-center"
     :min="min"
     :max="max"
     :step="step"

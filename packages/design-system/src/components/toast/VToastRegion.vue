@@ -44,7 +44,7 @@ async function close(id: number, open: boolean) {
     <ToastRoot
       v-for="toast in toasts"
       :key="toast.id"
-      class="v-toast"
+      class="v-toast v-items-start v-justify-between v-gap-3"
       type="background"
       :duration="toast.duration ?? readingTime(toast.title, toast.description)"
       @update:open="close(toast.id, $event)"
@@ -61,6 +61,10 @@ async function close(id: number, open: boolean) {
         </VButton>
       </ToastClose>
     </ToastRoot>
-    <ToastViewport class="v-toast__viewport" :label="label" @focusin="rememberFocus" />
+    <ToastViewport
+      class="v-toast__viewport v-stack v-gap-3"
+      :label="label"
+      @focusin="rememberFocus"
+    />
   </ToastProvider>
 </template>

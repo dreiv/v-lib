@@ -41,7 +41,11 @@ const { descriptionId, errorId, invalid, describedby } = useFieldMessages(
     </legend>
     <p v-if="description" :id="descriptionId" class="v-field__description">{{ description }}</p>
     <div class="v-radio-group__options">
-      <label v-for="(option, index) in options" :key="option.value" class="v-radio-group__option">
+      <label
+        v-for="(option, index) in options"
+        :key="option.value"
+        class="v-radio-group__option v-items-center v-gap-3"
+      >
         <input
           :id="index === 0 ? id : undefined"
           v-model="model"

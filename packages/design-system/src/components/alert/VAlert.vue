@@ -29,7 +29,7 @@ const icons = {
 
 <template>
   <div v-if="open" class="v-alert" :data-tone="tone" :role="role">
-    <div class="v-alert__header">
+    <div class="v-alert__header v-items-center v-gap-2">
       <component :is="icons[tone]" v-if="showIcon" />
       <p class="v-alert__title">{{ title }}</p>
       <VButton

@@ -51,7 +51,7 @@ watch(
         v-bind="description ? {} : { 'aria-describedby': undefined }"
         @close-auto-focus="restoreFocus"
       >
-        <div class="v-dialog__header">
+        <div class="v-dialog__header v-items-start v-justify-between v-gap-4">
           <DialogTitle class="v-dialog__title">{{ title }}</DialogTitle>
           <DialogClose as-child>
             <VButton variant="quiet" icon-only :aria-label="closeLabel">
@@ -65,7 +65,7 @@ watch(
         <div class="v-dialog__body">
           <slot />
         </div>
-        <div v-if="$slots.footer" class="v-dialog__footer">
+        <div v-if="$slots.footer" class="v-dialog__footer v-wrap v-justify-end v-gap-3">
           <slot name="footer" />
         </div>
       </DialogContent>

@@ -22,7 +22,7 @@ function blockInactive(event: Event) {
 
 <template>
   <button
-    class="v-button"
+    class="v-button v-items-center v-justify-center"
     :type="type"
     :disabled="disabled"
     :data-variant="variant"
@@ -33,7 +33,7 @@ function blockInactive(event: Event) {
     :aria-busy="pending || undefined"
     @click.capture="blockInactive"
   >
-    <span class="v-button__label">
+    <span class="v-button__label v-items-center v-justify-center v-gap-2">
       <slot />
     </span>
     <VSpinner v-if="pending" class="v-button__spinner" />

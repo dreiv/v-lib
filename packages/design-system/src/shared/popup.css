@@ -11,7 +11,6 @@
 
   .v-popup__item {
     display: flex;
-    align-items: center;
     min-block-size: var(--v-control-height-medium);
     padding-inline: var(--v-space-3);
     cursor: default;

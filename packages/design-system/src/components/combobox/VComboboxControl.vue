@@ -32,7 +32,7 @@ function displayValue(value: unknown) {
 <template>
   <ComboboxRoot v-model="model" :disabled="disabled">
     <ComboboxAnchor
-      class="v-field__control v-combobox__anchor"
+      class="v-field__control v-combobox__anchor v-items-center"
       :data-invalid="invalid || undefined"
       :data-disabled="disabled || undefined"
     >
@@ -45,7 +45,10 @@ function displayValue(value: unknown) {
         :aria-invalid="invalid || undefined"
         :aria-describedby="describedby"
       />
-      <ComboboxTrigger class="v-combobox__trigger" :aria-label="triggerLabel">
+      <ComboboxTrigger
+        class="v-combobox__trigger v-items-center v-justify-center"
+        :aria-label="triggerLabel"
+      >
         <VIconChevronDown />
       </ComboboxTrigger>
     </ComboboxAnchor>
@@ -56,7 +59,7 @@ function displayValue(value: unknown) {
           <ComboboxItem
             v-for="option in options"
             :key="option.value"
-            class="v-popup__item"
+            class="v-popup__item v-items-center"
             :value="option.value"
           >
             {{ option.label }}

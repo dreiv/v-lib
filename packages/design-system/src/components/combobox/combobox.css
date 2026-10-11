@@ -1,7 +1,6 @@
 @layer v.components {
   .v-combobox__anchor {
     display: flex;
-    align-items: center;
   }
 
   .v-combobox__anchor:has(:focus-visible) {
@@ -31,8 +30,6 @@
 
   .v-combobox__trigger {
     display: inline-flex;
-    align-items: center;
-    justify-content: center;
     min-inline-size: var(--v-control-height-medium);
     min-block-size: var(--v-control-height-medium);
     border: 0;

@@ -24,7 +24,7 @@ const { id, describedby, invalid, required, disabled } = useFieldContext()
 <template>
   <AutocompleteRoot v-model="model" :disabled="disabled">
     <AutocompleteAnchor
-      class="v-field__control v-combobox__anchor"
+      class="v-field__control v-combobox__anchor v-items-center"
       :data-invalid="invalid || undefined"
       :data-disabled="disabled || undefined"
     >
@@ -50,7 +50,7 @@ const { id, describedby, invalid, required, disabled } = useFieldContext()
           <AutocompleteItem
             v-for="suggestion in suggestions"
             :key="suggestion"
-            class="v-popup__item"
+            class="v-popup__item v-items-center"
             :value="suggestion"
           >
             {{ suggestion }}

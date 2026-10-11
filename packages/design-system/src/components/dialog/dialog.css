@@ -36,9 +36,6 @@
 
   .v-dialog__header {
     display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    gap: var(--v-space-4);
   }
 
   .v-dialog__title {
@@ -60,9 +57,6 @@
 
   .v-dialog__footer {
     display: flex;
-    flex-wrap: wrap;
-    justify-content: flex-end;
-    gap: var(--v-space-3);
     margin-block-start: var(--v-space-6);
   }
 

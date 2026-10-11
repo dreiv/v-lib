@@ -8,7 +8,11 @@ const emit = defineEmits<{ select: [event: Event] }>()
 </script>
 
 <template>
-  <DropdownMenuItem class="v-popup__item" :disabled="disabled" @select="emit('select', $event)">
+  <DropdownMenuItem
+    class="v-popup__item v-items-center"
+    :disabled="disabled"
+    @select="emit('select', $event)"
+  >
     <slot />
   </DropdownMenuItem>
 </template>

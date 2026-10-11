@@ -1,7 +1,6 @@
 @layer v.components {
   .v-spinner {
     display: inline-flex;
-    align-items: center;
   }
 
   .v-spinner__mark {

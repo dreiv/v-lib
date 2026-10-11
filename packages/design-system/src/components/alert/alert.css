@@ -42,8 +42,6 @@
 
   .v-alert__header {
     display: flex;
-    align-items: center;
-    gap: var(--v-space-2);
   }
 
   .v-alert__header > svg {

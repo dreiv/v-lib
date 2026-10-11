@@ -5,8 +5,6 @@
 
     position: relative;
     display: inline-flex;
-    align-items: center;
-    justify-content: center;
 
     max-inline-size: 100%;
     min-block-size: var(--v-control-height-medium);
@@ -50,9 +48,6 @@
 
     & > .v-button__label {
       display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: var(--v-space-2);
       min-inline-size: 0;
 
       & > svg {

@@ -1,7 +1,6 @@
 @layer v.components {
   .v-number-field {
     display: inline-flex;
-    align-items: center;
     inline-size: 100%;
     min-block-size: var(--v-control-height-medium);
 
