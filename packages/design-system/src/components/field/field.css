@@ -54,6 +54,11 @@
     opacity: 0.6;
   }
 
+  .v-field__control:focus-visible {
+    outline: var(--v-focus-ring);
+    outline-offset: var(--v-focus-offset);
+  }
+
   @media (forced-colors: active) {
     .v-field__control {
       border-color: FieldText;
@@ -62,6 +67,10 @@
     .v-field__control:is(:disabled, [data-disabled]) {
       border-color: GrayText;
       color: GrayText;
+    }
+
+    .v-field__control:focus-visible {
+      outline-color: Highlight;
     }
   }
 }

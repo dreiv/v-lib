@@ -1,0 +1,18 @@
+import { Meta, Story, Primary, Controls } from '@storybook/addon-docs/blocks'
+import * as TextFieldStories from './VTextField.stories'
+
+<Meta of={TextFieldStories} />
+
+# VTextField
+
+## Form example
+
+A complete form using every `VTextField` variant: name, email with inline validation on
+blur, password, search, tel, url, and a disabled field. The email field's error is
+surfaced through the shared `VField` error slot, which uses `role="alert"` so assistive
+technology announces it as soon as it appears.
+
+<Story of={TextFieldStories.Form} />
+
+<Primary />
+<Controls />

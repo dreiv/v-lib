@@ -39,6 +39,6 @@ provideFieldContext({
     </label>
     <p v-if="description" :id="descriptionId" class="v-field__description">{{ description }}</p>
     <slot />
-    <p v-if="error" :id="errorId" class="v-field__error">{{ error }}</p>
+    <p v-show="error" :id="errorId" class="v-field__error" role="alert">{{ error }}</p>
   </div>
 </template>
