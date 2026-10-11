@@ -7,6 +7,10 @@ export interface VStrings {
   alert: {
     dismiss: string
   }
+  numberField: {
+    increase: string
+    decrease: string
+  }
   // dialog: { close: string }, toast: { dismiss: string }, etc. — grows as you add components
 }
 
@@ -16,6 +20,10 @@ export const defaultStrings: VStrings = {
   },
   alert: {
     dismiss: 'Dismiss',
+  },
+  numberField: {
+    increase: 'Increase {label}',
+    decrease: 'Decrease {label}',
   },
 }
 

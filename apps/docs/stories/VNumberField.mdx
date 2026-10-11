@@ -1,0 +1,20 @@
+import { Meta, Story, Primary, Controls } from '@storybook/addon-docs/blocks'
+import * as NumberFieldStories from './VNumberField.stories'
+
+<Meta of={NumberFieldStories} />
+
+# VNumberField
+
+## Form example
+
+A three-item cart, each row a `VNumberField` stepper bounded to that item's stock (`min={0}`,
+`max` set to what's left). The field renders as a native ARIA spinbutton rather than
+`type="number"`, and the +/- buttons are the library's own 44px `VButton`, sized for thumbs on
+a retail checkout screen. Arrow Up/Down, Page Up/Down, Home and End all work from the field
+itself — the buttons are a pointer/touch affordance alongside it, not the only way to change
+the value.
+
+<Story of={NumberFieldStories.Form} />
+
+<Primary />
+<Controls />

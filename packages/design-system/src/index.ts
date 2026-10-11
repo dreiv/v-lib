@@ -19,6 +19,9 @@ export type { VSelectOption, VSelectProps } from './components/select'
 export { VTextField } from './components/text-field'
 export type { VTextFieldProps, VTextFieldType } from './components/text-field'
 
+export { VNumberField } from './components/number-field'
+export type { VNumberFieldProps } from './components/number-field'
+
 export { VTextArea } from './components/text-area'
 export type { VTextAreaProps } from './components/text-area'
 

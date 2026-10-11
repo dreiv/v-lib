@@ -70,6 +70,10 @@
       "types": "./dist/components/menu/index.d.mts",
       "import": "./dist/components/menu/index.mjs"
     },
+    "./number-field": {
+      "types": "./dist/components/number-field/index.d.mts",
+      "import": "./dist/components/number-field/index.mjs"
+    },
     "./popover": {
       "types": "./dist/components/popover/index.d.mts",
       "import": "./dist/components/popover/index.mjs"

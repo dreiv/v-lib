@@ -1,0 +1,80 @@
+@layer v.components {
+  .v-number-field {
+    display: inline-flex;
+    align-items: center;
+    inline-size: 100%;
+    min-block-size: var(--v-control-height-medium);
+
+    border: var(--v-border-width) solid var(--v-color-border);
+    border-radius: var(--v-radius-2);
+
+    background: var(--v-color-surface);
+
+    transition: border-color var(--v-duration-fast) var(--v-easing-standard);
+
+    &[data-invalid] {
+      border-color: var(--v-color-danger);
+    }
+
+    &[data-disabled] {
+      opacity: 0.6;
+    }
+
+    &:has(.v-number-field__input:focus-visible) {
+      outline: var(--v-focus-ring);
+      outline-offset: var(--v-focus-offset);
+    }
+
+    @media (forced-colors: active) {
+      border-color: FieldText;
+
+      &[data-disabled] {
+        border-color: GrayText;
+      }
+
+      &:has(.v-number-field__input:focus-visible) {
+        outline-color: Highlight;
+      }
+    }
+  }
+
+  .v-number-field__input {
+    flex: 1 1 auto;
+    min-inline-size: 0;
+    inline-size: 100%;
+    block-size: 100%;
+
+    border: 0;
+
+    background: transparent;
+
+    color: var(--v-color-text);
+    font: inherit;
+    text-align: center;
+
+    &:focus-visible {
+      outline: none;
+    }
+
+    &:is(:disabled, [data-disabled]) {
+      cursor: not-allowed;
+    }
+  }
+
+  .v-number-field__button {
+    flex: 0 0 auto;
+
+    border: 0;
+    border-radius: 0;
+
+    &:first-child {
+      border-start-start-radius: calc(var(--v-radius-2) - var(--v-border-width));
+      border-end-start-radius: calc(var(--v-radius-2) - var(--v-border-width));
+    }
+
+    &:last-child {
+      border-start-end-radius: calc(var(--v-radius-2) - var(--v-border-width));
+      border-end-end-radius: calc(var(--v-radius-2) - var(--v-border-width));
+    }
+  }
+}

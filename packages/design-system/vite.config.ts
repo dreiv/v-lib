@@ -28,6 +28,7 @@ export default defineConfig({
       'src/components/link/index.ts',
       'src/components/loading-region/index.ts',
       'src/components/menu/index.ts',
+      'src/components/number-field/index.ts',
       'src/components/popover/index.ts',
       'src/components/radio-group/index.ts',
       'src/components/select/index.ts',
