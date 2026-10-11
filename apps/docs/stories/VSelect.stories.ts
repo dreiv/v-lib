@@ -29,3 +29,32 @@ export const WithDescription: Story = { args: { description: 'Where your order s
 export const Required: Story = { args: { required: true } }
 export const WithError: Story = { args: { error: 'Select a country.' } }
 export const Disabled: Story = { args: { disabled: true } }
+export const Grouped: Story = {
+  args: {
+    placeholder: 'Choose a country',
+    options: [
+      {
+        label: 'Europe',
+        options: [
+          { value: 'ro', label: 'Romania' },
+          { value: 'de', label: 'Germany' },
+          { value: 'fr', label: 'France' },
+        ],
+      },
+      {
+        label: 'Asia',
+        options: [
+          { value: 'jp', label: 'Japan' },
+          { value: 'kr', label: 'South Korea' },
+        ],
+      },
+      {
+        label: 'Americas',
+        options: [
+          { value: 'us', label: 'United States' },
+          { value: 'br', label: 'Brazil' },
+        ],
+      },
+    ],
+  },
+}

@@ -7,6 +7,17 @@ const options = [
   { value: 'de', label: 'Germany' },
 ]
 
+const groupedOptions = [
+  {
+    label: 'Europe',
+    options: [
+      { value: 'ro', label: 'Romania' },
+      { value: 'de', label: 'Germany' },
+    ],
+  },
+  { label: 'Asia', options: [{ value: 'jp', label: 'Japan' }] },
+]
+
 function mountSelect(props: Record<string, unknown> = {}, attrs: Record<string, unknown> = {}) {
   return mount(VSelect, { props: { label: 'Country', options, ...props }, attrs })
 }
@@ -85,5 +96,22 @@ describe('VSelect', () => {
     const select = mountSelect({ required: true, disabled: true }).get('select')
     expect(select.attributes('required')).toBeDefined()
     expect(select.attributes('disabled')).toBeDefined()
+  })
+
+  test('renders optgroups with their nested options', () => {
+    const wrapper = mountSelect({ options: groupedOptions, placeholder: 'Choose' })
+    const groups = wrapper.findAll('optgroup')
+    expect(groups.map((group) => group.attributes('label'))).toEqual(['Europe', 'Asia'])
+    expect(groups[0]!.findAll('option').map((option) => option.attributes('value'))).toEqual([
+      'ro',
+      'de',
+    ])
+    expect(groups[1]!.findAll('option').map((option) => option.attributes('value'))).toEqual(['jp'])
+  })
+
+  test('selects a grouped option by value', async () => {
+    const wrapper = mountSelect({ options: groupedOptions, modelValue: null })
+    await wrapper.get('select').setValue('jp')
+    expect(wrapper.emitted('update:modelValue')).toEqual([['jp']])
   })
 })

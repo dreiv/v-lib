@@ -5,7 +5,12 @@ export interface VSelectOption {
   label: string
 }
 
-export interface VSelectProps extends VFieldProps {
+export interface VSelectOptionGroup {
+  label: string
   options: VSelectOption[]
+}
+
+export interface VSelectProps extends VFieldProps {
+  options: (VSelectOption | VSelectOptionGroup)[]
   placeholder?: string
 }
