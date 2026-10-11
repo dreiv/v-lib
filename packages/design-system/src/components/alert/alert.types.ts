@@ -4,4 +4,6 @@ export interface VAlertProps {
   title: string
   tone?: VAlertTone
   live?: 'polite' | 'assertive'
+  dismissible?: boolean
+  showIcon?: boolean
 }

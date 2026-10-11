@@ -12,22 +12,55 @@
     border-color: var(--v-color-info);
   }
 
+  .v-alert[data-tone='info'] .v-alert__header > svg {
+    color: var(--v-color-info);
+  }
+
   .v-alert[data-tone='success'] {
     border-color: var(--v-color-success);
+  }
+
+  .v-alert[data-tone='success'] .v-alert__header > svg {
+    color: var(--v-color-success);
   }
 
   .v-alert[data-tone='warning'] {
     border-color: var(--v-color-warning);
   }
 
+  .v-alert[data-tone='warning'] .v-alert__header > svg {
+    color: var(--v-color-warning);
+  }
+
   .v-alert[data-tone='danger'] {
     border-color: var(--v-color-danger);
   }
 
+  .v-alert[data-tone='danger'] .v-alert__header > svg {
+    color: var(--v-color-danger);
+  }
+
+  .v-alert__header {
+    display: flex;
+    align-items: center;
+    gap: var(--v-space-2);
+  }
+
+  .v-alert__header > svg {
+    flex: none;
+    inline-size: 1.25em;
+    block-size: 1.25em;
+  }
+
   .v-alert__title {
+    flex: 1 1 auto;
     margin: 0;
     font-weight: var(--v-font-weight-bold);
     overflow-wrap: anywhere;
+  }
+
+  .v-alert .v-alert__dismiss[data-variant='quiet'] {
+    color: inherit;
   }
 
   .v-alert__body {

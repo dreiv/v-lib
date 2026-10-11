@@ -40,6 +40,45 @@ describe('VAlert', () => {
     )
   })
 
+  test('omits the tone icon by default', () => {
+    expect(
+      mount(VAlert, { props: { title: 'x' } })
+        .find('.v-alert__header > svg')
+        .exists(),
+    ).toBe(false)
+  })
+
+  test('showIcon renders the tone icon in the header', () => {
+    expect(
+      mount(VAlert, { props: { title: 'x', tone: 'danger', showIcon: true } })
+        .find('.v-alert__header > svg')
+        .exists(),
+    ).toBe(true)
+  })
+
+  test('omits the dismiss button by default', () => {
+    expect(
+      mount(VAlert, { props: { title: 'x' } })
+        .find('.v-alert__dismiss')
+        .exists(),
+    ).toBe(false)
+  })
+
+  test('dismissible renders a labeled button that closes the alert on click', async () => {
+    const wrapper = mount(VAlert, { props: { title: 'x', dismissible: true } })
+    const button = wrapper.get('.v-alert__dismiss')
+    expect(button.attributes('type')).toBe('button')
+    expect(button.attributes('aria-label')).toBe('Dismiss')
+    await button.trigger('click')
+    expect(wrapper.find('.v-alert').exists()).toBe(false)
+  })
+
+  test('supports v-model:open', async () => {
+    const wrapper = mount(VAlert, { props: { title: 'x', dismissible: true, open: true } })
+    await wrapper.get('.v-alert__dismiss').trigger('click')
+    expect(wrapper.emitted('update:open')).toEqual([[false]])
+  })
+
   test('forwards attributes to the root', () => {
     const wrapper = mount(VAlert, { props: { title: 'x' }, attrs: { id: 'a', 'data-test': '1' } })
     expect(wrapper.attributes('id')).toBe('a')
