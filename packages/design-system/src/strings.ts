@@ -4,12 +4,18 @@ export interface VStrings {
   link: {
     opensInNewWindow: string
   }
+  alert: {
+    dismiss: string
+  }
   // dialog: { close: string }, toast: { dismiss: string }, etc. — grows as you add components
 }
 
 export const defaultStrings: VStrings = {
   link: {
     opensInNewWindow: 'opens in new window',
+  },
+  alert: {
+    dismiss: 'Dismiss',
   },
 }
 

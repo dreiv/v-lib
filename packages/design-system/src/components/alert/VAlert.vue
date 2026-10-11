@@ -2,7 +2,10 @@
 import { computed } from 'vue'
 import { VIconAlertTriangle, VIconCircleCheck, VIconCircleX, VIconClose, VIconInfo } from '@v/icons'
 import { VButton } from '../button'
+import { useVStrings } from '../../strings'
 import type { VAlertProps } from './alert.types'
+
+const strings = useVStrings()
 
 const {
   title,
@@ -35,7 +38,7 @@ const icons = {
         variant="quiet"
         size="small"
         icon-only
-        aria-label="Dismiss"
+        :aria-label="strings.alert.dismiss"
         @click="open = false"
       >
         <VIconClose />
