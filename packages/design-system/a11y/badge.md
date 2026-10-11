@@ -31,7 +31,15 @@ inline-flex` with a gap, ready to lay out whatever you put in its default
   it, it participates in the page's normal tab order like any other inline
   content.
 
-## Focus movement / exit / restoration
+## Focus movement
+
+- Not applicable to the badge.
+
+## Focus exit
+
+- Not applicable to the badge.
+
+## Focus restoration
 
 - Not applicable to the badge. If you put something removable inside it and
   your app removes the badge on click, moving focus somewhere sensible

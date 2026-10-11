@@ -69,7 +69,12 @@ const decreaseLabel = computed(
     :data-disabled="disabled || undefined"
   >
     <NumberFieldDecrement as-child>
-      <VButton class="v-number-field__button" icon-only :aria-label="decreaseLabel">
+      <VButton
+        class="v-number-field__button"
+        variant="primary"
+        icon-only
+        :aria-label="decreaseLabel"
+      >
         <VIconMinus />
       </VButton>
     </NumberFieldDecrement>
@@ -80,7 +85,12 @@ const decreaseLabel = computed(
       :aria-describedby="describedby"
     />
     <NumberFieldIncrement as-child>
-      <VButton class="v-number-field__button" icon-only :aria-label="increaseLabel">
+      <VButton
+        class="v-number-field__button"
+        variant="primary"
+        icon-only
+        :aria-label="increaseLabel"
+      >
         <VIconPlus />
       </VButton>
     </NumberFieldIncrement>

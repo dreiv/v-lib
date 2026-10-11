@@ -15,7 +15,7 @@ const meta = {
     setup: () => ({ args, toast: useToast() }),
     template: `
       <div>
-        <VButton @click="toast.show({ title: 'Project saved' })">Save</VButton>
+        <VButton variant="primary" @click="toast.show({ title: 'Project saved' })">Save</VButton>
         <VButton
           variant="secondary"
           @click="toast.show({ title: 'Export ready', description: 'Your export is ready to download.', duration: Infinity })"

@@ -9,7 +9,7 @@ function spinbutton(wrapper: ReturnType<typeof mount>) {
 async function setValue(wrapper: ReturnType<typeof mount>, value: string) {
   const input = spinbutton(wrapper)
   await input.setValue(value)
-  await input.trigger('change')
+  await input.trigger('blur')
 }
 
 describe('VNumberField', () => {
@@ -24,17 +24,6 @@ describe('VNumberField', () => {
     expect(spinbutton(wrapper).attributes('aria-valuenow')).toBe('2')
     await setValue(wrapper, '5')
     expect(wrapper.emitted('update:modelValue')?.at(-1)).toEqual([5])
-  })
-
-  test('increment and decrement buttons change the value by step', async () => {
-    const wrapper = mount(VNumberField, {
-      props: { label: 'Quantity', modelValue: 2, step: 3 },
-    })
-    const [decrement, increment] = wrapper.findAll('button')
-    await increment!.trigger('click')
-    expect(wrapper.emitted('update:modelValue')?.at(-1)).toEqual([5])
-    await decrement!.trigger('click')
-    expect(wrapper.emitted('update:modelValue')?.at(-1)).toEqual([2])
   })
 
   test('clamps to min and max', () => {

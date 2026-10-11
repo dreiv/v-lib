@@ -4,7 +4,7 @@ import { VSpinner } from '../spinner'
 import type { VButtonProps } from './button.types'
 
 const {
-  variant = 'primary',
+  variant = 'secondary',
   size = 'medium',
   type = 'button',
   pending = false,

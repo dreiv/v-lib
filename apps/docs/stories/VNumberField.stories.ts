@@ -77,7 +77,7 @@ export const Form: Story = {
           />
         </div>
         <p style="font-weight: 600;">Total: \${{ total() }}</p>
-        <VButton type="submit">Checkout</VButton>
+        <VButton variant="primary" type="submit">Checkout</VButton>
       </form>
     `,
   }),

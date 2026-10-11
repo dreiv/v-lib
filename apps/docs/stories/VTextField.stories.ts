@@ -66,7 +66,7 @@ export const SearchWithButton: Story = {
           placeholder="Search…"
           style="flex: 1;"
         />
-        <VButton type="submit">Search</VButton>
+        <VButton variant="primary" type="submit">Search</VButton>
       </form>
     `,
   }),
