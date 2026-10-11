@@ -8,7 +8,15 @@
     align-items: center;
     gap: var(--v-space-3);
     min-block-size: var(--v-control-height-medium);
+    padding-inline: var(--v-space-2);
+    margin-inline: calc(var(--v-space-2) * -1);
     cursor: pointer;
+    border-radius: var(--v-radius-2);
+  }
+
+  .v-checkbox__row:has(.v-checkbox__input:focus-visible) {
+    outline: var(--v-focus-ring);
+    outline-offset: var(--v-focus-offset);
   }
 
   .v-checkbox__input {
@@ -21,8 +29,7 @@
   }
 
   .v-checkbox__input:focus-visible {
-    outline: var(--v-focus-ring);
-    outline-offset: var(--v-focus-offset);
+    outline: none;
   }
 
   .v-checkbox .v-field__description,

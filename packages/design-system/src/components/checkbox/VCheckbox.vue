@@ -57,6 +57,6 @@ watchEffect(() => {
       </span>
     </label>
     <p v-if="description" :id="descriptionId" class="v-field__description">{{ description }}</p>
-    <p v-if="error" :id="errorId" class="v-field__error">{{ error }}</p>
+    <p v-if="error" :id="errorId" class="v-field__error" role="alert">{{ error }}</p>
   </div>
 </template>

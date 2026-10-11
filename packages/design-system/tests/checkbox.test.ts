@@ -44,6 +44,11 @@ describe('VCheckbox', () => {
     expect(wrapper.get(`[id="${describedby[1]}"]`).text()).toBe('Invalid')
   })
 
+  test('announces the error as it appears, not only on focus', () => {
+    const wrapper = mount(VCheckbox, { props: { label: 'Terms', error: 'Invalid' } })
+    expect(wrapper.get('.v-field__error').attributes('role')).toBe('alert')
+  })
+
   test('has no describedby or invalid state by default', () => {
     const input = mount(VCheckbox, { props: { label: 'Updates' } }).get('input')
     expect(input.attributes('aria-describedby')).toBeUndefined()

@@ -21,7 +21,15 @@
     align-items: center;
     gap: var(--v-space-3);
     min-block-size: var(--v-control-height-medium);
+    padding-inline: var(--v-space-2);
+    margin-inline: calc(var(--v-space-2) * -1);
     cursor: pointer;
+    border-radius: var(--v-radius-2);
+  }
+
+  .v-radio-group__option:has(.v-radio-group__input:focus-visible) {
+    outline: var(--v-focus-ring);
+    outline-offset: var(--v-focus-offset);
   }
 
   .v-radio-group__input {
@@ -29,8 +37,31 @@
     inline-size: var(--v-control-indicator);
     block-size: var(--v-control-indicator);
     margin: 0;
-    accent-color: var(--v-color-accent);
     cursor: inherit;
+    appearance: none;
+    border-radius: 50%;
+    border: var(--v-border-width) solid var(--v-color-border);
+    background-color: var(--v-color-surface);
+    background-repeat: no-repeat;
+    background-position: center;
+    transition: border-color var(--v-duration-fast) var(--v-easing-standard);
+  }
+
+  .v-radio-group__input:checked {
+    border-color: var(--v-color-accent-ink);
+    background-image: radial-gradient(circle, var(--v-color-accent-ink) 40%, transparent 41%);
+  }
+
+  .v-radio-group__input:focus-visible {
+    outline: none;
+  }
+
+  @media (forced-colors: active) {
+    .v-radio-group__input {
+      appearance: auto;
+      forced-color-adjust: auto;
+      background-image: none;
+    }
   }
 
   .v-radio-group .v-field__description {

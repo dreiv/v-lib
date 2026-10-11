@@ -66,6 +66,11 @@ describe('VRadioGroup', () => {
     expect(wrapper.get(`[id="${describedby[1]}"]`).text()).toBe('Invalid')
   })
 
+  test('announces the error as it appears, not only on focus', () => {
+    const wrapper = mountGroup({ error: 'Invalid' })
+    expect(wrapper.get('.v-field__error').attributes('role')).toBe('alert')
+  })
+
   test('has no describedby or invalid state by default', () => {
     const wrapper = mountGroup()
     expect(wrapper.attributes('aria-describedby')).toBeUndefined()

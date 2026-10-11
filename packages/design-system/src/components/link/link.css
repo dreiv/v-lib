@@ -8,9 +8,15 @@
     text-decoration: underline;
     text-decoration-thickness: from-font;
     text-underline-offset: 0.18em;
+    border-radius: var(--v-radius-1);
 
     &:hover {
       text-decoration-thickness: 0.125em;
+    }
+
+    &:focus-visible {
+      outline: var(--v-focus-ring);
+      outline-offset: var(--v-focus-offset);
     }
 
     & > .v-link__icon {
