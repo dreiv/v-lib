@@ -1,0 +1,19 @@
+import { Meta, Story, Primary, Controls } from '@storybook/addon-docs/blocks'
+import * as TextAreaStories from './VTextArea.stories'
+
+<Meta of={TextAreaStories} />
+
+# VTextArea
+
+## Form example
+
+A short feedback form built from two `VTextArea` fields plus a disabled, read-only one: a
+required summary with inline validation on blur, and an optional details field. Both fields
+use `field-sizing: content` to grow with what's typed instead of showing a scrollbar, and the
+summary's error is surfaced through the shared `VField` error slot, which uses `role="alert"`
+so assistive technology announces it as soon as it appears.
+
+<Story of={TextAreaStories.Form} />
+
+<Primary />
+<Controls />
