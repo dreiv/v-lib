@@ -35,5 +35,9 @@
     .v-spinner__mark {
       animation: v-pulse var(--v-duration-pulse) ease-in-out infinite;
     }
+
+    .v-spinner__mark circle {
+      stroke-dasharray: none;
+    }
   }
 }
