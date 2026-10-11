@@ -2,7 +2,7 @@
 
 ## Role
 
-- A `section` named by its `h2` heading (`aria-labelledby`), containing a `ul` of links.
+- A `section` named by its heading (`aria-labelledby`), containing a `ul` of links.
 - Nothing is rendered when `errors` is empty.
 
 ## Name source
@@ -46,6 +46,7 @@
 - `heading` text in the page language.
 - Each error `id` must equal the `id` of a focusable control (for a radio group, the first radio).
 - Call `focus()` after a failed submit.
+- `headingTag`, when the page's own heading outline calls for something other than `h2` (default). The summary's semantics — name, id, `tabindex`, focus behavior — stay identical at any level.
 
 ## WCAG mapping
 
@@ -53,10 +54,11 @@
 - 2.4.3 Focus Order, 2.4.11 Focus Not Obscured (Minimum).
 - 1.4.3 Contrast (Minimum): tokens contrast tests.
 - 1.4.10 Reflow: layout reflows at any width.
+- 1.3.1 Info and Relationships, 2.4.6 Headings and Labels: `headingTag` lets the consumer keep the summary's heading in the correct position in the page's heading outline instead of forcing an `h2`.
 
 ## Automated tests
 
-- tests/error-summary.test.ts: empty state, heading and landmark name, link targets, focusing text field, radio group and checkbox, missing target, `focus()` including before the summary appears.
+- tests/error-summary.test.ts: empty state, heading and landmark name, default and custom `headingTag`, link targets, focusing text field, radio group and checkbox, missing target, `focus()` including before the summary appears.
 - Storybook a11y addon on the VErrorSummary stories.
 
 ## Manual tests
@@ -78,7 +80,7 @@
 
 ## Known limitations
 
-- The heading level is fixed at `h2`; the app owns the page heading hierarchy.
+- A link's target control is not guaranteed to be visible after focus if it sits behind a sticky header or overlay — scrolling/visibility on focus is left to the host app, consistent with VTextField and VField.
 
 ## Verification date
 

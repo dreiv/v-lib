@@ -2,7 +2,7 @@
 import { nextTick, useId, useTemplateRef } from 'vue'
 import type { VErrorSummaryProps } from './error-summary.types'
 
-const { heading, errors } = defineProps<VErrorSummaryProps>()
+const { heading, errors, headingTag = 'h2' } = defineProps<VErrorSummaryProps>()
 
 const headingId = useId()
 const headingElement = useTemplateRef<HTMLHeadingElement>('headingElement')
@@ -24,9 +24,15 @@ defineExpose({ focus })
 
 <template>
   <section v-if="errors.length > 0" class="v-error-summary" :aria-labelledby="headingId">
-    <h2 :id="headingId" ref="headingElement" class="v-error-summary__heading" tabindex="-1">
+    <component
+      :is="headingTag"
+      :id="headingId"
+      ref="headingElement"
+      class="v-error-summary__heading"
+      tabindex="-1"
+    >
       {{ heading }}
-    </h2>
+    </component>
     <ul class="v-error-summary__list">
       <li v-for="error in errors" :key="error.id" class="v-error-summary__item">
         <a class="v-error-summary__link" :href="`#${error.id}`" @click="follow($event, error.id)">

@@ -50,6 +50,23 @@ describe('VErrorSummary', () => {
     expect(heading.attributes('tabindex')).toBe('-1')
   })
 
+  test('defaults the heading to h2', () => {
+    expect(mountSummary().find('h2').exists()).toBe(true)
+  })
+
+  test('renders a custom heading level', () => {
+    const wrapper = mountSummary({ headingTag: 'h1' })
+    expect(wrapper.find('h1').exists()).toBe(true)
+    expect(wrapper.find('h2').exists()).toBe(false)
+  })
+
+  test('keeps the same id and tabindex on a custom heading level', () => {
+    const wrapper = mountSummary({ headingTag: 'h3' })
+    const heading = wrapper.get('h3')
+    expect(wrapper.get('section').attributes('aria-labelledby')).toBe(heading.attributes('id'))
+    expect(heading.attributes('tabindex')).toBe('-1')
+  })
+
   test('renders one link per error pointing at the field id', () => {
     const links = mountSummary().findAll('a')
     expect(links.map((link) => link.text())).toEqual(['Enter an email address.', 'Choose a plan.'])
