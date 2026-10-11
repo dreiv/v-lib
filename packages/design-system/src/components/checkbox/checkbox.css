@@ -20,6 +20,11 @@
     cursor: inherit;
   }
 
+  .v-checkbox__input:focus-visible {
+    outline: var(--v-focus-ring);
+    outline-offset: var(--v-focus-offset);
+  }
+
   .v-checkbox .v-field__description,
   .v-checkbox .v-field__error {
     margin-inline-start: calc(var(--v-control-indicator) + var(--v-space-3));

@@ -1,0 +1,18 @@
+import { Meta, Story, Primary, Controls } from '@storybook/addon-docs/blocks'
+import * as CheckboxStories from './VCheckbox.stories'
+
+<Meta of={CheckboxStories} />
+
+# VCheckbox
+
+## Indeterminate group
+
+A parent "Select all" checkbox reflects the state of its children: checked when every
+item is checked, unchecked when none are, and indeterminate when the selection is mixed.
+Children can carry the same variations as a standalone checkbox — a description, or
+`required`.
+
+<Story of={CheckboxStories.Group} />
+
+<Primary />
+<Controls />

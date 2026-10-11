@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { useTemplateRef, watchEffect } from 'vue'
 import { useFieldId, useFieldMessages } from '../field/field.messages'
 import type { VCheckboxProps } from './checkbox.types'
 
@@ -11,6 +12,7 @@ const {
   error,
   required = false,
   disabled = false,
+  indeterminate = false,
 } = defineProps<VCheckboxProps>()
 
 const model = defineModel<boolean>({ default: false })
@@ -21,6 +23,12 @@ const { descriptionId, errorId, invalid, describedby } = useFieldMessages(
   () => description,
   () => error,
 )
+
+const inputRef = useTemplateRef<HTMLInputElement>('input')
+
+watchEffect(() => {
+  if (inputRef.value) inputRef.value.indeterminate = indeterminate
+})
 </script>
 
 <template>
@@ -28,10 +36,12 @@ const { descriptionId, errorId, invalid, describedby } = useFieldMessages(
     class="v-checkbox"
     :data-invalid="invalid || undefined"
     :data-disabled="disabled || undefined"
+    :data-indeterminate="indeterminate || undefined"
   >
     <label class="v-checkbox__row">
       <input
         v-bind="$attrs"
+        ref="input"
         v-model="model"
         :id="id"
         class="v-checkbox__input"

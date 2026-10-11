@@ -1,3 +1,5 @@
 import type { VFieldProps } from '../field/field.types'
 
-export type VCheckboxProps = VFieldProps
+export interface VCheckboxProps extends VFieldProps {
+  indeterminate?: boolean
+}

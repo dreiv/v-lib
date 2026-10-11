@@ -78,4 +78,26 @@ describe('VCheckbox', () => {
         .attributes('id'),
     ).toBeTruthy()
   })
+
+  test('sets the native indeterminate IDL property', async () => {
+    const wrapper = mount(VCheckbox, { props: { label: 'Select all' } })
+    const input = wrapper.get('input').element as HTMLInputElement
+    expect(input.indeterminate).toBe(false)
+
+    await wrapper.setProps({ indeterminate: true } as any)
+    expect(input.indeterminate).toBe(true)
+
+    await wrapper.setProps({ indeterminate: false } as any)
+    expect(input.indeterminate).toBe(false)
+  })
+
+  test('indeterminate has no content attribute, only the DOM property', () => {
+    const wrapper = mount(VCheckbox, { props: { label: 'Select all', indeterminate: true } })
+    expect(wrapper.get('input').attributes('indeterminate')).toBeUndefined()
+  })
+
+  test('reflects indeterminate on the wrapper for styling hooks', () => {
+    const wrapper = mount(VCheckbox, { props: { label: 'Select all', indeterminate: true } })
+    expect(wrapper.attributes('data-indeterminate')).toBeDefined()
+  })
 })
