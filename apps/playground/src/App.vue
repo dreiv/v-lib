@@ -6,10 +6,8 @@ import { VBadge } from '@v/design-system/badge'
 import { VButton } from '@v/design-system/button'
 import { VCheckbox } from '@v/design-system/checkbox'
 import { VCombobox } from '@v/design-system/combobox'
-import { VContainer } from '@v/design-system/container'
 import { VDialog } from '@v/design-system/dialog'
 import { VErrorSummary, type VErrorSummaryItem } from '@v/design-system/error-summary'
-import { VInline } from '@v/design-system/inline'
 import { VLink } from '@v/design-system/link'
 import { VLoadingRegion } from '@v/design-system/loading-region'
 import { VMenu, VMenuItem, VMenuSeparator } from '@v/design-system/menu'
@@ -17,7 +15,6 @@ import { VPopover } from '@v/design-system/popover'
 import { VRadioGroup } from '@v/design-system/radio-group'
 import { VSelect } from '@v/design-system/select'
 import { VSpinner } from '@v/design-system/spinner'
-import { VStack } from '@v/design-system/stack'
 import { VTag } from '@v/design-system/tag'
 import { VTextArea } from '@v/design-system/text-area'
 import { VTextField } from '@v/design-system/text-field'
@@ -73,19 +70,19 @@ async function submit() {
 </script>
 
 <template>
-  <VContainer as="main">
-    <VStack>
+  <main class="v-container">
+    <div class="v-stack v-gap-4">
       <nav aria-label="Project">
         <VLink :href="docsUrl">Component documentation</VLink>
       </nav>
       <VAlert title="Review the form" tone="info"
         >All fields are required unless marked optional.</VAlert
       >
-      <VInline>
+      <div class="v-inline v-wrap v-items-center v-gap-3">
         <VBadge tone="success">Active</VBadge>
         <VTag>Accessibility</VTag>
         <VSpinner label="Syncing" />
-      </VInline>
+      </div>
       <VLoadingRegion label="Loading preview" :loading="false">
         <p>Preview ready.</p>
       </VLoadingRegion>
@@ -158,6 +155,6 @@ async function submit() {
         />
         <p>By saving you accept the <VLink href="#terms">terms</VLink>.</p>
       </form>
-    </VStack>
-  </VContainer>
+    </div>
+  </main>
 </template>

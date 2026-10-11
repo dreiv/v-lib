@@ -1,0 +1,49 @@
+import { Meta, Story } from '@storybook/addon-docs/blocks'
+import * as LayoutUtilitiesStories from './LayoutUtilities.stories'
+
+export const Spacer = () => <div style={{ blockSize: 'var(--v-space-8)' }} />
+
+<Meta of={LayoutUtilitiesStories} />
+
+# Layout Utilities
+
+Plain CSS classes from `utilities.css` — not components. Compose them directly on
+any element: a direction (`v-stack` or `v-inline`), an optional `v-wrap`, a `v-gap-*`
+step, and `v-items-*` / `v-justify-*` for alignment.
+
+## Direction
+
+<Story of={LayoutUtilitiesStories.Stack} />
+<Spacer />
+<Story of={LayoutUtilitiesStories.Inline} />
+
+## Wrapping groups
+
+`v-inline` plus `v-wrap` for content that should flow onto new lines instead of
+overflowing or shrinking — tag lists, filter chips, anything of unknown or variable count.
+
+<Story of={LayoutUtilitiesStories.Wrap} />
+
+## Gap scale
+
+All eight space-token steps are exposed, matching `@v/design-tokens` 1:1 so there's
+no guessing which steps are and aren't available as a gap.
+
+<Story of={LayoutUtilitiesStories.GapScale} />
+
+## Alignment
+
+`v-items-*` sets the cross-axis (`align-items`); `v-justify-*` sets the main-axis
+(`justify-content`). Neither is tied to a specific direction class — both work on
+`v-stack` and `v-inline` alike.
+
+<Story of={LayoutUtilitiesStories.AlignItems} />
+<Spacer />
+<Story of={LayoutUtilitiesStories.JustifyContent} />
+
+## Composed example
+
+A toolbar — `v-justify-between` plus `v-items-center` — is the case that motivated
+adding alignment utilities in the first place.
+
+<Story of={LayoutUtilitiesStories.Toolbar} />

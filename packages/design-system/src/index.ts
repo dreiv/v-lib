@@ -57,19 +57,10 @@ export type { VAlertProps, VAlertTone } from './components/alert'
 export { VBadge } from './components/badge'
 export type { VBadgeProps, VBadgeTone } from './components/badge'
 
-export { VContainer } from './components/container'
-export type { VContainerProps } from './components/container'
-
-export { VInline } from './components/inline'
-export type { VInlineProps } from './components/inline'
-
 export { VLoadingRegion } from './components/loading-region'
 export type { VLoadingRegionProps } from './components/loading-region'
 
 export { VSpinner } from './components/spinner'
 export type { VSpinnerProps } from './components/spinner'
-
-export { VStack } from './components/stack'
-export type { VStackProps } from './components/stack'
 
 export { VTag } from './components/tag'

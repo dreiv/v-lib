@@ -38,10 +38,6 @@
       "types": "./dist/components/combobox/index.d.mts",
       "import": "./dist/components/combobox/index.mjs"
     },
-    "./container": {
-      "types": "./dist/components/container/index.d.mts",
-      "import": "./dist/components/container/index.mjs"
-    },
     "./dialog": {
       "types": "./dist/components/dialog/index.d.mts",
       "import": "./dist/components/dialog/index.mjs"
@@ -53,10 +49,6 @@
     "./field": {
       "types": "./dist/components/field/index.d.mts",
       "import": "./dist/components/field/index.mjs"
-    },
-    "./inline": {
-      "types": "./dist/components/inline/index.d.mts",
-      "import": "./dist/components/inline/index.mjs"
     },
     "./link": {
       "types": "./dist/components/link/index.d.mts",
@@ -89,10 +81,6 @@
     "./spinner": {
       "types": "./dist/components/spinner/index.d.mts",
       "import": "./dist/components/spinner/index.mjs"
-    },
-    "./stack": {
-      "types": "./dist/components/stack/index.d.mts",
-      "import": "./dist/components/stack/index.mjs"
     },
     "./tag": {
       "types": "./dist/components/tag/index.d.mts",
