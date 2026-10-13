@@ -40,8 +40,9 @@ describe('VCombobox', () => {
     expect(input.attributes('role')).toBe('combobox')
   })
 
-  test('shows the label of the selected value', () => {
+  test('shows the label of the selected value', async () => {
     const wrapper = mountCombobox({ modelValue: 'de' })
+    await nextTick()
     expect((wrapper.get('input').element as HTMLInputElement).value).toBe('Germany')
   })
 

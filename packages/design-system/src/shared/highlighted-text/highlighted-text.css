@@ -1,0 +1,14 @@
+@layer v.components {
+  .v-highlighted-text__match {
+    background: color-mix(in oklab, var(--v-color-accent) 35%, transparent);
+    color: inherit;
+    font-weight: var(--v-font-weight-bold);
+  }
+
+  @media (forced-colors: active) {
+    .v-highlighted-text__match {
+      background: Mark;
+      color: MarkText;
+    }
+  }
+}

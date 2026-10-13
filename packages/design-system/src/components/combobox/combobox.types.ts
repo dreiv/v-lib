@@ -10,4 +10,5 @@ export interface VComboboxProps extends VFieldProps {
   triggerLabel: string
   emptyText: string
   placeholder?: string
+  resultsAnnouncement?: (count: number) => string
 }

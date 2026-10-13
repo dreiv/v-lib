@@ -14,6 +14,7 @@ const {
   triggerLabel,
   emptyText,
   placeholder,
+  resultsAnnouncement,
 } = defineProps<VComboboxProps>()
 
 const model = defineModel<string | null>({ default: null })
@@ -34,6 +35,7 @@ const model = defineModel<string | null>({ default: null })
       :trigger-label="triggerLabel"
       :empty-text="emptyText"
       :placeholder="placeholder"
+      :results-announcement="resultsAnnouncement"
     />
   </VField>
 </template>
