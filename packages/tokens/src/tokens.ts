@@ -16,6 +16,12 @@ const ink = (step: (typeof inkSteps)[number]) => `var(${tokenPrefix}ref-ink-${st
 
 const lightDark = (light: string, dark: string) => `light-dark(${light}, ${dark})`
 
+const accentMix = `color-mix(in oklab, var(${tokenPrefix}color-accent) 60%, CanvasText)`
+
+const accentInkLight = `oklch(from ${accentMix} min(l, 0.48) c h)`
+
+const accentInkDark = `oklch(from ${accentMix} max(l, 0.66) c h)`
+
 const tint = (color: string) =>
   `color-mix(in oklab, ${color} var(${tokenPrefix}ref-tone-tint), var(${tokenPrefix}color-surface))`
 
@@ -84,7 +90,7 @@ export const tokens = {
     hover: ink(8),
     accent: 'AccentColor',
     accentText: 'AccentColorText',
-    accentInk: 'color-mix(in oklab, AccentColor 60%, CanvasText)',
+    accentInk: lightDark(accentInkLight, accentInkDark),
     danger: lightDark('oklch(50% 0.19 27)', 'oklch(75% 0.14 20)'),
     info: `var(${tokenPrefix}color-accent-ink)`,
     success: lightDark('oklch(50% 0.14 150)', 'oklch(78% 0.15 150)'),

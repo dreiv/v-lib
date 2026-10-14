@@ -97,7 +97,74 @@ export function resolve(value: string, context: Context): Lab {
   }
 
   if (v.startsWith('oklch(')) {
-    const [lightness, chroma, hue] = inner(v).trim().split(/\s+/)
+    const content = inner(v).trim()
+
+    if (content.startsWith('from ')) {
+      const rest = content.slice(5)
+
+      let colorEnd: number = rest.length
+      if (/^[a-z-]+\(/i.test(rest)) {
+        let depth = 0
+        for (let i = 0; i < rest.length; i++) {
+          if (rest[i] === '(') depth++
+          else if (rest[i] === ')') {
+            depth--
+            if (depth === 0) {
+              colorEnd = i + 1
+              break
+            }
+          }
+        }
+      } else {
+        colorEnd = rest.indexOf(' ')
+        if (colorEnd === -1) colorEnd = rest.length
+      }
+      const sourceColor = rest.slice(0, colorEnd).trim()
+      const sourceLab = resolve(sourceColor, context)
+
+      const paramsStr = rest.slice(colorEnd).trim()
+      const params: string[] = []
+      let pDepth = 0
+      let pStart = 0
+      for (let i = 0; i < paramsStr.length; i++) {
+        if (paramsStr[i] === '(') pDepth++
+        else if (paramsStr[i] === ')') pDepth--
+        else if (paramsStr[i] === ' ' && pDepth === 0) {
+          params.push(paramsStr.slice(pStart, i).trim())
+          pStart = i + 1
+        }
+      }
+      params.push(paramsStr.slice(pStart).trim())
+      const [lightnessParam, chromaParam, hueParam] = params
+
+      let lightness: number
+      if (lightnessParam === 'l') {
+        lightness = sourceLab[0]!
+      } else if (/^(min|max)\(/.test(lightnessParam)) {
+        const fn = lightnessParam.startsWith('min') ? Math.min : Math.max
+        const arg = lightnessParam.slice(lightnessParam.indexOf('(') + 1, -1)
+        const [a, b] = arg.split(',').map((s) => s.trim())
+        const valA = a === 'l' ? sourceLab[0]! : Number(a)
+        const valB = b === 'l' ? sourceLab[0]! : Number(b)
+        lightness = fn(valA, valB)
+      } else {
+        lightness = Number(lightnessParam.replace('%', '')) / 100
+      }
+
+      const chroma =
+        chromaParam === 'c'
+          ? Math.sqrt(sourceLab[1]! ** 2 + sourceLab[2]! ** 2)
+          : Number(chromaParam)
+
+      const hue =
+        hueParam === 'h'
+          ? Math.atan2(sourceLab[2]!, sourceLab[1]!)
+          : (Number(hueParam) * Math.PI) / 180
+
+      return [lightness, chroma * Math.cos(hue), chroma * Math.sin(hue)]
+    }
+
+    const [lightness, chroma, hue] = content.split(/\s+/)
     const angle = (Number(hue) * Math.PI) / 180
     return [
       Number(lightness!.replace('%', '')) / 100,

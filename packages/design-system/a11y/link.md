@@ -2,23 +2,21 @@
 
 ## Role
 
-- Native `a`; `href` and every other attribute are passed through.
-- Without an `href` the element is not a link and not focusable; use VButton for actions.
+- Native `a`; every attribute is passed through. Without `href` (or a string `to`) it is not a link; use VButton for actions.
+- `to` is optional and uses vue-router when installed. VLink never imports `vue-router`.
 
 ## Name source
 
-- Slot content, or `aria-label` passed as an attribute.
-- When `target="_blank"` and no `aria-label` is given, visually-hidden text (`.v-visually-hidden`)
-  is appended to the accessible name so it reads "<link text> (opens in new window)". An explicit
-  `aria-label` always wins and suppresses this text.
+- Slot content, or `aria-label`.
+- With `target="_blank"` and no `aria-label`, visually hidden text from the injected `link.opensInNewWindow` string is appended ("<text> (opens in new window)"). The string carries its own punctuation. `aria-label` replaces it and must contain the visible text (2.5.3).
 
 ## Description source
 
-- None.
+- None by default; `aria-describedby` passed as an attribute.
 
 ## Keyboard commands
 
-- Native: Tab focuses, Enter activates.
+- Native: Tab focuses, Enter activates, Shift+Tab leaves. Focus is not moved or restored on navigation; that is the app's job.
 
 ## Focus entry
 
@@ -34,77 +32,55 @@
 
 ## Focus restoration
 
-- Not applicable.
+- Not applicable; navigation leaves the document.
 
 ## Announcements
 
-- `target="_blank"` is announced through the generated or supplied accessible name (see Name
-  source). No live region is used.
+- New-window links via the accessible name. No live region.
+- The exact active route gets `aria-current="page"`; a consumer-supplied value wins.
 
 ## Required consumer content
 
-- Link text that makes sense out of context; the component cannot check this.
-- Nothing extra for new-window links — set `target="_blank"` and the indicator and announcement
-  are automatic. Pass `aria-label` yourself only when the default "opens in new window" phrasing
-  is wrong for the link (e.g. a file download).
+- Link text that makes sense out of context.
+- `aria-label` only when "opens in new window" is wrong (e.g. a download), including the visible text.
+- With a sticky header, set `scroll-padding-block-start` on the scroller (2.4.11).
 
 ## Router integration
 
-VLink has no router dependency and does not accept a `to` prop. Compose it with `RouterLink`'s
-`custom` + `v-slot` API instead:
-
 ```vue
-<RouterLink to="/terms" custom v-slot="{ href, navigate }">
-  <VLink :href="href" @click="onNavigate($event, navigate)">terms of use</VLink>
-</RouterLink>
+<VLink to="/terms">terms of use</VLink>
+<VLink :to="{ name: 'user', params: { id } }" replace>profile</VLink>
 ```
 
-The `navigate` function the `custom` slot hands back has no click guard — unlike a plain, non-custom
-`<RouterLink>`. Bound directly to `@click`, it hijacks Ctrl/Cmd/Shift/middle-click into an SPA
-navigation instead of letting the browser open a new tab, which breaks a behaviour users expect
-from every other link on the page. Guard it yourself before calling `navigate()`:
-
-```ts
-function onNavigate(event: MouseEvent, navigate: (event: MouseEvent) => void) {
-  const modified = event.metaKey || event.ctrlKey || event.shiftKey || event.altKey
-  if (event.defaultPrevented || modified || event.button !== 0) return
-  navigate(event)
-}
-```
-
-This guard is currently written out per call site, not exported from the package. If it ends up
-copy-pasted into several components, it's a candidate for a small shared `@v/design-system` export
-later.
-
-This pattern is documented here and in the VLink Storybook docs page, but there is no live,
-executable Storybook story for it: `vue-router` is not currently a dependency of `apps/docs`.
+- Resolves `RouterLink` from the app and uses its `useLink`: one `a`, resolved `href`, click handling, `aria-current`. Without a router a string `to` becomes `href`. `href` is ignored when `to` is set.
+- Ctrl/Cmd/Shift/Alt clicks, non-primary buttons, prevented defaults and `target="_blank"` are left to the browser.
+- `click` is emitted before navigation; `preventDefault()` cancels it.
+- `to` is typed `string | object`, so typed routes are not checked. vue-router is an optional peer (`^4.5.0 || ^5.0.0`).
 
 ## WCAG mapping
 
-- 1.4.1 Use of Color: underlined at rest.
-- 2.4.4 Link Purpose (In Context).
-- 1.4.3 Contrast (Minimum): accent ink on the surface, tokens contrast tests.
-- 2.5.8 Target Size (Minimum): inline links are exempt. This exemption only holds while VLink is
-  used inline in text; a standalone/block usage (nav item, card) is not exempt and currently has
-  no enforced minimum target size. Use VButton for standalone link-styled actions until VLink gets
-  a block variant.
+- 1.4.1 underlined at rest.
+- 1.4.3 `accentInk` is clamped to 4.5:1 for any accent (see Limitations).
+- 1.4.10 / 1.4.12 inline, wraps with the paragraph; `overflow-wrap: break-word` for long URLs.
+- 1.4.11 focus ring and icon use the text ink.
+- 2.4.4 link purpose; 2.4.7 3px outline with offset.
+- 2.5.3 hidden text follows the visible text.
+- 2.5.8 inline links are exempt; standalone use is not and has no enforced minimum. Use VButton for standalone link-styled actions.
+- 4.1.2 native `a`, `aria-current`.
 
 ## Automated tests
 
-- tests/link.test.ts: element, slot, attribute forwarding, default/overridden `rel`, external icon
-  and new-window text presence, `aria-label` override behaviour.
-- Tokens contrast tests for accent ink on the surface.
-- Router composition (the guard above) is documentation only; not covered by any automated test,
-  since it lives entirely in consumer code rather than in VLink itself.
+- tests/link.test.ts: element, slot, attributes, `rel`, icon and new-window text, `aria-label`.
+- tests/link-router.test.ts: href with and without a router, clicks, modifiers, `target`, `replace`, `aria-current`, cancelling, changing `to`, SSR, `externalIcon`, injected strings, `rel` merging. Run on vue-router 4.6.4 and 5.4.0 in jsdom.
 
 ## Manual tests
 
-- [ ] Screen readers announce the link role and name, including the new-window suffix.
-- [ ] Underline and icon visible and distinguishable in forced colors.
-- [ ] Focus ring visible against the surrounding text on every theme and accent.
-- [ ] 200% zoom and 400% reflow with long link text and the external icon.
-- [ ] Ctrl/Cmd/Shift/middle-click on a router-composed VLink opens a new tab instead of navigating
-      in place (manual, against a real app — no local example exists yet).
+- [x] Multi-line link keeps underline on every line, icon on the last (Chromium 141). [ ] Firefox, Safari.
+- [x] LinkText in emulated forced colors (Chromium 141). [ ] Real Windows High Contrast.
+- [x] Ctrl/Shift/middle-click does not navigate in place (Chromium 141). [ ] Cmd-click on macOS, web history in a real app.
+- [ ] Screen readers announce role, name and new-window text; `aria-current="page"` on the active route.
+- [ ] Focus ring visible on every theme and accent.
+- [ ] 200% zoom and 400% reflow with long text and the icon.
 
 ## Screen-reader matrix
 
@@ -116,17 +92,17 @@ executable Storybook story for it: `vue-router` is not currently a dependency of
 
 ## Known limitations
 
-- External handling triggers only on `target="_blank"`; a cross-origin link without `target` is
-  not flagged, and nothing currently detects same-origin vs cross-origin.
-- No block/standalone variant with an enforced minimum target size (see WCAG mapping above).
-- No built-in router integration; see "Router integration" above for the composition pattern and
-  its click-guard requirement. No live Storybook example yet (no `vue-router` dependency in
-  apps/docs).
+- External handling only for `target="_blank"`; no same-origin detection.
+- No block variant with a minimum target size, no disabled state, no `:visited` styling.
+- `aria-current` only for the exact route, not ancestors.
+- Accent ink is `light-dark(oklch(from <mix> min(l, 0.48) c h), oklch(from <mix> max(l, 0.66) c h))`, with `<mix>` = `color-mix(in oklab, var(--v-color-accent) 60%, CanvasText)`. It held 4.5:1 on the surface, subtle surface, hover and info tint for 3367 swept accents in light and dark. Only extreme accents are changed.
+- Set `color-scheme` in CSS (e.g. `html[data-theme='dark'] { color-scheme: dark }`) or follow `prefers-color-scheme`. Vite 8's Lightning CSS rewrites `light-dark()` into toggles driven only by CSS `color-scheme`, so setting `style.colorScheme` from script leaves light values in dark mode. Script-driven consumers should set `build.cssTarget` / Lightning CSS targets to browsers with native `light-dark()`.
+- No Storybook example of the routed case (no vue-router in apps/docs).
 
 ## Verification date
 
-Pending. Automated tests only; no manual verification has been done.
+2026-10-14: automated tests plus Chromium 141 (headless) for wrapping, long URLs, 320px reflow, focus ring, forced-colors emulation and route clicks. Chromium 141 lacks `AccentColor`, so `--v-color-accent` was set explicitly. Not done: Firefox, Safari, real Windows High Contrast, screen readers.
 
 ## Verified versions
 
-Vue ^3.5.43 (3.5.43 installed), Reka UI not used.
+Vue ^3.5.43 (3.5.43 installed), vue-router 4.6.4 and 5.4.0; Reka UI not used.

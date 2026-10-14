@@ -124,9 +124,16 @@
     "unplugin-vue": "catalog:",
     "vite-plus": "catalog:",
     "vue": "catalog:",
+    "vue-router": "^5.4.0",
     "vue-tsc": "catalog:"
   },
   "peerDependencies": {
-    "vue": "^3.5.0"
+    "vue": "^3.5.0",
+    "vue-router": "^4.5.0 || ^5.0.0"
+  },
+  "peerDependenciesMeta": {
+    "vue-router": {
+      "optional": true
+    }
   }
 }

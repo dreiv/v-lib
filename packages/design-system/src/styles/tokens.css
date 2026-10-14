@@ -56,7 +56,10 @@
     --v-color-hover: var(--v-ref-ink-8);
     --v-color-accent: AccentColor;
     --v-color-accent-text: AccentColorText;
-    --v-color-accent-ink: color-mix(in oklab, AccentColor 60%, CanvasText);
+    --v-color-accent-ink: light-dark(
+      oklch(from color-mix(in oklab, var(--v-color-accent) 60%, CanvasText) min(l, 0.48) c h),
+      oklch(from color-mix(in oklab, var(--v-color-accent) 60%, CanvasText) max(l, 0.66) c h)
+    );
     --v-color-danger: light-dark(oklch(50% 0.19 27), oklch(75% 0.14 20));
     --v-color-info: var(--v-color-accent-ink);
     --v-color-success: light-dark(oklch(50% 0.14 150), oklch(78% 0.15 150));

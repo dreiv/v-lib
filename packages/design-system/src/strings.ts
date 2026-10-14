@@ -16,7 +16,7 @@ export interface VStrings {
 
 export const defaultStrings: VStrings = {
   link: {
-    opensInNewWindow: 'opens in new window',
+    opensInNewWindow: '(opens in new window)',
   },
   alert: {
     dismiss: 'Dismiss',

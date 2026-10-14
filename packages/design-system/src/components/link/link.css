@@ -1,13 +1,10 @@
 @layer v.components {
   .v-link {
-    display: inline-flex;
-    align-items: baseline;
-    gap: 0.25em;
-
     color: var(--v-color-accent-ink);
     text-decoration: underline;
     text-decoration-thickness: from-font;
     text-underline-offset: 0.18em;
+    overflow-wrap: break-word;
     border-radius: var(--v-radius-1);
 
     &:hover {
@@ -19,10 +16,14 @@
       outline-offset: var(--v-focus-offset);
     }
 
+    &:is(:hover, :focus-visible) > .v-link__icon {
+      stroke-width: 3;
+    }
+
     & > .v-link__icon {
-      flex: none;
       inline-size: 0.85em;
       block-size: 0.85em;
+      margin-inline-start: 0.25em;
     }
 
     @media (forced-colors: active) {

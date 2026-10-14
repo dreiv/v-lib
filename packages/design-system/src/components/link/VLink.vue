@@ -1,29 +1,44 @@
 <script setup lang="ts">
-import { computed } from 'vue'
 import { VIconExternalLink } from '@v/icons'
 import { useVStrings } from '../../strings'
+import type { VLinkProps } from './link.types'
+import { useVLink } from './useVLink'
+
+const { to, href, replace, target, rel, ariaLabel, externalIcon = true } = defineProps<VLinkProps>()
+
+const emit = defineEmits<{ click: [event: MouseEvent] }>()
 
 const strings = useVStrings()
 
-const props = defineProps<{
-  target?: string
-  rel?: string
-  ariaLabel?: string
-}>()
+const link = useVLink({
+  to: () => to,
+  href: () => href,
+  replace: () => replace,
+  target: () => target,
+  rel: () => rel,
+})
 
-const isExternal = computed(() => props.target === '_blank')
-const computedRel = computed(() =>
-  isExternal.value ? (props.rel ?? 'noopener noreferrer') : props.rel,
-)
+function onClick(event: MouseEvent) {
+  emit('click', event)
+  link.navigate(event)
+}
 </script>
 
 <template>
-  <a class="v-link" :target="target" :rel="computedRel" :aria-label="ariaLabel">
+  <a
+    class="v-link"
+    :href="link.href()"
+    :target="target"
+    :rel="link.rel()"
+    :aria-label="ariaLabel"
+    :aria-current="link.current()"
+    @click="onClick"
+  >
     <slot />
-    <template v-if="isExternal">
-      <VIconExternalLink class="v-link__icon" aria-hidden="true" />
+    <template v-if="target === '_blank'">
+      <VIconExternalLink v-if="externalIcon" class="v-link__icon" />
       <span v-if="!ariaLabel" class="v-visually-hidden">{{
-        ' (' + strings.link.opensInNewWindow + ')'
+        ' ' + strings.link.opensInNewWindow
       }}</span>
     </template>
   </a>
