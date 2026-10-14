@@ -1,49 +1,67 @@
+@property --v-button-mix {
+  syntax: '<number>';
+  inherits: false;
+  initial-value: 0;
+}
+
 @layer v.components {
   .v-button {
-    --_border-width: var(--v-border-width);
-    --_inline: var(--v-space-4);
+    --_h: var(--v-control-height-medium);
+    --_gain: 1;
+
+    --_bg: var(--v-color-surface-subtle);
+    --_bd: var(--v-color-border);
+    --_fg: contrast-color(var(--_bg));
 
     position: relative;
+    isolation: isolate;
+
     display: inline-flex;
 
     max-inline-size: 100%;
-    min-block-size: var(--v-control-height-medium);
-    padding-block: var(--v-space-2);
-    padding-inline: calc(var(--_inline) + var(--v-border-width) - var(--_border-width));
+    min-block-size: var(--_h);
+    padding: var(--v-space-2) var(--v-space-4);
 
     font: var(--v-font-weight-medium) var(--v-font-size-md) / var(--v-line-height-tight)
       var(--v-font-sans);
     text-align: center;
     text-wrap: balance;
     overflow-wrap: anywhere;
-    color: var(--v-color-text);
+    color: var(--_fg);
 
-    background: var(--v-color-surface-subtle);
-    border: var(--_border-width) solid var(--v-color-border);
+    background: none;
+    border: 0;
     border-radius: var(--v-radius-2);
 
     cursor: pointer;
     user-select: none;
     touch-action: manipulation;
     -webkit-tap-highlight-color: transparent;
-    transition: transform var(--v-duration-fast) var(--v-easing-standard);
 
-    &::before {
-      position: absolute;
-      inset: 0;
-      content: '';
-      background: currentColor;
-      border-radius: inherit;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity var(--v-duration-fast) var(--v-easing-standard);
-    }
-
+    &::before,
     &::after {
       position: absolute;
       content: '';
-      inset-block: min(0px, calc((100% - var(--v-control-height-medium)) / 2));
-      inset-inline: min(0px, calc((100% - var(--v-control-height-medium)) / 2));
+    }
+
+    &::before {
+      z-index: -1;
+      inset: 0;
+
+      background-color: color-mix(
+        in oklch,
+        var(--_bg),
+        var(--_fg) calc(var(--v-button-mix) * 100% * var(--_gain))
+      );
+      border: var(--v-border-width) solid var(--_bd);
+      border-radius: inherit;
+
+      pointer-events: none;
+      transition: --v-button-mix var(--v-duration-fast) var(--v-easing-standard);
+    }
+
+    &::after {
+      inset: min(0px, calc((100% - var(--v-control-height-medium)) / 2));
     }
 
     & > .v-button__label {
@@ -52,6 +70,7 @@
 
       & > svg {
         flex: none;
+
         inline-size: 1.25em;
         block-size: 1.25em;
       }
@@ -60,80 +79,97 @@
     & > .v-button__spinner {
       position: absolute;
       inset: 0;
+
       margin: auto;
       inline-size: var(--v-control-indicator);
       block-size: var(--v-control-indicator);
+
       pointer-events: none;
     }
 
-    @media (hover: hover) {
-      &:hover::before {
-        opacity: var(--v-opacity-hover);
+    &[data-size='small'] {
+      --_h: var(--v-control-height-small);
+
+      padding-block: var(--v-space-1);
+      padding-inline: var(--v-space-3);
+
+      font-size: var(--v-font-size-sm);
+    }
+
+    &[data-size='large'] {
+      --_h: var(--v-control-height-large);
+
+      padding-inline: var(--v-space-6);
+
+      font-size: 1.125rem;
+    }
+
+    &[data-icon-only] {
+      inline-size: var(--_h);
+      padding-inline: 0;
+    }
+
+    &[data-full] {
+      display: flex;
+
+      inline-size: 100%;
+    }
+
+    &:is([data-variant='primary'], [data-variant='danger'], [data-variant='quiet']) {
+      --_bd: transparent;
+    }
+
+    &[data-variant='primary'] {
+      --_bg: var(--v-color-accent);
+    }
+
+    &[data-variant='danger'] {
+      --_bg: var(--v-color-danger);
+    }
+
+    &[data-variant='quiet'] {
+      --_gain: 2;
+
+      --_bg: transparent;
+      --_fg: var(--v-color-accent-ink);
+    }
+
+    &:not(:disabled, [aria-disabled='true']) {
+      @media (hover: hover) {
+        &:hover::before {
+          --v-button-mix: var(--v-opacity-hover);
+        }
+      }
+
+      &:active::before {
+        --v-button-mix: var(--v-opacity-press);
       }
     }
 
-    &:active {
-      transform: scale(var(--v-scale-press));
-
+    &[aria-pressed='true'] {
       &::before {
-        opacity: var(--v-opacity-press);
+        --v-button-mix: var(--v-opacity-hover);
+
+        outline: 2px solid currentColor;
+        outline-offset: -5px;
+      }
+
+      &:not(:disabled, [aria-disabled='true']) {
+        @media (hover: hover) {
+          &:hover::before {
+            --v-button-mix: calc(var(--v-opacity-hover) * 2);
+          }
+        }
+
+        &:active::before {
+          --v-button-mix: calc(var(--v-opacity-hover) + var(--v-opacity-press));
+        }
       }
     }
 
     &:focus-visible {
       outline: var(--v-focus-ring);
       outline-offset: var(--v-focus-offset);
-    }
-
-    &[data-size='small'] {
-      --_inline: var(--v-space-3);
-
-      min-block-size: var(--v-control-height-small);
-      padding-block: var(--v-space-1);
-      font-size: var(--v-font-size-sm);
-    }
-
-    &[data-size='large'] {
-      --_inline: var(--v-space-6);
-
-      min-block-size: var(--v-control-height-large);
-      font-size: 1.125rem;
-    }
-
-    &[data-icon-only] {
-      inline-size: var(--v-control-height-medium);
-      padding-inline: 0;
-
-      &[data-size='small'] {
-        inline-size: var(--v-control-height-small);
-      }
-
-      &[data-size='large'] {
-        inline-size: var(--v-control-height-large);
-      }
-    }
-
-    &[data-full] {
-      display: flex;
-      inline-size: 100%;
-    }
-
-    &[data-variant='primary'] {
-      background: var(--v-color-accent);
-      color: var(--v-color-accent-text);
-      border-color: transparent;
-    }
-
-    &[data-variant='danger'] {
-      background: var(--v-color-danger);
-      color: var(--v-color-danger-text);
-      border-color: transparent;
-    }
-
-    &[data-variant='quiet'] {
-      background: transparent;
-      color: var(--v-color-accent-ink);
-      border-color: transparent;
     }
 
     &:disabled,
@@ -144,14 +180,6 @@
     &:disabled,
     &[aria-disabled='true'] {
       cursor: not-allowed;
-
-      &::before {
-        display: none;
-      }
-
-      &:active {
-        transform: none;
-      }
     }
 
     &[aria-busy='true'] {
@@ -162,45 +190,59 @@
       }
     }
 
-    @media (prefers-reduced-motion: reduce) {
-      &:active {
-        transform: none;
+    @media (prefers-reduced-motion: no-preference) {
+      &::before {
+        transition-property: --v-button-mix, scale;
+        transition-duration: var(--v-duration-fast), var(--v-duration-base);
+      }
+
+      &:not(:disabled, [aria-disabled='true']):active::before {
+        scale: var(--v-scale-press);
+        transition-duration: var(--v-duration-fast);
+      }
+    }
+
+    @media (prefers-contrast: more) {
+      &:not([data-variant='quiet']) {
+        --_bd: currentColor;
+
+        &::before {
+          border-width: 2px;
+        }
       }
     }
 
     @media (forced-colors: active) {
       color: ButtonText;
-      background: ButtonFace;
-      border-color: ButtonText;
 
       &::before {
-        display: none;
+        background-color: ButtonFace;
+        border-color: ButtonText;
       }
 
-      &[data-variant='primary'] {
-        --_border-width: 2px;
-
-        font-weight: 700;
+      &[data-variant='primary']::before {
+        border-width: 2px;
       }
 
-      &[data-variant='danger'] {
-        --_border-width: 3px;
-
+      &[data-variant='danger']::before {
+        border-width: 3px;
         border-style: double;
       }
 
       &[data-variant='quiet'] {
         text-decoration: underline;
         text-underline-offset: 0.25em;
-        border-color: Canvas;
+
+        &::before {
+          border-color: Canvas;
+        }
       }
 
-      &:not(:disabled, [aria-disabled='true']):hover {
-        border-color: Highlight;
+      &[aria-pressed='true']::before {
+        outline-color: ButtonText;
       }
 
-      &:not(:disabled, [aria-disabled='true']):active {
-        color: Highlight;
+      &:not(:disabled, [aria-disabled='true']):is(:hover, :active)::before {
         border-color: Highlight;
       }
 
@@ -212,9 +254,13 @@
       &:disabled,
       &[aria-disabled='true']:not([aria-busy='true']) {
         opacity: 1;
+
         color: GrayText;
-        border-color: GrayText;
-        border-style: dashed;
+
+        &::before {
+          border-color: GrayText;
+          border-style: dashed;
+        }
       }
     }
   }

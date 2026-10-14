@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/vue3-vite'
 import { VButton } from '@v/design-system/button'
 import { VIconPlus } from '@v/icons'
+import { ref } from 'vue'
 
 const meta = {
   title: 'Actions/VButton',
@@ -54,6 +55,50 @@ export const IconOnly: Story = {
     components: { VButton, VIconPlus },
     setup: () => ({ args }),
     template: '<VButton v-bind="args" aria-label="Add"><VIconPlus /></VButton>',
+  }),
+}
+
+export const SaveChanges: Story = {
+  render: () => ({
+    components: { VButton },
+    setup() {
+      const pending = ref(false)
+      const clicks = ref(0)
+      const status = ref('')
+
+      function save() {
+        clicks.value++
+        pending.value = true
+        status.value = 'Saving…'
+
+        setTimeout(() => {
+          pending.value = false
+          status.value = 'Saved'
+        }, 3000)
+      }
+
+      return { pending, clicks, status, save }
+    },
+    template: `
+      <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 1rem">
+        <VButton variant="primary" :pending="pending" @click="save">Save changes</VButton>
+        <output>clicks received: {{ clicks }}</output>
+        <span role="status" aria-live="polite">{{ status }}</span>
+      </div>
+    `,
+  }),
+}
+
+export const Multiline: Story = {
+  render: () => ({
+    components: { VButton },
+    template: `
+      <div style="display: grid; justify-items: start; gap: 0.75rem; max-inline-size: 18rem">
+        <VButton>A very long label that has to wrap onto several lines without clipping</VButton>
+        <VButton variant="primary">Download the full quarterly report with attachments</VButton>
+        <VButton variant="danger">Delete this project and everything inside it</VButton>
+      </div>
+    `,
   }),
 }
 

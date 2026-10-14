@@ -36,6 +36,7 @@
 
 - `pending` sets `aria-disabled="true"` and `aria-busy="true"` (not native `disabled`); no live announcement is made.
 - Passing `aria-disabled="true"` directly (without `pending`) also suppresses clicks and form submission, independent of the `pending` prop.
+- `aria-pressed` passed as an attribute renders a heavier fill and an inner ring, so the state does not depend on colour alone.
 
 ## Required consumer content
 
