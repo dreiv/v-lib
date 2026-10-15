@@ -1,0 +1,42 @@
+import { Meta, Story } from '@storybook/addon-docs/blocks'
+import * as SpacingStories from './FoundationsSpacing.stories'
+
+<Meta of={SpacingStories} />
+
+# Spacing and shape
+
+## Space
+
+One scale drives padding, margin, and gap. All values are in `rem`. The steps are 1, 2, 3, 4,
+6, 8, 10, and 16, so there is no 5, 7, 9, 12, or 14. If a layout seems to need a missing step,
+the layout usually wants a different step, not a new token.
+
+The layout utilities expose the same eight steps as `v-gap-*` classes.
+
+<Story of={SpacingStories.Space} />
+
+## Radius and border
+
+Two radii (`--v-radius-1`, `--v-radius-2`) and one border width (`--v-border-width`). Pair the
+border with `--v-color-border` for controls, which is tested at 3:1 against the surface.
+
+<Story of={SpacingStories.Shape} />
+
+## Control sizes
+
+`--v-control-height-*` sets the block size of buttons and fields, and `--v-control-indicator` the
+size of check and radio indicators.
+
+- `medium` is 2.75rem, which is 44px at the default root size. A test asserts this value, so it
+  keeps matching the 44px target recommended by
+  [2.5.5 Target Size (Enhanced)](https://www.w3.org/TR/WCAG22/#target-size-enhanced).
+- `xs` is 1.5rem, which is 24px at the default root size: exactly the minimum in
+  [2.5.8 Target Size (Minimum)](https://www.w3.org/TR/WCAG22/#target-size-minimum). Use it only
+  where the control cannot grow, and leave spacing around it. `small` and `large` sit between
+  and above `medium`.
+
+<Story of={SpacingStories.ControlHeights} />
+
+## Container
+
+`--v-container-inline` is 72rem, the maximum inline size for page content.
