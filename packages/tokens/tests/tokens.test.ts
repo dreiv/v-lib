@@ -1,8 +1,17 @@
 import { describe, expect, test } from 'vite-plus/test'
-import { flatten, reducedMotion, tokenPrefix, tokens } from '../src/index.ts'
+import {
+  flatten,
+  reducedMotion,
+  reducedMotionAllowlist,
+  tokenPrefix,
+  tokens,
+} from '../src/index.ts'
 import { contrast, resolve, type Context } from './color.ts'
 
 const values = new Map(flatten(tokens).map(({ name, value }) => [name, value]))
+
+const TEXT_MIN = 4.5
+const NON_TEXT_MIN = 3
 
 const schemes = [
   { name: 'light', dark: false, canvas: '#ffffff', text: '#000000' },
@@ -23,19 +32,49 @@ const accents = [
 ]
 
 const pairs = [
-  ['text', 'surface', 4.5],
-  ['text', 'surface-subtle', 4.5],
-  ['text', 'hover', 4.5],
-  ['text-muted', 'surface', 4.5],
-  ['text-muted', 'surface-subtle', 4.5],
-  ['border', 'surface', 3],
-  ['danger', 'surface', 4.5],
-  ['danger-text', 'danger', 4.5],
-  ['danger', 'surface-subtle', 3],
-  ['success', 'surface', 3],
-  ['success', 'surface-subtle', 3],
-  ['warning', 'surface', 3],
-  ['warning', 'surface-subtle', 3],
+  ['text', 'surface', TEXT_MIN],
+  ['text', 'surface-subtle', TEXT_MIN],
+  ['text', 'hover-mix', TEXT_MIN],
+  ['text-muted', 'surface', TEXT_MIN],
+  ['text-muted', 'surface-subtle', TEXT_MIN],
+  ['text-muted', 'info-surface', TEXT_MIN],
+  ['text-muted', 'success-surface', TEXT_MIN],
+  ['text-muted', 'warning-surface', TEXT_MIN],
+  ['text-muted', 'danger-surface', TEXT_MIN],
+  ['border', 'surface', NON_TEXT_MIN],
+  ['danger', 'surface', TEXT_MIN],
+  ['danger', 'surface-subtle', TEXT_MIN],
+  ['danger', 'danger-surface', TEXT_MIN],
+  ['success', 'surface', TEXT_MIN],
+  ['success', 'surface-subtle', TEXT_MIN],
+  ['success', 'success-surface', TEXT_MIN],
+  ['warning', 'surface', TEXT_MIN],
+  ['warning', 'surface-subtle', TEXT_MIN],
+  ['warning', 'warning-surface', TEXT_MIN],
+  ['info', 'surface', TEXT_MIN],
+  ['info', 'surface-subtle', TEXT_MIN],
+  ['info', 'info-surface', TEXT_MIN],
+] as const
+
+const roleTokenNames = [
+  'surface',
+  'surface-subtle',
+  'text',
+  'text-muted',
+  'border',
+  'divider',
+  'accent',
+  'accent-ink',
+  'danger',
+  'info',
+  'success',
+  'warning',
+  'info-surface',
+  'success-surface',
+  'warning-surface',
+  'danger-surface',
+  'focus',
+  'scrim',
 ] as const
 
 function context(scheme: (typeof schemes)[number], accent = accents[0]!.value): Context {
@@ -54,15 +93,17 @@ function overlaid(foreground: string, background: string, ctx: Context, opacity:
   )
 }
 
+function pairColor(name: string, ctx: Context) {
+  if (name === 'hover-mix') return overlaid('text', 'surface', ctx, tokens.opacity.hover)
+  return color(name, ctx)
+}
+
 const overlays = [
   ['hover', tokens.opacity.hover],
   ['press', tokens.opacity.press],
 ] as const
 
-const overlaidPairs = [
-  ['text', 'surface-subtle'],
-  ['danger-text', 'danger'],
-] as const
+const overlaidPairs = [['text', 'surface-subtle']] as const
 
 describe('tokens', () => {
   test('every name uses the prefix and kebab-case', () => {
@@ -86,18 +127,49 @@ describe('tokens', () => {
     expect(missing).toEqual([])
   })
 
+  test('no public token name leaks the internal ref percentage naming', () => {
+    const names = flatten(tokens)
+      .map((token) => token.name)
+      .filter((name) => !name.startsWith(`${tokenPrefix}ref-`))
+    for (const name of names) {
+      expect(name).not.toMatch(/-ink-\d+$/)
+    }
+  })
+
+  test('every duration token is overridden under reduced motion or explicitly allowlisted', () => {
+    const reduced = new Set(flatten(reducedMotion).map((token) => token.name))
+    for (const key of Object.keys(tokens.duration)) {
+      const name = `${tokenPrefix}duration-${key}`
+      const allowed = reducedMotionAllowlist.includes(`duration.${key}` as never)
+      expect(reduced.has(name) || allowed, `${name} is neither reduced nor allowlisted`).toBe(true)
+    }
+  })
+
   test('reduced motion only overrides existing tokens', () => {
     for (const { name } of flatten(reducedMotion)) expect(values.has(name)).toBe(true)
+  })
+
+  test('every role color token appears in at least one contrast pair or dedicated test', () => {
+    const covered = new Set<string>()
+    for (const [fg, bg] of pairs) {
+      covered.add(fg)
+      if (bg !== 'hover-mix') covered.add(bg)
+    }
+    covered.add('accent')
+    covered.add('accent-ink')
+    covered.add('focus')
+    for (const name of roleTokenNames) {
+      expect(covered.has(name), `${name} has no contrast coverage`).toBe(true)
+    }
   })
 
   test('control heights meet the 44px touch target at medium', () => {
     expect(tokens.control.height.medium).toBe('2.75rem')
   })
 
-  test('state opacities are ordered and below disabled', () => {
-    const { hover, press, disabled } = tokens.opacity
+  test('state opacities are ordered', () => {
+    const { hover, press } = tokens.opacity
     expect(Number(hover)).toBeLessThan(Number(press))
-    expect(Number(press)).toBeLessThan(Number(disabled))
   })
 
   test('z-index layers are ordered', () => {
@@ -111,16 +183,16 @@ describe.each(schemes)('contrast: $name', (scheme) => {
   const base = context(scheme)
 
   test.each(pairs)('%s on %s >= %s', (foreground, background, minimum) => {
-    expect(contrast(color(foreground, base), color(background, base))).toBeGreaterThanOrEqual(
-      minimum,
-    )
+    expect(
+      contrast(pairColor(foreground, base), pairColor(background, base)),
+    ).toBeGreaterThanOrEqual(minimum)
   })
 
   describe.each(overlays)('%s overlay', (_state, opacity) => {
     test.each(overlaidPairs)('%s on %s stays >= 4.5', (foreground, background) => {
       expect(
         contrast(color(foreground, base), overlaid(foreground, background, base, opacity)),
-      ).toBeGreaterThanOrEqual(4.5)
+      ).toBeGreaterThanOrEqual(TEXT_MIN)
     })
   })
 
@@ -131,21 +203,15 @@ describe.each(schemes)('contrast: $name', (scheme) => {
     test.each(overlays)('accent ink on surface under %s overlay >= 4.5', (_state, opacity) => {
       expect(
         contrast(color('accent-ink', ctx), overlaid('accent-ink', 'surface', ctx, opacity)),
-      ).toBeGreaterThanOrEqual(4.5)
+      ).toBeGreaterThanOrEqual(TEXT_MIN)
     })
 
     test('accent ink on surface >= 4.5', () => {
-      expect(contrast(color('accent-ink', ctx), surface)).toBeGreaterThanOrEqual(4.5)
-    })
-
-    test('info on surface and surface-subtle >= 3', () => {
-      const subtle = color('surface-subtle', ctx)
-      expect(contrast(color('info', ctx), surface)).toBeGreaterThanOrEqual(3)
-      expect(contrast(color('info', ctx), subtle)).toBeGreaterThanOrEqual(3)
+      expect(contrast(color('accent-ink', ctx), surface)).toBeGreaterThanOrEqual(TEXT_MIN)
     })
 
     test('focus on surface >= 3', () => {
-      expect(contrast(color('focus', ctx), surface)).toBeGreaterThanOrEqual(3)
+      expect(contrast(color('focus', ctx), surface)).toBeGreaterThanOrEqual(NON_TEXT_MIN)
     })
   })
 })

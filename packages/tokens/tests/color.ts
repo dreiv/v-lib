@@ -63,7 +63,16 @@ function split(args: string) {
   return parts
 }
 
-function weighted(part: string) {
+function weighted(part: string, context: Context) {
+  const varTail = /^(.*?)\s+(var\(--[a-z0-9-]+\))$/is.exec(part)
+  if (varTail) {
+    const varName = inner(varTail[2]!).trim()
+    const resolved = context.tokens.get(varName)
+    if (resolved === undefined) throw new Error(`Undefined token ${varName}`)
+    const percentMatch = /^(\d+(?:\.\d+)?)%$/.exec(resolved.trim())
+    if (!percentMatch) throw new Error(`Token ${varName} is not a percentage: ${resolved}`)
+    return { color: varTail[1]!, percent: Number(percentMatch[1]) }
+  }
   const match = /^(.*?)(?:\s+(\d+(?:\.\d+)?)%)?$/s.exec(part)!
   return { color: match[1]!, percent: match[2] === undefined ? undefined : Number(match[2]) }
 }
@@ -86,8 +95,8 @@ export function resolve(value: string, context: Context): Lab {
   if (v.startsWith('color-mix(')) {
     const [space, first, second] = split(inner(v))
     if (space !== 'in oklab') throw new Error(`Unsupported color space: ${space}`)
-    const a = weighted(first!)
-    const b = weighted(second!)
+    const a = weighted(first!, context)
+    const b = weighted(second!, context)
     const percentA = a.percent ?? 100 - (b.percent ?? 50)
     const percentB = b.percent ?? 100 - percentA
     const weight = percentA / (percentA + percentB)
@@ -140,15 +149,15 @@ export function resolve(value: string, context: Context): Lab {
       let lightness: number
       if (lightnessParam === 'l') {
         lightness = sourceLab[0]!
-      } else if (/^(min|max)\(/.test(lightnessParam)) {
-        const fn = lightnessParam.startsWith('min') ? Math.min : Math.max
-        const arg = lightnessParam.slice(lightnessParam.indexOf('(') + 1, -1)
+      } else if (/^(min|max)\(/.test(lightnessParam!)) {
+        const fn = lightnessParam!.startsWith('min') ? Math.min : Math.max
+        const arg = lightnessParam!.slice(lightnessParam!.indexOf('(') + 1, -1)
         const [a, b] = arg.split(',').map((s) => s.trim())
         const valA = a === 'l' ? sourceLab[0]! : Number(a)
         const valB = b === 'l' ? sourceLab[0]! : Number(b)
         lightness = fn(valA, valB)
       } else {
-        lightness = Number(lightnessParam.replace('%', '')) / 100
+        lightness = Number(lightnessParam!.replace('%', '')) / 100
       }
 
       const chroma =

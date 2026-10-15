@@ -41,7 +41,6 @@
     --v-control-indicator: 1.25rem;
 
     --v-ref-ink-6: color-mix(in oklab, CanvasText 6%, Canvas);
-    --v-ref-ink-8: color-mix(in oklab, CanvasText 8%, Canvas);
     --v-ref-ink-18: color-mix(in oklab, CanvasText 18%, Canvas);
     --v-ref-ink-45: color-mix(in oklab, CanvasText 45%, Canvas);
     --v-ref-ink-60: color-mix(in oklab, CanvasText 60%, Canvas);
@@ -53,7 +52,6 @@
     --v-color-text-muted: var(--v-ref-ink-60);
     --v-color-border: var(--v-ref-ink-45);
     --v-color-divider: var(--v-ref-ink-18);
-    --v-color-hover: var(--v-ref-ink-8);
     --v-color-accent: AccentColor;
     --v-color-accent-text: AccentColorText;
     --v-color-accent-ink: light-dark(
@@ -61,10 +59,9 @@
       oklch(from color-mix(in oklab, var(--v-color-accent) 60%, CanvasText) max(l, 0.66) c h)
     );
     --v-color-danger: light-dark(oklch(50% 0.19 27), oklch(75% 0.14 20));
-    --v-color-info: var(--v-color-accent-ink);
+    --v-color-info: light-dark(oklch(50% 0.16 250), oklch(78% 0.16 250));
     --v-color-success: light-dark(oklch(50% 0.14 150), oklch(78% 0.15 150));
     --v-color-warning: light-dark(oklch(52% 0.12 70), oklch(82% 0.14 85));
-    --v-color-danger-text: light-dark(oklch(100% 0 0), oklch(20% 0.05 25));
     --v-color-info-surface: color-mix(
       in oklab,
       var(--v-color-info) var(--v-ref-tone-tint),
@@ -103,7 +100,7 @@
 
     --v-opacity-hover: 0.06;
     --v-opacity-press: 0.08;
-    --v-opacity-disabled: 0.45;
+    --v-opacity-disabled: 0.6;
 
     --v-scale-press: 0.97;
 

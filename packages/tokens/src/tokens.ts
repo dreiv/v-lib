@@ -10,7 +10,7 @@ export interface TokenGroup {
   [key: string]: TokenValue | TokenGroup
 }
 
-const inkSteps = [6, 8, 18, 45, 60] as const
+const inkSteps = [6, 18, 45, 60] as const
 
 const ink = (step: (typeof inkSteps)[number]) => `var(${tokenPrefix}ref-ink-${step})`
 
@@ -87,15 +87,13 @@ export const tokens = {
     textMuted: ink(60),
     border: ink(45),
     divider: ink(18),
-    hover: ink(8),
     accent: 'AccentColor',
     accentText: 'AccentColorText',
     accentInk: lightDark(accentInkLight, accentInkDark),
     danger: lightDark('oklch(50% 0.19 27)', 'oklch(75% 0.14 20)'),
-    info: `var(${tokenPrefix}color-accent-ink)`,
+    info: lightDark('oklch(50% 0.16 250)', 'oklch(78% 0.16 250)'),
     success: lightDark('oklch(50% 0.14 150)', 'oklch(78% 0.15 150)'),
     warning: lightDark('oklch(52% 0.12 70)', 'oklch(82% 0.14 85)'),
-    dangerText: lightDark('oklch(100% 0 0)', 'oklch(20% 0.05 25)'),
     infoSurface: tint(`var(${tokenPrefix}color-info)`),
     successSurface: tint(`var(${tokenPrefix}color-success)`),
     warningSurface: tint(`var(${tokenPrefix}color-warning)`),
@@ -122,7 +120,7 @@ export const tokens = {
   opacity: {
     hover: '0.06',
     press: '0.08',
-    disabled: '0.45',
+    disabled: '0.6',
   },
   scale: {
     press: '0.97',
@@ -149,3 +147,5 @@ export const reducedMotion = {
     spin: '0s',
   },
 } satisfies TokenGroup
+
+export const reducedMotionAllowlist = ['duration.pulse'] as const

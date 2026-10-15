@@ -15,6 +15,10 @@ function cssFiles() {
     .map((file) => `${styles}/${file}`)
 }
 
+function componentCssFiles() {
+  return cssFiles().filter((file) => !file.endsWith('/styles/tokens.css'))
+}
+
 describe('tokens.css', () => {
   test('matches the generated output (run: vp run tokens)', () => {
     expect(read(`${styles}/styles/tokens.css`)).toBe(toCss())
@@ -33,5 +37,27 @@ describe('tokens.css', () => {
       }
     }
     expect(missing).toEqual([])
+  })
+
+  test('every defined token is consumed somewhere in design-system CSS', () => {
+    const defined = flatten(tokens).map((token) => token.name)
+    const used = new Set<string>()
+    for (const file of cssFiles()) {
+      for (const match of read(file).matchAll(/var\((--v-[a-z0-9-]+)/g)) {
+        used.add(match[1]!)
+      }
+    }
+    const unused = defined.filter((name) => !used.has(name))
+    expect(unused).toEqual([])
+  })
+
+  test('components never reference internal --v-ref-* tokens directly', () => {
+    const leaks: string[] = []
+    for (const file of componentCssFiles()) {
+      for (const match of read(file).matchAll(/var\((--v-ref-[a-z0-9-]+)/g)) {
+        leaks.push(`${file}: ${match[1]}`)
+      }
+    }
+    expect(leaks).toEqual([])
   })
 })

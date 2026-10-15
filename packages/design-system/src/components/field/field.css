@@ -27,7 +27,7 @@
   }
 
   .v-field[data-disabled] .v-field__label {
-    opacity: 0.6;
+    opacity: var(--v-opacity-disabled);
   }
 
   .v-field__control {
@@ -51,7 +51,7 @@
 
   .v-field__control:is(:disabled, [data-disabled]) {
     cursor: not-allowed;
-    opacity: 0.6;
+    opacity: var(--v-opacity-disabled);
   }
 
   .v-field__control:focus-visible {
