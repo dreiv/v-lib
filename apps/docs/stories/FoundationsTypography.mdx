@@ -11,22 +11,26 @@ face people already read comfortably.
 ## Families and weights
 
 `--v-font-sans` is a system UI stack and `--v-font-mono` a system monospace stack. Three weights
-are defined: regular (400), medium (500), and bold (700).
+are defined: regular (400), medium (500), and bold (700). Use the weight tokens rather than raw
+numbers so the set stays small.
 
 <Story of={TypographyStories.Families} />
 
 ## Size scale
 
-Sizes are in `rem`, so they scale with the user's browser font-size setting. Avoid converting
-them to `px`: people who raise their default text size rely on that scaling
+Sizes are in `rem`, so they scale with the user's browser font-size setting. The pixel figures
+shown are only what each step comes to at the default root size. Avoid converting sizes to `px`:
+people who raise their default text size rely on that scaling
 ([1.4.4 Resize Text](https://www.w3.org/TR/WCAG22/#resize-text)).
+
+The page itself is set in the `md` size by the base styles.
 
 <Story of={TypographyStories.Sizes} />
 
 ## Line height
 
-Use `--v-line-height-base` for running text, `--v-line-height-tight` for headings and other
-short text that might wrap, and `--v-line-height-relaxed` for long reading passages. All three are
+Use `--v-line-height-base` for running text, `--v-line-height-tight` for headings and other short
+text that might wrap, and `--v-line-height-relaxed` for long reading passages. All three are
 unitless, so they follow the element's own font size.
 
 <Story of={TypographyStories.LineHeights} />

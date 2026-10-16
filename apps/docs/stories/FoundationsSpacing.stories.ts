@@ -1,10 +1,18 @@
 import type { Meta, StoryObj } from '@storybook/vue3-vite'
+import { tokenPrefix, tokens } from '@v/design-tokens'
 import { SchemePanels, px, tokensOf, ui, v } from './foundations-shared.ts'
 
 const meta = { title: 'Foundations/Spacing and shape' } satisfies Meta
 
 export default meta
 type Story = StoryObj<typeof meta>
+
+const heightUsage: Record<string, string> = {
+  xs: 'Dense controls that cannot grow. Leave space around them.',
+  small: 'Compact controls in tight layouts.',
+  medium: 'The default size.',
+  large: 'Prominent actions and touch-first layouts.',
+}
 
 export const Space: Story = {
   tags: ['!dev'],
@@ -20,7 +28,7 @@ export const Space: Story = {
         <div :style="{ display: 'grid', gap: v('space-2') }">
           <div v-for="step in steps" :key="step.name" :style="{ display: 'grid', gridTemplateColumns: '9rem 1fr', alignItems: 'center', gap: v('space-3') }">
             <code :style="ui.code">{{ step.name }}<br />{{ step.value }} · {{ step.px }}</code>
-            <span :style="{ display: 'block', blockSize: '1rem', inlineSize: 'var(' + step.name + ')', background: v('color-accent-ink'), borderRadius: '2px' }" />
+            <span :style="{ display: 'block', blockSize: v('space-4'), inlineSize: 'var(' + step.name + ')', background: v('color-accent-ink'), borderRadius: v('radius-1') }" />
           </div>
         </div>
       </SchemePanels>
@@ -32,7 +40,13 @@ export const Shape: Story = {
   tags: ['!dev'],
   render: () => ({
     components: { SchemePanels },
-    setup: () => ({ v, ui, radii: tokensOf('radius') }),
+    setup: () => ({
+      v,
+      ui,
+      radii: tokensOf('radius'),
+      borderName: `${tokenPrefix}border-width`,
+      borderWidth: tokens.border.width,
+    }),
     template: `
       <SchemePanels system>
         <div :style="{ display: 'flex', flexWrap: 'wrap', gap: v('space-6') }">
@@ -42,7 +56,7 @@ export const Shape: Story = {
           </div>
           <div>
             <span :style="{ display: 'block', inlineSize: '6rem', blockSize: '4rem', borderBlockStart: v('border-width') + ' solid ' + v('color-border') }" />
-            <code :style="ui.code">--v-border-width<br />1px</code>
+            <code :style="ui.code">{{ borderName }}<br />{{ borderWidth }}</code>
           </div>
         </div>
       </SchemePanels>
@@ -57,17 +71,27 @@ export const ControlHeights: Story = {
     setup: () => ({
       v,
       ui,
-      heights: tokensOf('control', 'height').map((token) => ({ ...token, px: px(token.value) })),
+      heights: tokensOf('control', 'height').map((token) => ({
+        ...token,
+        px: px(token.value),
+        usage: heightUsage[token.name.slice(`${tokenPrefix}control-height-`.length)] ?? '',
+      })),
+      indicatorName: `${tokenPrefix}control-indicator`,
+      indicator: tokens.control.indicator,
+      indicatorPx: px(tokens.control.indicator),
     }),
     template: `
       <SchemePanels system>
         <div :style="{ display: 'grid', gap: v('space-3') }">
           <div v-for="height in heights" :key="height.name" :style="{ display: 'grid', gridTemplateColumns: '12rem 1fr', alignItems: 'center', gap: v('space-3') }">
-            <code :style="ui.code">{{ height.name }}<br />{{ height.value }} · {{ height.px }}</code>
+            <div>
+              <code :style="ui.code">{{ height.name }}<br />{{ height.value }} · {{ height.px }}</code>
+              <p :style="ui.note">{{ height.usage }}</p>
+            </div>
             <span :style="{ display: 'block', blockSize: 'var(' + height.name + ')', maxInlineSize: '14rem', background: v('color-surface-subtle'), border: v('border-width') + ' solid ' + v('color-border'), borderRadius: v('radius-1') }" />
           </div>
           <div :style="{ display: 'flex', alignItems: 'center', gap: v('space-3') }">
-            <code :style="ui.code">--v-control-indicator<br />1.25rem · 20px</code>
+            <code :style="ui.code">{{ indicatorName }}<br />{{ indicator }} · {{ indicatorPx }}</code>
             <span :style="{ display: 'block', inlineSize: v('control-indicator'), blockSize: v('control-indicator'), border: v('border-width') + ' solid ' + v('color-border'), borderRadius: v('radius-1') }" />
           </div>
         </div>

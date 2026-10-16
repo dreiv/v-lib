@@ -7,9 +7,10 @@ import * as SpacingStories from './FoundationsSpacing.stories'
 
 ## Space
 
-One scale drives padding, margin, and gap. All values are in `rem`. The steps are 1, 2, 3, 4,
-6, 8, 10, and 16, so there is no 5, 7, 9, 12, or 14. If a layout seems to need a missing step,
-the layout usually wants a different step, not a new token.
+One scale drives padding, margin, and gap. All values are in `rem`, and the pixel figures shown
+are what they come to at the default root size. The steps are 1, 2, 3, 4, 6, 8, 10, and 16, so
+there is no 5, 7, 9, 12, or 14. If a layout seems to need a missing step, the layout usually wants
+a different step, not a new token.
 
 The layout utilities expose the same eight steps as `v-gap-*` classes.
 
@@ -27,16 +28,17 @@ border with `--v-color-border` for controls, which is tested at 3:1 against the 
 `--v-control-height-*` sets the block size of buttons and fields, and `--v-control-indicator` the
 size of check and radio indicators.
 
-- `medium` is 2.75rem, which is 44px at the default root size. A test asserts this value, so it
-  keeps matching the 44px target recommended by
+- `medium` is the default and is 2.75rem, which is 44px at the default root size. A test asserts
+  this value, so it keeps matching the 44px target recommended by
   [2.5.5 Target Size (Enhanced)](https://www.w3.org/TR/WCAG22/#target-size-enhanced).
 - `xs` is 1.5rem, which is 24px at the default root size: exactly the minimum in
   [2.5.8 Target Size (Minimum)](https://www.w3.org/TR/WCAG22/#target-size-minimum). Use it only
-  where the control cannot grow, and leave spacing around it. `small` and `large` sit between
-  and above `medium`.
+  where the control cannot grow, and leave spacing around it.
+- `small` sits between `xs` and `medium`, and `large` is above `medium`.
 
 <Story of={SpacingStories.ControlHeights} />
 
 ## Container
 
-`--v-container-inline` is 72rem, the maximum inline size for page content.
+`--v-container-inline` is the maximum inline size for page content. The `v-container` utility
+applies it. It is documented with the Layout Utilities.

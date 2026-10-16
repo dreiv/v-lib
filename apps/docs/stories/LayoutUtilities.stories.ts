@@ -1,8 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/vue3-vite'
+import { tokenPrefix, tokens } from '@v/design-tokens'
+import { tokensOf, v } from './foundations-shared.ts'
 
-// These are plain CSS classes from packages/design-system/src/shared/utilities.css,
-// not a Vue component - this assumes utilities.css is already loaded globally in
-// Storybook's preview, the same place tokens.css is loaded for every other story.
 const meta = {
   title: 'Foundations/Layout Utilities',
   parameters: { layout: 'padded' },
@@ -11,10 +10,15 @@ const meta = {
 export default meta
 type Story = StoryObj<typeof meta>
 
-const chipStyle =
-  'padding: 0.5rem 0.75rem; background: var(--v-color-surface-subtle); border-radius: var(--v-radius-1); border: var(--v-border-width) solid var(--v-color-border); white-space: nowrap;'
+const box = `background: ${v('color-surface-subtle')}; border-radius: ${v('radius-1')}; border: ${v('border-width')} solid ${v('color-border')};`
+
+const chipStyle = `padding: ${v('space-2')} ${v('space-3')}; ${box} white-space: nowrap;`
 
 const chip = (label: string) => `<span style="${chipStyle}">${label}</span>`
+
+const guide = `outline: ${v('border-width')} dashed ${v('color-divider')};`
+
+const steps = tokensOf('space').map((token) => token.name.slice(`${tokenPrefix}space-`.length))
 
 export const Stack: Story = {
   render: () => ({
@@ -45,14 +49,7 @@ export const Wrap: Story = {
   render: () => ({
     template: `
       <div class="v-inline v-wrap v-gap-2" style="max-inline-size: 22rem;">
-        ${[
-          'Potion of Healing',
-          'Fire Resistance',
-          'Longsword +1',
-          'Boots of Speed',
-          'Cloak of Protection',
-          'Ring of Mind Shielding',
-        ]
+        ${['Design', 'Engineering', 'Research', 'Accessibility', 'Documentation', 'Release']
           .map((label) => chip(label))
           .join('\n')}
       </div>
@@ -65,7 +62,7 @@ export const GapScale: Story = {
   render: () => ({
     template: `
       <div class="v-stack v-gap-6">
-        ${[1, 2, 3, 4, 6, 8, 10, 16]
+        ${steps
           .map(
             (step) => `
               <div class="v-inline v-items-center v-gap-4">
@@ -91,10 +88,10 @@ export const AlignItems: Story = {
         ${['start', 'center', 'end', 'stretch']
           .map(
             (align) => `
-              <div class="v-inline v-items-${align} v-gap-3" style="block-size: 4rem; padding: 0 0.5rem; outline: 1px dashed var(--v-color-divider);">
+              <div class="v-inline v-items-${align} v-gap-3" style="block-size: ${v('space-16')}; padding: 0 ${v('space-2')}; ${guide}">
                 <code style="align-self: flex-start;">items-${align}</code>
                 ${chip('Short')}
-                <span style="padding: 1.25rem 0.75rem; background: var(--v-color-surface-subtle); border-radius: var(--v-radius-1); border: var(--v-border-width) solid var(--v-color-border);">Taller</span>
+                <span style="padding: ${v('space-4')} ${v('space-3')}; ${box}">Taller</span>
               </div>
             `,
           )
@@ -112,7 +109,7 @@ export const JustifyContent: Story = {
         ${['start', 'center', 'end', 'between']
           .map(
             (justify) => `
-              <div class="v-inline v-justify-${justify} v-gap-3" style="inline-size: 100%; padding: 0 0.5rem; outline: 1px dashed var(--v-color-divider);">
+              <div class="v-inline v-justify-${justify} v-gap-3" style="inline-size: 100%; padding: 0 ${v('space-2')}; ${guide}">
                 <code>justify-${justify}</code>
                 ${chip('A')}
                 ${chip('B')}
@@ -134,6 +131,21 @@ export const Toolbar: Story = {
         <div class="v-inline v-gap-2">
           ${chip('Sort')}
           ${chip('Filter')}
+        </div>
+      </div>
+    `,
+  }),
+}
+
+export const Container: Story = {
+  name: 'Container',
+  render: () => ({
+    template: `
+      <div style="${guide}">
+        <div class="v-container">
+          <div style="padding: ${v('space-4')}; ${box}">
+            Content is centered and capped at ${tokens.container.inline}.
+          </div>
         </div>
       </div>
     `,

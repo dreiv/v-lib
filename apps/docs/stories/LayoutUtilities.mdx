@@ -26,8 +26,9 @@ overflowing or shrinking — tag lists, filter chips, anything of unknown or var
 
 ## Gap scale
 
-All eight space-token steps are exposed, matching `@v/design-tokens` 1:1 so there's
-no guessing which steps are and aren't available as a gap.
+Every step of the space scale is exposed as a `v-gap-*` class. The examples below are generated
+from `@v/design-tokens`, so a new space step shows up here the moment it exists. Add its class to
+`utilities.css` at the same time.
 
 <Story of={LayoutUtilitiesStories.GapScale} />
 
@@ -47,3 +48,15 @@ A toolbar — `v-justify-between` plus `v-items-center` — is the case that mot
 adding alignment utilities in the first place.
 
 <Story of={LayoutUtilitiesStories.Toolbar} />
+
+## Container
+
+`v-container` centers page content, caps it at `--v-container-inline`, and keeps a one-step
+gutter on both sides.
+
+<Story of={LayoutUtilitiesStories.Container} />
+
+## Visually hidden
+
+`v-visually-hidden` removes an element from view while leaving it available to screen readers.
+Use it for text that gives a control its accessible name when the visible design is an icon.

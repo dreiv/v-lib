@@ -1,0 +1,30 @@
+import { Meta, Story } from '@storybook/addon-docs/blocks'
+import * as ElevationStories from './FoundationsElevation.stories'
+
+<Meta of={ElevationStories} />
+
+# Elevation and layers
+
+## Elevation
+
+Two shadow levels lift a surface off the page: `--v-elevation-1` for small raised elements and
+`--v-elevation-2` for floating panels such as menus. Both use one shared shadow color, which is
+much stronger in dark mode, where a faint shadow would disappear against the background.
+
+A shadow is decoration. Do not rely on it to show where a control or container ends: give it a
+`--v-color-border` as well, which is tested at 3:1
+([1.4.11 Non-text Contrast](https://www.w3.org/TR/WCAG22/#non-text-contrast)).
+
+<Story of={ElevationStories.Elevation} />
+
+## Layers
+
+Stacking order comes from a short named scale, so components do not pick their own `z-index`
+numbers. Each step sits above the one before it. Use the token that matches the kind of element,
+and when something new needs to sit between two steps, discuss adding a step instead of using a
+raw number.
+
+To dim the page behind modal content, use `--v-color-scrim`. It is documented with the Color
+tokens.
+
+<Story of={ElevationStories.Layers} />

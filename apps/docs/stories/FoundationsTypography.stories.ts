@@ -9,6 +9,32 @@ type Story = StoryObj<typeof meta>
 
 const sample = 'Pack my box with five dozen liquor jugs'
 
+const families = [
+  {
+    name: `${tokenPrefix}font-sans`,
+    note: "The platform's UI font, then Apple's system font, Segoe UI, and the browser's generic sans-serif.",
+  },
+  {
+    name: `${tokenPrefix}font-mono`,
+    note: "The platform's monospace font, then SF Mono, Menlo, Consolas, Liberation Mono, and the generic monospace.",
+  },
+]
+
+const weightUsage: Record<string, string> = {
+  regular: 'Body text.',
+  medium: 'Labels and light emphasis.',
+  bold: 'Headings, titles, and strong emphasis.',
+}
+
+const sizeUsage: Record<string, string> = {
+  xs: 'Captions and dense metadata.',
+  sm: 'Secondary text and compact controls.',
+  md: 'Body text. The default size of the page.',
+  lg: 'Lead text and small headings.',
+  xl: 'Section headings.',
+  '2xl': 'Page headings.',
+}
+
 export const Families: Story = {
   tags: ['!dev'],
   render: () => ({
@@ -17,18 +43,23 @@ export const Families: Story = {
       v,
       ui,
       sample,
-      families: [`${tokenPrefix}font-sans`, `${tokenPrefix}font-mono`],
-      weights: tokensOf('font', 'weight'),
+      families,
+      weights: tokensOf('font', 'weight').map((token) => ({
+        ...token,
+        usage: weightUsage[token.name.slice(`${tokenPrefix}font-weight-`.length)] ?? '',
+      })),
     }),
     template: `
       <SchemePanels system>
         <div :style="{ display: 'grid', gap: v('space-4') }">
-          <div v-for="family in families" :key="family">
-            <code :style="ui.code">{{ family }}</code>
-            <p :style="{ margin: 0, fontFamily: 'var(' + family + ')', fontSize: v('font-size-lg') }">{{ sample }}</p>
+          <div v-for="family in families" :key="family.name">
+            <code :style="ui.code">{{ family.name }}</code>
+            <p :style="ui.note">{{ family.note }}</p>
+            <p :style="{ margin: 0, fontFamily: 'var(' + family.name + ')', fontSize: v('font-size-lg') }">{{ sample }}</p>
           </div>
           <div v-for="weight in weights" :key="weight.name">
             <code :style="ui.code">{{ weight.name }}: {{ weight.value }}</code>
+            <p :style="ui.note">{{ weight.usage }}</p>
             <p :style="{ margin: 0, fontWeight: 'var(' + weight.name + ')', fontSize: v('font-size-lg') }">{{ sample }}</p>
           </div>
         </div>
@@ -45,12 +76,17 @@ export const Sizes: Story = {
       v,
       ui,
       sample,
-      sizes: tokensOf('font', 'size').map((token) => ({ ...token, px: px(token.value) })),
+      sizes: tokensOf('font', 'size').map((token) => ({
+        ...token,
+        px: px(token.value),
+        usage: sizeUsage[token.name.slice(`${tokenPrefix}font-size-`.length)] ?? '',
+      })),
     }),
     template: `
       <SchemePanels system>
         <div v-for="size in sizes" :key="size.name" :style="{ paddingBlock: v('space-2'), borderBlockEnd: v('border-width') + ' solid ' + v('color-divider') }">
           <code :style="ui.code">{{ size.name }} · {{ size.value }} ({{ size.px }} at the default root size)</code>
+          <p :style="ui.note">{{ size.usage }}</p>
           <p :style="{ margin: 0, fontSize: 'var(' + size.name + ')', lineHeight: v('line-height-tight') }">{{ sample }}</p>
         </div>
       </SchemePanels>
