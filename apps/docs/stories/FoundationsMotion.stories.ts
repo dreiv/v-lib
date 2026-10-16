@@ -1,13 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/vue3-vite'
 import { ref } from 'vue'
-import {
-  flatten,
-  reducedMotion,
-  reducedMotionAllowlist,
-  tokenPrefix,
-  tokens,
-  type TokenGroup,
-} from '@v/design-tokens'
+import { flatten, reducedMotion, tokenPrefix, tokens, type TokenGroup } from '@v/design-tokens'
 import { SchemePanels, TokenList, overlay, percent, tokensOf, ui, v } from './foundations-shared.ts'
 
 const meta = { title: 'Foundations/Motion and states' } satisfies Meta
@@ -18,8 +11,6 @@ type Story = StoryObj<typeof meta>
 const durationUsage: Record<string, string> = {
   fast: 'Immediate feedback such as hover and press.',
   base: 'State changes such as expanding, entering, and leaving.',
-  spin: 'One full turn of a spinner.',
-  pulse: 'One cycle of a loading pulse.',
 }
 
 const durationKey = (name: string) => name.slice(`${tokenPrefix}duration-`.length)
@@ -27,7 +18,6 @@ const durationKey = (name: string) => name.slice(`${tokenPrefix}duration-`.lengt
 const reducedNotes: Record<string, string> = {
   fast: 'Transitions complete at once.',
   base: 'Transitions complete at once.',
-  spin: 'Spin animations stop.',
 }
 
 export const Durations: Story = {
@@ -102,15 +92,7 @@ export const ReducedMotion: Story = {
           note: reducedNotes[key] ?? '',
         }
       })
-      const kept = reducedMotionAllowlist.map((path) => {
-        const name = `${tokenPrefix}${path.split('.').join('-')}`
-        return {
-          token: name,
-          value: `${all.find((item) => item.name === name)?.value ?? ''}, unchanged`,
-          note: 'Left as is on purpose. It is listed in the reduced-motion allowlist.',
-        }
-      })
-      return { rows: [...changed, ...kept], labels: ['Token', 'With reduced motion', 'Effect'] }
+      return { rows: changed, labels: ['Token', 'With reduced motion', 'Effect'] }
     },
     template: `<TokenList :rows="rows" :labels="labels" />`,
   }),
@@ -130,16 +112,10 @@ export const States: Story = {
       ui,
       states: [
         {
-          label: 'Hover',
-          token: `${tokenPrefix}opacity-hover`,
-          note: `${percent(tokens.opacity.hover)} of the text color laid over the surface.`,
-          style: { ...box, background: overlay('text', tokens.opacity.hover, 'surface') },
-        },
-        {
-          label: 'Press',
-          token: `${tokenPrefix}opacity-press`,
-          note: `${percent(tokens.opacity.press)} of the text color laid over the surface.`,
-          style: { ...box, background: overlay('text', tokens.opacity.press, 'surface') },
+          label: 'Hover and press',
+          token: `${tokenPrefix}state-mix`,
+          note: `${percent(tokens.state.mix)} of the text color laid over the surface.`,
+          style: { ...box, background: overlay('text', tokens.state.mix, 'surface') },
         },
         {
           label: 'Disabled',

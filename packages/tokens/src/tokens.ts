@@ -114,13 +114,12 @@ export const tokens = {
   duration: {
     fast: '120ms',
     base: '200ms',
-    spin: '900ms',
-    pulse: '1.6s',
   },
   opacity: {
-    hover: '0.06',
-    press: '0.08',
     disabled: '0.6',
+  },
+  state: {
+    mix: '0.08',
   },
   scale: {
     press: '0.97',
@@ -144,8 +143,5 @@ export const reducedMotion = {
   duration: {
     fast: '0.01ms',
     base: '0.01ms',
-    spin: '0s',
   },
 } satisfies TokenGroup
-
-export const reducedMotionAllowlist = ['duration.pulse'] as const

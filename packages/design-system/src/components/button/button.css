@@ -137,18 +137,18 @@
     &:not(:disabled, [aria-disabled='true']) {
       @media (hover: hover) {
         &:hover::before {
-          --_button-mix: var(--v-opacity-hover);
+          --_button-mix: var(--v-state-mix);
         }
       }
 
       &:active::before {
-        --_button-mix: var(--v-opacity-press);
+        --_button-mix: var(--v-state-mix);
       }
     }
 
     &[aria-pressed='true'] {
       &::before {
-        --_button-mix: var(--v-opacity-hover);
+        --_button-mix: var(--v-state-mix);
 
         outline: 2px solid currentColor;
         outline-offset: -5px;
@@ -157,12 +157,12 @@
       &:not(:disabled, [aria-disabled='true']) {
         @media (hover: hover) {
           &:hover::before {
-            --_button-mix: calc(var(--v-opacity-hover) * 2);
+            --_button-mix: calc(var(--v-state-mix) * 2);
           }
         }
 
         &:active::before {
-          --_button-mix: calc(var(--v-opacity-hover) + var(--v-opacity-press));
+          --_button-mix: calc(var(--v-state-mix) * 2);
         }
       }
     }

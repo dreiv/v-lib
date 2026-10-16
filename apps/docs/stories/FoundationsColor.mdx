@@ -9,42 +9,30 @@ Color tokens are named by **role**, not by hue. Reach for `--v-color-danger`, no
 the library decides what that means in light mode, in dark mode, and under the user's accent
 color.
 
-Every swatch on this page is rendered live with the real tokens. Light and dark examples sit in
-their own `color-scheme` container, so both schemes are visible at once regardless of your system
-setting.
+Every swatch on this page is rendered live with the real tokens. Light and dark examples sit
+in their own `color-scheme` container, so both schemes are visible at once regardless of your
+system setting.
 
 ## How color adapts
 
-- **System colors.** `surface`, `text`, and `accent` follow the browser's own page background, text
-  color, and accent color. The browser supplies the right value for the user's scheme and, where
-  supported, their operating system accent.
-- **Per-scheme values.** Status colors, `scrim`, and `accent-ink` are tuned separately for light and
-  dark: deeper in light mode, lighter in dark mode, so they keep their contrast on either
-  background. The tokens declare `color-scheme: light dark` on `:root`.
-- **Blends.** Subtle surface, muted text, border, and divider are the text color blended into the
-  surface at fixed strengths. Status surfaces blend a small share of the status color into the
-  surface.
-- **Reference tokens.** The `--v-ref-*` tokens hold the blend strengths the roles are built from.
-  Components should consume the roles, not the reference tokens.
-
-## Choosing a color
-
-<Story of={ColorStories.Choosing} />
+- **System colors.** `surface`, `text`, and `accent` map to `Canvas`, `CanvasText`, and
+  `AccentColor`. The browser supplies the right value for the user's scheme and, where supported,
+  their operating system accent.
+- **`light-dark()`.** Status colors, `scrim`, and `accent-ink` pick a light or dark value
+  from the active `color-scheme`. The tokens set `color-scheme: light dark` on `:root`.
+- **Derived colors.** Subtle surface, muted text, border, and divider are mixes of
+  `CanvasText` into `Canvas` with `color-mix()`. Status surfaces mix 12% of the status color into
+  `surface`.
 
 ## Roles
-
-Each row gives the intent of the token, how it is built in plain terms, and which contrast pairs
-the tests cover. The swatches are the real values in each scheme.
 
 <Story of={ColorStories.Roles} />
 
 ## Status colors in use
 
-Status colors carry meaning, so never let color be the only signal: pair them with text or an
-icon. Each status has a text color and a tinted surface, which is the status color blended into
-the surface. The status color is tested at 4.5:1 on the plain surface, the subtle surface, and its
-own tinted surface, and muted text is tested on all four tinted surfaces. Each row below shows one
-status on those three backdrops.
+Each status has a text color and a tinted surface. The text colors are tested on the plain
+surface, the subtle surface, and their own tinted surface; muted text is tested on all four
+tinted surfaces.
 
 <Story of={ColorStories.Status} />
 
@@ -56,20 +44,20 @@ real color and computing the WCAG contrast ratio. Thresholds follow WCAG 2.2: 4.
 interface boundaries and focus indicators
 ([1.4.11 Non-text Contrast](https://www.w3.org/TR/WCAG22/#non-text-contrast)).
 
-The checks run against three backdrops: light (`#ffffff` background, `#000000` text), the dark
-scheme as Chromium renders it (`#121212`), and the dark scheme as Firefox renders it (`#1c1b22`).
-The contrast notes in the roles table and the pairs below come from one list.
+The checks run against three backdrops: light (`#ffffff` on `#000000`), the dark scheme as
+Chromium renders it (`#121212`), and the dark scheme as Firefox renders it (`#1c1b22`).
 
 <Story of={ColorStories.ContrastPairs} />
 
 ### Accent colors
 
 The accent comes from the operating system, so its value is unknown at build time. `accent-ink`
-exists to make that safe: it blends the accent toward the text color, then limits its lightness so
-it can always carry text. On each of the three backdrops above, and with each representative
-system accent in the picker below, the tests assert:
+exists to make that safe: it takes the accent, mixes it toward the text color, and clamps its
+lightness (at most 0.48 in light mode, at least 0.66 in dark mode). In all three backdrops above,
+and with each of nine representative system accents (listed in the picker below), the tests
+assert:
 
-- `accent-ink` on `surface` reaches 4.5:1, including under the hover and press overlays.
+- `accent-ink` on `surface` reaches 4.5:1, including under the state overlay (`--v-state-mix`).
 - `focus` on `surface` reaches 3:1.
 
 Pick an accent to see `accent-ink` and the focus ring adapt.
@@ -81,4 +69,5 @@ Pick an accent to see `accent-ink` and the focus ring adapt.
 - `divider` and `scrim` have no contrast assertion.
 - `accent-text` on `accent` is decided by the operating system.
 - Tests resolve colors with their own implementation of `color-mix()`, `light-dark()`, and
-  relative color syntax, not in a browser. Review the live swatches above when you change a token.
+  relative color syntax, not in a browser. Review the live swatches above when you change a
+  token.

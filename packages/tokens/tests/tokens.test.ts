@@ -1,11 +1,5 @@
 import { describe, expect, test } from 'vite-plus/test'
-import {
-  flatten,
-  reducedMotion,
-  reducedMotionAllowlist,
-  tokenPrefix,
-  tokens,
-} from '../src/index.ts'
+import { flatten, reducedMotion, tokenPrefix, tokens } from '../src/index.ts'
 import { contrast, resolve, type Context } from './color.ts'
 
 const values = new Map(flatten(tokens).map(({ name, value }) => [name, value]))
@@ -34,7 +28,7 @@ const accents = [
 const pairs = [
   ['text', 'surface', TEXT_MIN],
   ['text', 'surface-subtle', TEXT_MIN],
-  ['text', 'hover-mix', TEXT_MIN],
+  ['text', 'state-mix', TEXT_MIN],
   ['text-muted', 'surface', TEXT_MIN],
   ['text-muted', 'surface-subtle', TEXT_MIN],
   ['text-muted', 'info-surface', TEXT_MIN],
@@ -77,6 +71,8 @@ const roleTokenNames = [
   'scrim',
 ] as const
 
+const decorativeTokenNames = new Set<string>(['divider', 'scrim'])
+
 function context(scheme: (typeof schemes)[number], accent = accents[0]!.value): Context {
   return { tokens: values, accent, ...scheme }
 }
@@ -85,8 +81,8 @@ function color(name: string, ctx: Context) {
   return resolve(`var(${tokenPrefix}color-${name})`, ctx)
 }
 
-function overlaid(foreground: string, background: string, ctx: Context, opacity: string) {
-  const percent = Math.round(Number(opacity) * 100)
+function overlaid(foreground: string, background: string, ctx: Context) {
+  const percent = Math.round(Number(tokens.state.mix) * 100)
   return resolve(
     `color-mix(in oklab, var(${tokenPrefix}color-${foreground}) ${percent}%, var(${tokenPrefix}color-${background}))`,
     ctx,
@@ -94,14 +90,9 @@ function overlaid(foreground: string, background: string, ctx: Context, opacity:
 }
 
 function pairColor(name: string, ctx: Context) {
-  if (name === 'hover-mix') return overlaid('text', 'surface', ctx, tokens.opacity.hover)
+  if (name === 'state-mix') return overlaid('text', 'surface', ctx)
   return color(name, ctx)
 }
-
-const overlays = [
-  ['hover', tokens.opacity.hover],
-  ['press', tokens.opacity.press],
-] as const
 
 const overlaidPairs = [['text', 'surface-subtle']] as const
 
@@ -136,12 +127,11 @@ describe('tokens', () => {
     }
   })
 
-  test('every duration token is overridden under reduced motion or explicitly allowlisted', () => {
+  test('every duration token is overridden under reduced motion', () => {
     const reduced = new Set(flatten(reducedMotion).map((token) => token.name))
     for (const key of Object.keys(tokens.duration)) {
       const name = `${tokenPrefix}duration-${key}`
-      const allowed = reducedMotionAllowlist.includes(`duration.${key}` as never)
-      expect(reduced.has(name) || allowed, `${name} is neither reduced nor allowlisted`).toBe(true)
+      expect(reduced.has(name), `${name} is not reduced`).toBe(true)
     }
   })
 
@@ -149,27 +139,23 @@ describe('tokens', () => {
     for (const { name } of flatten(reducedMotion)) expect(values.has(name)).toBe(true)
   })
 
-  test('every role color token appears in at least one contrast pair or dedicated test', () => {
+  test('every non-decorative role color token appears in at least one contrast pair or dedicated test', () => {
     const covered = new Set<string>()
     for (const [fg, bg] of pairs) {
       covered.add(fg)
-      if (bg !== 'hover-mix') covered.add(bg)
+      if (bg !== 'state-mix') covered.add(bg)
     }
     covered.add('accent')
     covered.add('accent-ink')
     covered.add('focus')
     for (const name of roleTokenNames) {
+      if (decorativeTokenNames.has(name)) continue
       expect(covered.has(name), `${name} has no contrast coverage`).toBe(true)
     }
   })
 
   test('control heights meet the 44px touch target at medium', () => {
     expect(tokens.control.height.medium).toBe('2.75rem')
-  })
-
-  test('state opacities are ordered', () => {
-    const { hover, press } = tokens.opacity
-    expect(Number(hover)).toBeLessThan(Number(press))
   })
 
   test('z-index layers are ordered', () => {
@@ -188,10 +174,10 @@ describe.each(schemes)('contrast: $name', (scheme) => {
     ).toBeGreaterThanOrEqual(minimum)
   })
 
-  describe.each(overlays)('%s overlay', (_state, opacity) => {
+  describe('state overlay', () => {
     test.each(overlaidPairs)('%s on %s stays >= 4.5', (foreground, background) => {
       expect(
-        contrast(color(foreground, base), overlaid(foreground, background, base, opacity)),
+        contrast(color(foreground, base), overlaid(foreground, background, base)),
       ).toBeGreaterThanOrEqual(TEXT_MIN)
     })
   })
@@ -200,9 +186,9 @@ describe.each(schemes)('contrast: $name', (scheme) => {
     const ctx = context(scheme, accent.value)
     const surface = color('surface', ctx)
 
-    test.each(overlays)('accent ink on surface under %s overlay >= 4.5', (_state, opacity) => {
+    test('accent ink on surface under state overlay >= 4.5', () => {
       expect(
-        contrast(color('accent-ink', ctx), overlaid('accent-ink', 'surface', ctx, opacity)),
+        contrast(color('accent-ink', ctx), overlaid('accent-ink', 'surface', ctx)),
       ).toBeGreaterThanOrEqual(TEXT_MIN)
     })
 

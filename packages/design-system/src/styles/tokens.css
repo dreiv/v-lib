@@ -95,12 +95,10 @@
 
     --v-duration-fast: 120ms;
     --v-duration-base: 200ms;
-    --v-duration-spin: 900ms;
-    --v-duration-pulse: 1.6s;
 
-    --v-opacity-hover: 0.06;
-    --v-opacity-press: 0.08;
     --v-opacity-disabled: 0.6;
+
+    --v-state-mix: 0.08;
 
     --v-scale-press: 0.97;
 
@@ -119,7 +117,6 @@
     :root {
       --v-duration-fast: 0.01ms;
       --v-duration-base: 0.01ms;
-      --v-duration-spin: 0s;
     }
   }
 }
