@@ -1,7 +1,7 @@
 @property --_button-mix {
-  syntax: '<number>';
+  syntax: '<percentage>';
   inherits: false;
-  initial-value: 0;
+  initial-value: 0%;
 }
 
 @layer v.components {
@@ -12,6 +12,7 @@
     --_bg: var(--v-color-surface-muted);
     --_bd: var(--v-color-border);
     --_fg: contrast-color(var(--_bg));
+    --_tint: var(--_fg);
 
     position: relative;
     isolation: isolate;
@@ -51,7 +52,7 @@
       background-color: color-mix(
         in oklch,
         var(--_bg),
-        var(--_fg) calc(var(--_button-mix) * 100% * var(--_gain))
+        var(--_tint) calc(var(--_button-mix) * var(--_gain))
       );
       border: var(--v-border-width) solid var(--_bd);
       border-radius: inherit;
@@ -119,6 +120,10 @@
       --_bd: transparent;
     }
 
+    &:is([data-variant='primary'], [data-variant='danger']) {
+      --_tint: contrast-color(var(--_fg));
+    }
+
     &[data-variant='primary'] {
       --_bg: var(--v-color-surface-accent);
     }
@@ -142,11 +147,15 @@
       }
 
       &:active::before {
-        --_button-mix: var(--v-state-hover);
+        --_button-mix: calc(var(--v-state-hover) * 1.5);
       }
     }
 
     &[aria-pressed='true'] {
+      &[data-variant='quiet'] {
+        --_gain: 1;
+      }
+
       &::before {
         --_button-mix: var(--v-state-hover);
 
@@ -162,7 +171,7 @@
         }
 
         &:active::before {
-          --_button-mix: calc(var(--v-state-hover) * 2);
+          --_button-mix: calc(var(--v-state-hover) * 2.5);
         }
       }
     }
