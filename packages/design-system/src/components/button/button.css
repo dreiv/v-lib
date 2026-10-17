@@ -160,7 +160,7 @@
         --_button-mix: var(--v-state-hover);
 
         outline: 2px solid currentColor;
-        outline-offset: -5px;
+        outline-offset: calc(-1 * (var(--v-space-1) + var(--v-border-width)));
       }
 
       &:not(:disabled, [aria-disabled='true']) {
@@ -174,11 +174,6 @@
           --_button-mix: calc(var(--v-state-hover) * 2.5);
         }
       }
-    }
-
-    &:focus-visible {
-      outline: var(--v-focus-ring);
-      outline-offset: var(--v-focus-offset);
     }
 
     &:disabled,
@@ -253,11 +248,6 @@
 
       &:not(:disabled, [aria-disabled='true']):is(:hover, :active)::before {
         border-color: Highlight;
-      }
-
-      &:focus-visible {
-        outline: 2px solid Highlight;
-        outline-offset: 2px;
       }
 
       &:disabled,

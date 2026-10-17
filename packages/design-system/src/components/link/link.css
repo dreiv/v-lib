@@ -7,16 +7,17 @@
     overflow-wrap: break-word;
     border-radius: var(--v-radius-sm);
 
-    &:hover {
-      text-decoration-thickness: 0.125em;
+    @media (hover: hover) {
+      &:hover {
+        text-decoration-thickness: 0.125em;
+
+        & > .v-link__icon {
+          stroke-width: 3;
+        }
+      }
     }
 
-    &:focus-visible {
-      outline: var(--v-focus-ring);
-      outline-offset: var(--v-focus-offset);
-    }
-
-    &:is(:hover, :focus-visible) > .v-link__icon {
+    &:focus-visible > .v-link__icon {
       stroke-width: 3;
     }
 
