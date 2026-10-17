@@ -72,8 +72,9 @@ export const tokens = {
     width: '1px',
   },
   control: {
+    targetMin: 'max(1.5rem, 24px)',
     height: {
-      xs: '1.5rem',
+      xs: v('control-target-min'),
       sm: '2rem',
       md: '2.75rem',
       lg: '3.25rem',
@@ -84,9 +85,9 @@ export const tokens = {
     surface: 'Canvas',
     surfaceMuted: neutral('6%'),
     surfaceRaised: lightDark(surface, neutral('8%')),
-    surfaceOverlay: lightDark(surface, neutral('10%')),
     surfaceScrim: lightDark('rgb(0 0 0 / 40%)', 'rgb(0 0 0 / 60%)'),
     surfaceAccent: 'AccentColor',
+    surfaceSelected: tint(v('color-surface-accent')),
     surfaceInfo: tint(v('color-text-info')),
     surfaceSuccess: tint(v('color-text-success')),
     surfaceWarning: tint(v('color-text-warning')),
@@ -100,6 +101,7 @@ export const tokens = {
     textWarning: lightDark('oklch(52% 0.12 70)', 'oklch(82% 0.14 85)'),
     textDanger: lightDark('oklch(50% 0.19 27)', 'oklch(75% 0.14 20)'),
     border: lightDark(neutral('45%'), neutral('48%')),
+    borderDanger: v('color-text-danger'),
     borderMuted: neutral('18%'),
   },
   shadow: {

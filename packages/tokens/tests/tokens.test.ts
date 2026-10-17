@@ -25,7 +25,7 @@ const accents = [
   { name: 'graphite', value: '#8c8c8c' },
 ]
 
-const plainSurfaces = ['surface', 'surface-muted', 'surface-raised', 'surface-overlay'] as const
+const plainSurfaces = ['surface', 'surface-muted', 'surface-raised'] as const
 const statuses = ['info', 'success', 'warning', 'danger'] as const
 
 const pairs = [
@@ -33,8 +33,11 @@ const pairs = [
     ['text', surface, TEXT_MIN],
     ['text-muted', surface, TEXT_MIN],
     ['border', surface, NON_TEXT_MIN],
+    ['border-danger', surface, NON_TEXT_MIN],
     ...statuses.map((status) => [`text-${status}`, surface, TEXT_MIN]),
   ]),
+  ['text', 'surface-selected', TEXT_MIN],
+  ['text-muted', 'surface-selected', TEXT_MIN],
   ...statuses.flatMap((status) => [
     ['text', `surface-${status}`, TEXT_MIN],
     ['text-muted', `surface-${status}`, TEXT_MIN],
@@ -141,7 +144,8 @@ describe('tokens', () => {
   })
 
   test('control heights meet WCAG 2.2 target sizes', () => {
-    expect(rem(tokens.control.height.xs)).toBeGreaterThanOrEqual(1.5)
+    expect(tokens.control.targetMin).toBe('max(1.5rem, 24px)')
+    expect(tokens.control.height.xs).toBe(`var(${tokenPrefix}control-target-min)`)
     expect(rem(tokens.control.height.md)).toBeGreaterThanOrEqual(2.75)
   })
 
@@ -149,7 +153,7 @@ describe('tokens', () => {
     expect(Number.parseFloat(tokens.focus.width)).toBeGreaterThanOrEqual(2)
   })
 
-  test('body line height meets WCAG text spacing', () => {
+  test('body line height is at least 1.5', () => {
     expect(Number(tokens.lineHeight.normal)).toBeGreaterThanOrEqual(1.5)
   })
 
@@ -174,7 +178,7 @@ describe.each(schemes)('contrast: $name', (scheme) => {
       ['text', 'surface'],
       ['text', 'surface-muted'],
       ['text', 'surface-raised'],
-      ['text', 'surface-overlay'],
+      ['text', 'surface-selected'],
     ] as const
 
     test.each(interactive)('%s on %s stays >= 4.5', (foreground, background) => {
@@ -196,6 +200,18 @@ describe.each(schemes)('contrast: $name', (scheme) => {
     test.each(plainSurfaces)('accent text on %s under hover >= 4.5', (surface) => {
       expect(
         contrast(color('text-accent', ctx), hovered('text-accent', surface, ctx)),
+      ).toBeGreaterThanOrEqual(TEXT_MIN)
+    })
+
+    test.each(['text', 'text-muted'])('%s on selected surface >= 4.5', (foreground) => {
+      expect(
+        contrast(color(foreground, ctx), color('surface-selected', ctx)),
+      ).toBeGreaterThanOrEqual(TEXT_MIN)
+    })
+
+    test('text under hover on selected surface >= 4.5', () => {
+      expect(
+        contrast(color('text', ctx), hovered('text', 'surface-selected', ctx)),
       ).toBeGreaterThanOrEqual(TEXT_MIN)
     })
 

@@ -13,8 +13,8 @@ const reserved = new Set([
   '--v-font-weight-regular',
   '--v-line-height-relaxed',
   '--v-color-surface-raised',
-  '--v-color-surface-overlay',
   '--v-z-sticky',
+  '--v-color-surface-selected',
 ])
 
 function read(path: string) {

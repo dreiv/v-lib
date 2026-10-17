@@ -5,7 +5,20 @@ export const schemes = ['light', 'dark'] as const
 
 export const v = (name: string) => `var(${tokenPrefix}${name})`
 
-export const px = (rem: string) => `${Math.round(parseFloat(rem) * 16)}px`
+const tokenValues = new Map(flatten(tokens as TokenGroup).map((token) => [token.name, token.value]))
+
+function pixels(value: string): number {
+  const text = value.trim()
+  const reference = text.match(/^var\((--v-[a-z0-9-]+)\)$/)
+  if (reference) return pixels(tokenValues.get(reference[1]!) ?? '')
+  const larger = text.match(/^max\((.+), (.+)\)$/)
+  if (larger) return Math.max(pixels(larger[1]!), pixels(larger[2]!))
+  if (text.endsWith('rem')) return parseFloat(text) * 16
+  if (text.endsWith('px')) return parseFloat(text)
+  return Number.NaN
+}
+
+export const px = (value: string) => `${Math.round(pixels(value))}px`
 
 export const percent = (value: string) => `${Math.round(Number(value) * 100)}%`
 
@@ -186,6 +199,55 @@ export const ui = {
     borderRadius: v('radius-sm'),
   }),
 }
+
+export const Example = defineComponent({
+  name: 'Example',
+  props: {
+    code: { type: String, default: '' },
+    label: { type: String, default: '' },
+  },
+  setup() {
+    const frame = {
+      border: `${v('border-width')} solid ${v('color-border-muted')}`,
+      borderRadius: v('radius-md'),
+      overflow: 'hidden',
+      minInlineSize: '0',
+    }
+    const stage = {
+      padding: v('space-4'),
+      background: v('color-surface'),
+      color: v('color-text'),
+      font: `${v('font-weight-regular')} ${v('font-size-sm')}/${v('line-height-normal')} ${v('font-sans')}`,
+      minInlineSize: '0',
+    }
+    const source = {
+      margin: 0,
+      padding: `${v('space-2')} ${v('space-4')}`,
+      background: v('color-surface-muted'),
+      color: v('color-text'),
+      borderBlockStart: `${v('border-width')} solid ${v('color-border-muted')}`,
+      font: '0.8125rem/1.5 ui-monospace, Menlo, Consolas, monospace',
+      overflowX: 'auto',
+      whiteSpace: 'pre',
+    }
+    const caption = {
+      margin: 0,
+      padding: `${v('space-2')} ${v('space-4')}`,
+      background: v('color-surface-muted'),
+      color: v('color-text-muted'),
+      borderBlockEnd: `${v('border-width')} solid ${v('color-border-muted')}`,
+      font: `${v('font-weight-bold')} ${v('font-size-xs')}/${v('line-height-tight')} ${v('font-sans')}`,
+    }
+    return { frame, stage, source, caption }
+  },
+  template: `
+    <figure :style="{ ...frame, margin: 0 }">
+      <figcaption v-if="label" :style="caption">{{ label }}</figcaption>
+      <div :style="stage"><slot /></div>
+      <pre v-if="code" :style="source"><code>{{ code }}</code></pre>
+    </figure>
+  `,
+})
 
 export const TokenList = defineComponent({
   name: 'TokenList',

@@ -12,13 +12,15 @@ Two shadow levels lift a surface off the page: `--v-shadow-raised` for small rai
 `--v-shadow-color`, which is much stronger in dark mode, where a faint shadow would disappear
 against the background.
 
-Pair each shadow with the matching surface: `--v-color-surface-raised` under `shadow-raised` and
-`--v-color-surface-overlay` under `shadow-overlay`. In dark mode those surfaces are also a step
-lighter than the page, so the lift does not depend on the shadow alone.
+Both levels sit on `--v-color-surface-raised`. The two are told apart by their shadow, not by a
+different surface color. In dark mode that surface is a step lighter than the page, so the lift
+does not depend on the shadow alone.
 
 A shadow is decoration. Do not rely on it to show where a control or container ends: give it a
 `--v-color-border` as well, which is tested at 3:1
-([1.4.11 Non-text Contrast](https://www.w3.org/TR/WCAG22/#non-text-contrast)).
+([1.4.11 Non-text Contrast](https://www.w3.org/TR/WCAG22/#non-text-contrast)). Forced-colors modes
+remove shadows entirely, and in light mode `surface-raised` is the same color as the page, so the
+border is what is left to mark the edge.
 
 <Story of={ElevationStories.Elevation} />
 

@@ -1,53 +1,70 @@
 import { Meta, Story } from '@storybook/addon-docs/blocks'
 import * as LayoutUtilitiesStories from './LayoutUtilities.stories'
 
-export const Spacer = () => <div style={{ blockSize: 'var(--v-space-8)' }} />
-
 <Meta of={LayoutUtilitiesStories} />
 
-# Layout Utilities
+# Layout utilities
 
-Plain CSS classes from `utilities.css` — not components. Compose them directly on
-any element: a direction (`v-stack` or `v-inline`), an optional `v-wrap`, a `v-gap-*`
-step, and `v-items-*` / `v-justify-*` for alignment.
+Plain CSS classes from `utilities.css`. They are not components: put them directly on any
+element. A layout is a direction (`v-stack` or `v-inline`), an optional `v-wrap`, a `v-gap-*` step,
+and `v-items-*` and `v-justify-*` for alignment.
+
+Spacing between children comes from `gap`, never from margins, so nothing collapses and nothing
+needs a first or last child exception. Every step is a [space token](?path=/docs/foundations-spacing-and-shape--docs).
+
+The classes sit in the last cascade layer, `v.utilities`, so they win over component styles. Your
+own unlayered CSS still wins over them.
+
+## Class reference
+
+Generated from `utilities.css`, so it cannot drift from the file. A class without a description is
+flagged under the table, and so is a description whose class has left the file.
+
+<Story of={LayoutUtilitiesStories.Reference} />
 
 ## Direction
 
+`v-stack` lays children out in a column and `v-inline` in a row. Both stretch their children
+across the cross axis unless you add a `v-items-*` class, and both can shrink inside a flex or
+grid parent instead of forcing it wider.
+
 <Story of={LayoutUtilitiesStories.Stack} />
-<Spacer />
+
 <Story of={LayoutUtilitiesStories.Inline} />
 
 ## Wrapping groups
 
-`v-inline` plus `v-wrap` for content that should flow onto new lines instead of
-overflowing or shrinking — tag lists, filter chips, anything of unknown or variable count.
+Add `v-wrap` to `v-inline` for content that should flow onto new lines instead of overflowing:
+tag lists, filter chips, anything of unknown or variable count. A row that cannot wrap can break
+[1.4.10 Reflow](https://www.w3.org/TR/WCAG22/#reflow) on narrow screens and at high zoom.
 
 <Story of={LayoutUtilitiesStories.Wrap} />
 
 ## Gap scale
 
-Every step of the space scale is exposed as a `v-gap-*` class. The examples below are generated
-from `@v/design-tokens`, so a new space step shows up here the moment it exists. Add its class to
-`utilities.css` at the same time.
+Every step of the space scale has a `v-gap-*` class. The rows are generated from
+`@v/design-tokens`, so a new space step appears here the moment it exists, flagged if its class is
+missing. Add the class to `utilities.css` at the same time as the token.
 
 <Story of={LayoutUtilitiesStories.GapScale} />
 
 ## Alignment
 
-`v-items-*` sets the cross-axis (`align-items`); `v-justify-*` sets the main-axis
-(`justify-content`). Neither is tied to a specific direction class — both work on
-`v-stack` and `v-inline` alike.
+`v-items-*` sets the cross axis (`align-items`) and `v-justify-*` sets the main axis
+(`justify-content`). Neither is tied to a direction class, so both work on `v-stack` and
+`v-inline`.
 
 <Story of={LayoutUtilitiesStories.AlignItems} />
-<Spacer />
+
 <Story of={LayoutUtilitiesStories.JustifyContent} />
 
-## Composed example
+## Composing
 
-A toolbar — `v-justify-between` plus `v-items-center` — is the case that motivated
-adding alignment utilities in the first place.
+The same few classes cover most layouts. A toolbar pairs `v-justify-between` with `v-items-center`.
+An action row pushes its buttons to the end with `v-justify-end`. A section stacks its parts and
+lets the tag list wrap.
 
-<Story of={LayoutUtilitiesStories.Toolbar} />
+<Story of={LayoutUtilitiesStories.Composed} />
 
 ## Container
 
@@ -58,5 +75,8 @@ gutter on both sides.
 
 ## Visually hidden
 
-`v-visually-hidden` removes an element from view while leaving it available to screen readers.
-Use it for text that gives a control its accessible name when the visible design is an icon.
+`v-visually-hidden` removes an element from view and leaves it available to screen readers. Use it
+for the text that names a control whose visible design is only an icon. Do not use it to hide
+content from everyone: for that, use `hidden`.
+
+<Story of={LayoutUtilitiesStories.VisuallyHidden} />

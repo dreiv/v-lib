@@ -14,6 +14,11 @@ const describeShadow = (value: string) => {
   return match ? `Soft shadow, ${match[1]}px down with a ${match[2]}px blur.` : ''
 }
 
+const levelUsage: Record<string, string> = {
+  raised: 'Cards and other small raised elements.',
+  overlay: 'Menus, popovers, dialogs, and other floating panels.',
+}
+
 const layerUsage: Record<string, string> = {
   sticky: 'Sticky headers and toolbars that stay above scrolling content.',
   modal: 'Dialogs and the scrim behind them.',
@@ -32,13 +37,17 @@ export const Elevation: Story = {
       return {
         v,
         ui,
-        prefix: tokenPrefix,
+        surface: `${tokenPrefix}color-surface-raised`,
         levels: all
           .filter((token) => token !== color)
           .map((token) => ({
             ...token,
-            note: describeShadow(token.value),
-            surface: `color-surface-${token.name.slice(`${tokenPrefix}shadow-`.length)}`,
+            note: [
+              levelUsage[token.name.slice(`${tokenPrefix}shadow-`.length)],
+              describeShadow(token.value),
+            ]
+              .filter(Boolean)
+              .join(' '),
           })),
         shadowColor: color ? describeColor(color.value) : '',
       }
@@ -54,11 +63,12 @@ export const Elevation: Story = {
                 :style="{
                   marginBlockStart: v('space-3'),
                   padding: v('space-4'),
-                  background: v(level.surface),
+                  background: v('color-surface-raised'),
+                  border: v('border-width') + ' solid ' + v('color-border'),
                   borderRadius: v('radius-md'),
                   boxShadow: 'var(' + level.name + ')',
                 }"
-              >{{ prefix + level.surface }}</div>
+              >{{ surface }}</div>
             </div>
           </div>
         </SchemePanels>

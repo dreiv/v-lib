@@ -10,8 +10,9 @@ and the library decides what that means in light mode, in dark mode, and under t
 color.
 
 Names follow one pattern: `--v-color-surface-*` for fills and backgrounds, `--v-color-text-*` for
-text and icons, `--v-color-border-*` for lines. A status has one of each kind: `text-danger` for
-the message and `surface-danger` for the tinted background behind it.
+text and icons, `--v-color-border-*` for lines. A status has a text color and a surface: `text-danger`
+for the message and `surface-danger` for the tinted background behind it. Danger also has
+`border-danger`, the outline of an invalid control.
 
 Every swatch on this page is rendered live with the real tokens. Light and dark examples sit
 in their own `color-scheme` container, so both schemes are visible at once regardless of your
@@ -22,21 +23,36 @@ system setting.
 - **System colors.** `surface`, `text`, and `surface-accent` map to `Canvas`, `CanvasText`, and
   `AccentColor`, and `text-on-accent` maps to `AccentColorText`. The browser supplies the right
   value for the user's scheme and, where supported, their operating system accent.
-- **`light-dark()`.** Status text colors, `surface-scrim`, `text-accent`, `border`,
-  `surface-raised`, and `surface-overlay` pick a light or dark value from the active
-  `color-scheme`. The tokens set `color-scheme: light dark` on `:root`.
-- **Derived colors.** Muted surface, muted text, and the borders are mixes of `CanvasText` into
-  `Canvas` with `color-mix()`. Status surfaces mix 12% of the status text color into `surface`.
+- **`light-dark()`.** Status text colors, `surface-scrim`, `text-accent`, `border`, and
+  `surface-raised` pick a light or dark value from the active `color-scheme`. The tokens set
+  `color-scheme: light dark` on `:root`.
+- **Derived colors.** Muted surface, muted text, `border`, and `border-muted` are mixes of
+  `CanvasText` into `Canvas` with `color-mix()`. Status surfaces mix 12% of the status text color
+  into `surface`, and `surface-selected` mixes 12% of the accent into it. `border-danger` is an
+  alias of `text-danger`.
 
 ## Roles
 
 <Story of={ColorStories.Roles} />
 
+## Selection
+
+Two states can sit on the same option at once. **Highlighted** is where the keyboard or pointer is:
+it is transient and uses the hover overlay, a share of `text` laid over the surface
+(`--v-state-hover`). **Selected** is the chosen value: it persists, and uses `surface-selected`.
+The same pair applies to listbox options, menu items, tabs, and table rows.
+
+Color alone does not say "selected" ([1.4.1 Use of Color](https://www.w3.org/TR/WCAG22/#use-of-color)),
+so always add a second cue such as a check mark. `surface-selected` follows the accent, so it
+changes with the user's system accent while text on it stays at 4.5:1.
+
+<Story of={ColorStories.Selection} />
+
 ## Status colors in use
 
 Each status has a text color and a tinted surface. The examples are `VAlert` in each tone. The
 text colors are tested on the plain surface, the muted surface, and their own tinted surface;
-muted text is tested on all four tinted surfaces.
+muted text is tested on all four tinted surfaces and on `surface-selected`.
 
 <Story of={ColorStories.Status} />
 
@@ -63,8 +79,10 @@ assert:
 
 - `text-accent` on `surface` reaches 4.5:1, including under the hover overlay (`--v-state-hover`).
 - `--v-focus-color`, which is `text-accent`, reaches 3:1 on `surface`.
+- `text` and `text-muted` on `surface-selected` reach 4.5:1, and `text` still does under the hover
+  overlay.
 
-Pick an accent to see `text-accent` and the focus ring adapt.
+Pick an accent to see `text-accent`, the selected surface, and the focus ring adapt.
 
 <Story of={ColorStories.AccentColors} />
 

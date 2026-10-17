@@ -24,13 +24,13 @@ const groups: { title: string; roles: Role[] }[] = [
       { name: 'surface-muted', note: 'A quiet step away from the page, for grouped regions.' },
       {
         name: 'surface-raised',
-        note: 'Cards and other raised elements. The same as surface in light mode, a step lighter in dark mode.',
-      },
-      {
-        name: 'surface-overlay',
-        note: 'Menus, popovers, and dialogs. The same as surface in light mode, a little lighter again than raised in dark mode.',
+        note: 'Cards, menus, popovers, and dialogs. The same as surface in light mode, a step lighter in dark mode.',
       },
       { name: 'surface-scrim', note: 'Dims the page behind modal content.' },
+      {
+        name: 'surface-selected',
+        note: 'Marks the chosen option, row, or tab: 12% of the accent over surface. Pair it with a non-color cue such as a check mark.',
+      },
     ],
   },
   {
@@ -44,6 +44,10 @@ const groups: { title: string; roles: Role[] }[] = [
     title: 'Lines',
     roles: [
       { name: 'border', note: 'Outline of controls. Tested at 3:1 against surface.' },
+      {
+        name: 'border-danger',
+        note: 'Outline of an invalid control. The same color as text-danger, so it keeps 3:1 against surface.',
+      },
       {
         name: 'border-muted',
         note: 'Hairline separators between regions. Not covered by the contrast tests, so use it for decoration only.',
@@ -182,6 +186,66 @@ export const Status: Story = {
   }),
 }
 
+export const Selection: Story = {
+  tags: ['!dev'],
+  render: () => ({
+    components: { SchemePanels },
+    setup() {
+      const options = [
+        { label: 'Apple', note: 'Neither', highlighted: false, selected: false },
+        { label: 'Banana', note: 'Selected', highlighted: false, selected: true },
+        { label: 'Cherry', note: 'Highlighted', highlighted: true, selected: false },
+        { label: 'Date', note: 'Selected and highlighted', highlighted: true, selected: true },
+      ]
+      const background = (option: { highlighted: boolean; selected: boolean }) => {
+        if (option.highlighted && option.selected) return hovered('text', 'surface-selected')
+        if (option.highlighted) return hovered('text', 'surface')
+        if (option.selected) return v('color-surface-selected')
+        return 'transparent'
+      }
+      return {
+        v,
+        ui,
+        options,
+        background,
+        listbox: {
+          display: 'grid',
+          gap: v('space-1'),
+          margin: 0,
+          padding: v('space-1'),
+          listStyle: 'none',
+          border: `${v('border-width')} solid ${v('color-border')}`,
+          borderRadius: v('radius-md'),
+        },
+      }
+    },
+    template: `
+      <SchemePanels>
+        <ul role="listbox" aria-label="Fruit" :style="listbox">
+          <li
+            v-for="option in options"
+            :key="option.label"
+            role="option"
+            :aria-selected="option.selected"
+            :style="{
+              display: 'flex',
+              alignItems: 'center',
+              gap: v('space-3'),
+              padding: v('space-2') + ' ' + v('space-3'),
+              borderRadius: v('radius-sm'),
+              background: background(option),
+            }"
+          >
+            <span :style="{ inlineSize: v('space-4'), fontWeight: v('font-weight-bold') }" aria-hidden="true">{{ option.selected ? '✓' : '' }}</span>
+            <span>{{ option.label }}</span>
+            <span :style="{ marginInlineStart: 'auto', font: v('font-size-xs') + '/' + v('line-height-tight') + ' ' + v('font-sans') }">{{ option.note }}</span>
+          </li>
+        </ul>
+      </SchemePanels>
+    `,
+  }),
+}
+
 const textMin = 4.5
 const nonTextMin = 3
 const stateHover = hovered('text', 'surface')
@@ -192,11 +256,14 @@ const pairs = [
   ['text', 'state-hover', textMin],
   ['text-muted', 'surface', textMin],
   ['text-muted', 'surface-muted', textMin],
+  ['text', 'surface-selected', textMin],
+  ['text-muted', 'surface-selected', textMin],
   ['text-muted', 'surface-info', textMin],
   ['text-muted', 'surface-success', textMin],
   ['text-muted', 'surface-warning', textMin],
   ['text-muted', 'surface-danger', textMin],
   ['border', 'surface', nonTextMin],
+  ['border-danger', 'surface', nonTextMin],
   ['text-danger', 'surface', textMin],
   ['text-danger', 'surface-muted', textMin],
   ['text-danger', 'surface-danger', textMin],
@@ -274,6 +341,11 @@ export const AccentColors: Story = {
             <p :style="{ margin: 0, color: v('color-text-accent'), fontWeight: v('font-weight-bold') }">
               Accent text: readable text in the accent hue
             </p>
+            <div :style="{ display: 'flex', alignItems: 'center', gap: v('space-3'), padding: v('space-2') + ' ' + v('space-3'), background: v('color-surface-selected'), borderRadius: v('radius-sm') }">
+              <span aria-hidden="true">&#10003;</span>
+              <span>Selected option</span>
+              <span :style="{ color: v('color-text-muted') }">Secondary text</span>
+            </div>
             <span
               :style="{
                 padding: v('space-2') + ' ' + v('space-3'),
