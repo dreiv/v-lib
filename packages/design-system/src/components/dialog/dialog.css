@@ -3,7 +3,7 @@
     position: fixed;
     inset: 0;
     z-index: var(--v-z-modal);
-    background: var(--v-color-scrim);
+    background: var(--v-color-surface-scrim);
   }
 
   .v-dialog__content {
@@ -17,15 +17,15 @@
     overflow: auto;
     padding: var(--v-space-6);
     border: var(--v-border-width) solid var(--v-color-border);
-    border-radius: var(--v-radius-2);
+    border-radius: var(--v-radius-md);
     background: var(--v-color-surface);
     color: var(--v-color-text);
-    box-shadow: var(--v-elevation-2);
+    box-shadow: var(--v-shadow-overlay);
   }
 
   .v-dialog__overlay[data-state='open'],
   .v-dialog__content[data-state='open'] {
-    animation: v-dialog-in var(--v-duration-base) var(--v-easing-standard);
+    animation: v-dialog-in var(--v-duration-normal) var(--v-easing-out);
   }
 
   @keyframes v-dialog-in {

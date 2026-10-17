@@ -21,12 +21,12 @@
     }
 
     &:has(.v-select:disabled)::after {
-      opacity: var(--v-opacity-disabled);
+      opacity: var(--v-state-disabled-opacity);
     }
   }
 
   .v-select {
-    min-block-size: var(--v-control-height-medium);
+    min-block-size: var(--v-control-height-md);
     padding-inline: var(--v-space-3) calc(var(--v-space-3) + 1.25rem);
     appearance: none;
     -webkit-appearance: none;

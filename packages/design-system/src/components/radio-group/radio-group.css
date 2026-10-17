@@ -18,11 +18,11 @@
 
   .v-radio-group__option {
     display: flex;
-    min-block-size: var(--v-control-height-medium);
+    min-block-size: var(--v-control-height-md);
     padding-inline: var(--v-space-2);
     margin-inline: calc(var(--v-space-2) * -1);
     cursor: pointer;
-    border-radius: var(--v-radius-2);
+    border-radius: var(--v-radius-md);
   }
 
   .v-radio-group__option:has(.v-radio-group__input:focus-visible) {
@@ -32,8 +32,8 @@
 
   .v-radio-group__input {
     flex: none;
-    inline-size: var(--v-control-indicator);
-    block-size: var(--v-control-indicator);
+    inline-size: var(--v-control-indicator-size);
+    block-size: var(--v-control-indicator-size);
     margin: 0;
     cursor: inherit;
     appearance: none;
@@ -42,12 +42,12 @@
     background-color: var(--v-color-surface);
     background-repeat: no-repeat;
     background-position: center;
-    transition: border-color var(--v-duration-fast) var(--v-easing-standard);
+    transition: border-color var(--v-duration-fast) var(--v-easing-out);
   }
 
   .v-radio-group__input:checked {
-    border-color: var(--v-color-accent-ink);
-    background-image: radial-gradient(circle, var(--v-color-accent-ink) 40%, transparent 41%);
+    border-color: var(--v-color-text-accent);
+    background-image: radial-gradient(circle, var(--v-color-text-accent) 40%, transparent 41%);
   }
 
   .v-radio-group__input:focus-visible {
@@ -72,6 +72,6 @@
 
   .v-radio-group[data-disabled] .v-radio-group__option {
     cursor: not-allowed;
-    opacity: var(--v-opacity-disabled);
+    opacity: var(--v-state-disabled-opacity);
   }
 }

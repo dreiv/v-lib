@@ -7,14 +7,14 @@
     overflow: auto;
     padding: var(--v-space-4);
     border: var(--v-border-width) solid var(--v-color-border);
-    border-radius: var(--v-radius-2);
+    border-radius: var(--v-radius-md);
     background: var(--v-color-surface);
     color: var(--v-color-text);
-    box-shadow: var(--v-elevation-2);
+    box-shadow: var(--v-shadow-overlay);
   }
 
   .v-popover__content[data-state='open'] {
-    animation: v-popover-in var(--v-duration-fast) var(--v-easing-standard);
+    animation: v-popover-in var(--v-duration-fast) var(--v-easing-out);
   }
 
   @keyframes v-popover-in {

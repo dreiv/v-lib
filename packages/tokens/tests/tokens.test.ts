@@ -25,76 +25,55 @@ const accents = [
   { name: 'graphite', value: '#8c8c8c' },
 ]
 
+const plainSurfaces = ['surface', 'surface-muted', 'surface-raised', 'surface-overlay'] as const
+const statuses = ['info', 'success', 'warning', 'danger'] as const
+
 const pairs = [
-  ['text', 'surface', TEXT_MIN],
-  ['text', 'surface-subtle', TEXT_MIN],
-  ['text', 'state-mix', TEXT_MIN],
-  ['text-muted', 'surface', TEXT_MIN],
-  ['text-muted', 'surface-subtle', TEXT_MIN],
-  ['text-muted', 'info-surface', TEXT_MIN],
-  ['text-muted', 'success-surface', TEXT_MIN],
-  ['text-muted', 'warning-surface', TEXT_MIN],
-  ['text-muted', 'danger-surface', TEXT_MIN],
-  ['border', 'surface', NON_TEXT_MIN],
-  ['danger', 'surface', TEXT_MIN],
-  ['danger', 'surface-subtle', TEXT_MIN],
-  ['danger', 'danger-surface', TEXT_MIN],
-  ['success', 'surface', TEXT_MIN],
-  ['success', 'surface-subtle', TEXT_MIN],
-  ['success', 'success-surface', TEXT_MIN],
-  ['warning', 'surface', TEXT_MIN],
-  ['warning', 'surface-subtle', TEXT_MIN],
-  ['warning', 'warning-surface', TEXT_MIN],
-  ['info', 'surface', TEXT_MIN],
-  ['info', 'surface-subtle', TEXT_MIN],
-  ['info', 'info-surface', TEXT_MIN],
-] as const
+  ...plainSurfaces.flatMap((surface) => [
+    ['text', surface, TEXT_MIN],
+    ['text-muted', surface, TEXT_MIN],
+    ['border', surface, NON_TEXT_MIN],
+    ...statuses.map((status) => [`text-${status}`, surface, TEXT_MIN]),
+  ]),
+  ...statuses.flatMap((status) => [
+    ['text', `surface-${status}`, TEXT_MIN],
+    ['text-muted', `surface-${status}`, TEXT_MIN],
+    [`text-${status}`, `surface-${status}`, TEXT_MIN],
+  ]),
+] as [string, string, number][]
 
-const roleTokenNames = [
-  'surface',
-  'surface-subtle',
-  'text',
-  'text-muted',
-  'border',
-  'divider',
-  'accent',
-  'accent-ink',
-  'danger',
-  'info',
-  'success',
-  'warning',
-  'info-surface',
-  'success-surface',
-  'warning-surface',
-  'danger-surface',
-  'focus',
-  'scrim',
-] as const
+const colorTokenNames = flatten({ color: tokens.color }).map(({ name }) =>
+  name.slice(`${tokenPrefix}color-`.length),
+)
 
-const decorativeTokenNames = new Set<string>(['divider', 'scrim'])
+const decorativeColors = new Set(['border-muted', 'surface-scrim'])
+
+const browserControlledColors = new Set(['surface-accent', 'text-on-accent'])
+
+const dedicatedColors = new Set(['text-accent'])
 
 function context(scheme: (typeof schemes)[number], accent = accents[0]!.value): Context {
   return { tokens: values, accent, ...scheme }
 }
 
-function color(name: string, ctx: Context) {
-  return resolve(`var(${tokenPrefix}color-${name})`, ctx)
+function token(name: string, ctx: Context) {
+  return resolve(`var(${tokenPrefix}${name})`, ctx)
 }
 
-function overlaid(foreground: string, background: string, ctx: Context) {
-  const percent = Math.round(Number(tokens.state.mix) * 100)
+function color(name: string, ctx: Context) {
+  return token(`color-${name}`, ctx)
+}
+
+function hovered(foreground: string, background: string, ctx: Context) {
   return resolve(
-    `color-mix(in oklab, var(${tokenPrefix}color-${foreground}) ${percent}%, var(${tokenPrefix}color-${background}))`,
+    `color-mix(in oklab, var(${tokenPrefix}color-${foreground}) var(${tokenPrefix}state-hover), var(${tokenPrefix}color-${background}))`,
     ctx,
   )
 }
 
-function pairColor(name: string, ctx: Context) {
-  if (name === 'state-mix') return overlaid('text', 'surface', ctx)
-  return color(name, ctx)
+function rem(value: string) {
+  return Number(value.replace('rem', ''))
 }
-
-const overlaidPairs = [['text', 'surface-subtle']] as const
 
 describe('tokens', () => {
   test('every name uses the prefix and kebab-case', () => {
@@ -118,12 +97,18 @@ describe('tokens', () => {
     expect(missing).toEqual([])
   })
 
-  test('no public token name leaks the internal ref percentage naming', () => {
-    const names = flatten(tokens)
-      .map((token) => token.name)
-      .filter((name) => !name.startsWith(`${tokenPrefix}ref-`))
-    for (const name of names) {
-      expect(name).not.toMatch(/-ink-\d+$/)
+  test('color tokens are named property first: surface, text or border', () => {
+    for (const name of colorTokenNames) {
+      expect(name).toMatch(/^(surface|text|border)(-[a-z]+)*$/)
+    }
+  })
+
+  test('size scales only use the shared t-shirt vocabulary', () => {
+    const sizes = new Set(['xs', 'sm', 'md', 'lg', 'xl', '2xl'])
+    for (const scale of [tokens.font.size, tokens.control.height, tokens.radius]) {
+      for (const key of Object.keys(scale)) {
+        expect(sizes.has(key)).toBe(true)
+      }
     }
   })
 
@@ -139,23 +124,33 @@ describe('tokens', () => {
     for (const { name } of flatten(reducedMotion)) expect(values.has(name)).toBe(true)
   })
 
-  test('every non-decorative role color token appears in at least one contrast pair or dedicated test', () => {
-    const covered = new Set<string>()
-    for (const [fg, bg] of pairs) {
-      covered.add(fg)
-      if (bg !== 'state-mix') covered.add(bg)
+  test('every non-decorative color token has contrast coverage', () => {
+    const covered = new Set<string>(dedicatedColors)
+    for (const [foreground, background] of pairs) {
+      covered.add(foreground)
+      covered.add(background)
     }
-    covered.add('accent')
-    covered.add('accent-ink')
-    covered.add('focus')
-    for (const name of roleTokenNames) {
-      if (decorativeTokenNames.has(name)) continue
+    for (const name of colorTokenNames) {
+      if (decorativeColors.has(name) || browserControlledColors.has(name)) continue
       expect(covered.has(name), `${name} has no contrast coverage`).toBe(true)
     }
   })
 
-  test('control heights meet the 44px touch target at medium', () => {
-    expect(tokens.control.height.medium).toBe('2.75rem')
+  test('state hover is a percentage usable directly in color-mix', () => {
+    expect(tokens.state.hover).toMatch(/^\d+(\.\d+)?%$/)
+  })
+
+  test('control heights meet WCAG 2.2 target sizes', () => {
+    expect(rem(tokens.control.height.xs)).toBeGreaterThanOrEqual(1.5)
+    expect(rem(tokens.control.height.md)).toBeGreaterThanOrEqual(2.75)
+  })
+
+  test('focus ring is at least 2px thick', () => {
+    expect(Number.parseFloat(tokens.focus.width)).toBeGreaterThanOrEqual(2)
+  })
+
+  test('body line height meets WCAG text spacing', () => {
+    expect(Number(tokens.lineHeight.normal)).toBeGreaterThanOrEqual(1.5)
   })
 
   test('z-index layers are ordered', () => {
@@ -169,35 +164,45 @@ describe.each(schemes)('contrast: $name', (scheme) => {
   const base = context(scheme)
 
   test.each(pairs)('%s on %s >= %s', (foreground, background, minimum) => {
-    expect(
-      contrast(pairColor(foreground, base), pairColor(background, base)),
-    ).toBeGreaterThanOrEqual(minimum)
+    expect(contrast(color(foreground, base), color(background, base))).toBeGreaterThanOrEqual(
+      minimum,
+    )
   })
 
-  describe('state overlay', () => {
-    test.each(overlaidPairs)('%s on %s stays >= 4.5', (foreground, background) => {
+  describe('hover overlay', () => {
+    const interactive = [
+      ['text', 'surface'],
+      ['text', 'surface-muted'],
+      ['text', 'surface-raised'],
+      ['text', 'surface-overlay'],
+    ] as const
+
+    test.each(interactive)('%s on %s stays >= 4.5', (foreground, background) => {
       expect(
-        contrast(color(foreground, base), overlaid(foreground, background, base)),
+        contrast(color(foreground, base), hovered(foreground, background, base)),
       ).toBeGreaterThanOrEqual(TEXT_MIN)
     })
   })
 
   describe.each(accents)('with $name accent', (accent) => {
     const ctx = context(scheme, accent.value)
-    const surface = color('surface', ctx)
 
-    test('accent ink on surface under state overlay >= 4.5', () => {
+    test.each(plainSurfaces)('accent text on %s >= 4.5', (surface) => {
+      expect(contrast(color('text-accent', ctx), color(surface, ctx))).toBeGreaterThanOrEqual(
+        TEXT_MIN,
+      )
+    })
+
+    test.each(plainSurfaces)('accent text on %s under hover >= 4.5', (surface) => {
       expect(
-        contrast(color('accent-ink', ctx), overlaid('accent-ink', 'surface', ctx)),
+        contrast(color('text-accent', ctx), hovered('text-accent', surface, ctx)),
       ).toBeGreaterThanOrEqual(TEXT_MIN)
     })
 
-    test('accent ink on surface >= 4.5', () => {
-      expect(contrast(color('accent-ink', ctx), surface)).toBeGreaterThanOrEqual(TEXT_MIN)
-    })
-
-    test('focus on surface >= 3', () => {
-      expect(contrast(color('focus', ctx), surface)).toBeGreaterThanOrEqual(NON_TEXT_MIN)
+    test.each(plainSurfaces)('focus ring on %s >= 3', (surface) => {
+      expect(contrast(token('focus-color', ctx), color(surface, ctx))).toBeGreaterThanOrEqual(
+        NON_TEXT_MIN,
+      )
     })
   })
 })

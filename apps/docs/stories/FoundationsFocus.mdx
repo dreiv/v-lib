@@ -6,7 +6,7 @@ import * as FocusStories from './FoundationsFocus.stories'
 # Focus
 
 Every focusable element gets the same visible indicator from the base styles: an outline in
-`--v-color-focus`, set off from the element by `--v-focus-offset`. It appears on `:focus-visible`,
+`--v-focus-color`, set off from the element by `--v-focus-offset`. It appears on `:focus-visible`,
 so keyboard users always see it and mouse clicks on buttons do not trigger it.
 
 ## Tokens
@@ -19,7 +19,7 @@ so keyboard users always see it and mouse clicks on buttons do not trigger it.
 
 ## Contrast
 
-The focus color is the accent adjusted by `accent-ink`, so it follows the user's system accent and
+The focus color is the accent adjusted by `text-accent`, so it follows the user's system accent and
 still stays visible. The token tests assert 3:1 against the surface in light and dark, for each
 representative system accent. That is the threshold for
 [1.4.11 Non-text Contrast](https://www.w3.org/TR/WCAG22/#non-text-contrast).

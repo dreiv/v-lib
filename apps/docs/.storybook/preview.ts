@@ -9,6 +9,27 @@ const preview: Preview = {
   parameters: {
     layout: 'centered',
     docs: { theme: prefersDark ? themes.dark : themes.light },
+    options: {
+      storySort: {
+        order: [
+          'Introduction',
+          'Foundations',
+          [
+            'Color',
+            'Typography',
+            'Spacing and shape',
+            'Elevation and layers',
+            'Focus',
+            'Motion and states',
+            'Layout Utilities',
+          ],
+          'Actions',
+          'Forms',
+          'Feedback',
+          'Overlays',
+        ],
+      },
+    },
   },
 }
 

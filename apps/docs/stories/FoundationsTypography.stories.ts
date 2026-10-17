@@ -84,7 +84,7 @@ export const Sizes: Story = {
     }),
     template: `
       <SchemePanels system>
-        <div v-for="size in sizes" :key="size.name" :style="{ paddingBlock: v('space-2'), borderBlockEnd: v('border-width') + ' solid ' + v('color-divider') }">
+        <div v-for="size in sizes" :key="size.name" :style="{ paddingBlock: v('space-2'), borderBlockEnd: v('border-width') + ' solid ' + v('color-border-muted') }">
           <code :style="ui.code">{{ size.name }} · {{ size.value }} ({{ size.px }} at the default root size)</code>
           <p :style="ui.note">{{ size.usage }}</p>
           <p :style="{ margin: 0, fontSize: 'var(' + size.name + ')', lineHeight: v('line-height-tight') }">{{ sample }}</p>

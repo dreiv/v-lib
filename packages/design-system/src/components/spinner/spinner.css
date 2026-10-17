@@ -5,8 +5,8 @@
 
   .v-spinner__mark {
     flex: none;
-    inline-size: var(--v-control-indicator);
-    block-size: var(--v-control-indicator);
+    inline-size: var(--v-control-indicator-size);
+    block-size: var(--v-control-indicator-size);
     animation: v-spin 900ms linear infinite;
   }
 

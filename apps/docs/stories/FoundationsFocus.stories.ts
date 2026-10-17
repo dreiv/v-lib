@@ -24,14 +24,14 @@ export const Tokens: Story = {
           note: "Gap between the element's edge and the focus line, so the line never merges with the element's own border.",
         },
         {
+          token: `${tokenPrefix}focus-color`,
+          value: 'The accent, adjusted for contrast',
+          note: 'The same color as color-text-accent. Tested at 3:1 on the surface.',
+        },
+        {
           token: `${tokenPrefix}focus-ring`,
           value: `${tokens.focus.width} solid line in the focus color`,
           note: 'Ready-to-use `outline` shorthand. Pair it with the offset.',
-        },
-        {
-          token: `${tokenPrefix}color-focus`,
-          value: 'The accent, adjusted for contrast',
-          note: 'The same color as accent-ink. Tested at 3:1 on the surface.',
         },
       ],
     }),
@@ -53,7 +53,7 @@ export const Ring: Story = {
                 display: 'inline-block',
                 padding: v('space-2') + ' ' + v('space-3'),
                 border: v('border-width') + ' solid ' + v('color-border'),
-                borderRadius: v('radius-1'),
+                borderRadius: v('radius-sm'),
                 outline: v('focus-ring'),
                 outlineOffset: v('focus-offset'),
               }"

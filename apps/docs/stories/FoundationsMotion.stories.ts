@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/vue3-vite'
 import { ref } from 'vue'
 import { flatten, reducedMotion, tokenPrefix, tokens, type TokenGroup } from '@v/design-tokens'
-import { SchemePanels, TokenList, overlay, percent, tokensOf, ui, v } from './foundations-shared.ts'
+import { SchemePanels, TokenList, hovered, percent, tokensOf, ui, v } from './foundations-shared.ts'
 
 const meta = { title: 'Foundations/Motion and states' } satisfies Meta
 
@@ -10,14 +10,14 @@ type Story = StoryObj<typeof meta>
 
 const durationUsage: Record<string, string> = {
   fast: 'Immediate feedback such as hover and press.',
-  base: 'State changes such as expanding, entering, and leaving.',
+  normal: 'State changes such as expanding, entering, and leaving.',
 }
 
 const durationKey = (name: string) => name.slice(`${tokenPrefix}duration-`.length)
 
 const reducedNotes: Record<string, string> = {
   fast: 'Transitions complete at once.',
-  base: 'Transitions complete at once.',
+  normal: 'Transitions complete at once.',
 }
 
 export const Durations: Story = {
@@ -29,21 +29,21 @@ export const Durations: Story = {
       const dot = (name: string) => ({
         inlineSize: v('space-4'),
         blockSize: v('space-4'),
-        background: v('color-accent-ink'),
-        borderRadius: v('radius-1'),
+        background: v('color-text-accent'),
+        borderRadius: v('radius-sm'),
         translate: moved.value ? '13rem 0' : '0 0',
-        transition: `translate var(${name}) ${v('easing-standard')}`,
+        transition: `translate var(${name}) ${v('easing-out')}`,
       })
       return {
         v,
         ui,
         dot,
         moved,
-        easingName: `${tokenPrefix}easing-standard`,
+        easingName: `${tokenPrefix}easing-out`,
         durations: tokensOf('duration').map((token) => ({
           ...token,
           usage: durationUsage[durationKey(token.name)] ?? '',
-          demo: ['fast', 'base'].includes(durationKey(token.name)),
+          demo: ['fast', 'normal'].includes(durationKey(token.name)),
         })),
         track: {
           display: 'flex',
@@ -51,8 +51,8 @@ export const Durations: Story = {
           inlineSize: '14rem',
           maxInlineSize: '100%',
           marginBlockStart: v('space-2'),
-          border: `${v('border-width')} solid ${v('color-divider')}`,
-          borderRadius: v('radius-1'),
+          border: `${v('border-width')} solid ${v('color-border-muted')}`,
+          borderRadius: v('radius-sm'),
         },
       }
     },
@@ -101,7 +101,7 @@ export const ReducedMotion: Story = {
 const box = {
   padding: `${v('space-3')} ${v('space-4')}`,
   border: `${v('border-width')} solid ${v('color-border')}`,
-  borderRadius: v('radius-1'),
+  borderRadius: v('radius-sm'),
 }
 
 export const States: Story = {
@@ -112,22 +112,22 @@ export const States: Story = {
       ui,
       states: [
         {
-          label: 'Hover and press',
-          token: `${tokenPrefix}state-mix`,
-          note: `${percent(tokens.state.mix)} of the text color laid over the surface.`,
-          style: { ...box, background: overlay('text', tokens.state.mix, 'surface') },
+          label: 'Hover',
+          token: `${tokenPrefix}state-hover`,
+          note: `${tokens.state.hover} of the text color laid over the surface.`,
+          style: { ...box, background: hovered('text', 'surface') },
         },
         {
           label: 'Disabled',
-          token: `${tokenPrefix}opacity-disabled`,
-          note: `The whole control drops to ${percent(tokens.opacity.disabled)} opacity. Disabled controls are exempt from the contrast minimums.`,
-          style: { ...box, opacity: v('opacity-disabled') },
+          token: `${tokenPrefix}state-disabled-opacity`,
+          note: `The whole control drops to ${percent(tokens.state.disabledOpacity)} opacity. Disabled controls are exempt from the contrast minimums.`,
+          style: { ...box, opacity: v('state-disabled-opacity') },
         },
         {
           label: 'Pressed size',
-          token: `${tokenPrefix}scale-press`,
-          note: `The control shrinks to ${percent(tokens.scale.press)} of its size while pressed.`,
-          style: { ...box, display: 'inline-block', transform: `scale(${v('scale-press')})` },
+          token: `${tokenPrefix}state-press-scale`,
+          note: `The control shrinks to ${percent(tokens.state.pressScale)} of its size while pressed.`,
+          style: { ...box, display: 'inline-block', transform: `scale(${v('state-press-scale')})` },
         },
       ],
     }),

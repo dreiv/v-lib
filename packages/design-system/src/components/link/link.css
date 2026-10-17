@@ -1,11 +1,11 @@
 @layer v.components {
   .v-link {
-    color: var(--v-color-accent-ink);
+    color: var(--v-color-text-accent);
     text-decoration: underline;
     text-decoration-thickness: from-font;
     text-underline-offset: 0.18em;
     overflow-wrap: break-word;
-    border-radius: var(--v-radius-1);
+    border-radius: var(--v-radius-sm);
 
     &:hover {
       text-decoration-thickness: 0.125em;

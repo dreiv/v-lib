@@ -10,13 +10,13 @@ const meta = {
 export default meta
 type Story = StoryObj<typeof meta>
 
-const box = `background: ${v('color-surface-subtle')}; border-radius: ${v('radius-1')}; border: ${v('border-width')} solid ${v('color-border')};`
+const box = `background: ${v('color-surface-muted')}; border-radius: ${v('radius-sm')}; border: ${v('border-width')} solid ${v('color-border')};`
 
 const chipStyle = `padding: ${v('space-2')} ${v('space-3')}; ${box} white-space: nowrap;`
 
 const chip = (label: string) => `<span style="${chipStyle}">${label}</span>`
 
-const guide = `outline: ${v('border-width')} dashed ${v('color-divider')};`
+const guide = `outline: ${v('border-width')} dashed ${v('color-border-muted')};`
 
 const steps = tokensOf('space').map((token) => token.name.slice(`${tokenPrefix}space-`.length))
 
@@ -144,7 +144,7 @@ export const Container: Story = {
       <div style="${guide}">
         <div class="v-container">
           <div style="padding: ${v('space-4')}; ${box}">
-            Content is centered and capped at ${tokens.container.inline}.
+            Content is centered and capped at ${tokens.container.maxInline}.
           </div>
         </div>
       </div>

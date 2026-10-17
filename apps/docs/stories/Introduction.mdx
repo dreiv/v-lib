@@ -1,0 +1,78 @@
+import { Meta, Story } from '@storybook/addon-docs/blocks'
+import * as IntroductionStories from './Introduction.stories'
+
+<Meta of={IntroductionStories} />
+
+# v
+
+A Vue 3 component library built to WCAG 2.2. The components are accessible by default: visible
+focus, large click targets, text that stays readable in light mode, dark mode, forced colors, and
+under the user's own accent color, and motion that stops when the user asks for less of it.
+
+<Story of={IntroductionStories.Sampler} />
+
+## Principles
+
+- **Use what the system already provides.** Text is set in the user's system fonts. Page and text
+  colors are the system `Canvas` and `CanvasText`, and the accent is the operating system accent.
+  The library adapts to the person instead of asking them to adapt to it.
+- **Name things by role.** Tokens say what a value is for, such as `--v-color-text-danger` or
+  `--v-color-surface-raised`, never what it looks like.
+- **Prove the contrast.** Color pairs are resolved and measured against WCAG 2.2 thresholds in the
+  token tests, in light mode and in dark mode, with a spread of system accents.
+- **Respect preferences.** Sizes are in `rem`, so they follow the browser font size. Durations are
+  tokens, so reduced motion reaches every animation. The focus indicator follows forced-colors modes.
+- **Target current browsers.** The latest Chrome, Edge, Firefox, and Safari. There are no
+  fallbacks for older ones, which keeps the CSS small and modern.
+
+## Packages
+
+<Story of={IntroductionStories.Packages} />
+
+## Getting started
+
+Load the styles once, near the root of the app, then import components one at a time from their
+own entry point.
+
+```ts
+import '@v/design-system/styles'
+import { VButton } from '@v/design-system/button'
+```
+
+```vue
+<template>
+  <VButton variant="primary">Save</VButton>
+</template>
+```
+
+The styles are organized in cascade layers, in this order: `v.reset`, `v.tokens`, `v.base`,
+`v.components`, `v.utilities`. Your own unlayered CSS always wins over the library, so overriding a
+component never needs a specificity fight.
+
+## Foundations
+
+The tokens are documented with live examples, each shown in light and dark.
+
+- [Color](?path=/docs/foundations-color--docs): roles, status colors, contrast checks, and the accent picker.
+- [Typography](?path=/docs/foundations-typography--docs): families, weights, the size scale, and line heights.
+- [Spacing and shape](?path=/docs/foundations-spacing-and-shape--docs): the space scale, radii, borders, and control sizes.
+- [Elevation and layers](?path=/docs/foundations-elevation-and-layers--docs): shadows and the stacking scale.
+- [Focus](?path=/docs/foundations-focus--docs): the focus indicator and the rules for components.
+- [Motion and states](?path=/docs/foundations-motion-and-states--docs): durations, reduced motion, hover, disabled, and pressed.
+- [Layout utilities](?path=/docs/foundations-layout-utilities--docs): the `v-stack`, `v-inline`, and `v-gap-*` classes.
+
+## Components
+
+**Actions.** [VButton](?path=/docs/actions-vbutton--docs), [VLink](?path=/docs/actions-vlink--docs)
+
+**Forms.** [VTextField](?path=/docs/forms-vtextfield--docs), [VTextArea](?path=/docs/forms-vtextarea--docs), [VNumberField](?path=/docs/forms-vnumberfield--docs), [VCheckbox](?path=/docs/forms-vcheckbox--docs), [VRadioGroup](?path=/docs/forms-vradiogroup--docs), [VSelect](?path=/docs/forms-vselect--docs), [VCombobox](?path=/docs/forms-vcombobox--docs), [VAutocomplete](?path=/docs/forms-vautocomplete--docs), [VErrorSummary](?path=/docs/forms-verrorsummary--docs)
+
+**Feedback.** [VAlert](?path=/docs/feedback-valert--docs), [VBadge](?path=/docs/feedback-vbadge--docs), [VTag](?path=/docs/feedback-vtag--docs), [VToast](?path=/docs/feedback-vtoast--docs), [VSpinner](?path=/docs/feedback-vspinner--docs), [VLoadingRegion](?path=/docs/feedback-vloadingregion--docs)
+
+**Overlays.** [VDialog](?path=/docs/overlays-vdialog--docs), [VMenu](?path=/docs/overlays-vmenu--docs), [VPopover](?path=/docs/overlays-vpopover--docs), [VTooltip](?path=/docs/overlays-vtooltip--docs)
+
+## Using these docs
+
+Component pages show the variants and states of each component, with controls to try the props.
+Use the Accessibility panel to run axe against any story, and switch your system between light and
+dark to check the live components. The token examples already show both schemes side by side.

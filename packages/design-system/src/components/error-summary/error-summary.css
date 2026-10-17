@@ -1,9 +1,9 @@
 @layer v.components {
   .v-error-summary {
     padding: var(--v-space-4);
-    border: var(--v-border-width) solid var(--v-color-danger);
+    border: var(--v-border-width) solid var(--v-color-text-danger);
     border-inline-start-width: var(--v-space-1);
-    border-radius: var(--v-radius-2);
+    border-radius: var(--v-radius-md);
   }
 
   .v-error-summary__heading {
@@ -22,7 +22,7 @@
   }
 
   .v-error-summary__link {
-    color: var(--v-color-danger);
+    color: var(--v-color-text-danger);
     text-decoration: underline;
   }
 

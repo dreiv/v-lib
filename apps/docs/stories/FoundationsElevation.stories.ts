@@ -27,14 +27,19 @@ export const Elevation: Story = {
   render: () => ({
     components: { SchemePanels },
     setup() {
-      const all = tokensOf('elevation')
+      const all = tokensOf('shadow')
       const color = all.find((token) => token.name.endsWith('-color'))
       return {
         v,
         ui,
+        prefix: tokenPrefix,
         levels: all
           .filter((token) => token !== color)
-          .map((token) => ({ ...token, note: describeShadow(token.value) })),
+          .map((token) => ({
+            ...token,
+            note: describeShadow(token.value),
+            surface: `color-surface-${token.name.slice(`${tokenPrefix}shadow-`.length)}`,
+          })),
         shadowColor: color ? describeColor(color.value) : '',
       }
     },
@@ -49,11 +54,11 @@ export const Elevation: Story = {
                 :style="{
                   marginBlockStart: v('space-3'),
                   padding: v('space-4'),
-                  background: v('color-surface'),
-                  borderRadius: v('radius-2'),
+                  background: v(level.surface),
+                  borderRadius: v('radius-md'),
                   boxShadow: 'var(' + level.name + ')',
                 }"
-              >Raised surface</div>
+              >{{ prefix + level.surface }}</div>
             </div>
           </div>
         </SchemePanels>

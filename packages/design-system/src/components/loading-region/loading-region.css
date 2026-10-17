@@ -4,7 +4,7 @@
   }
 
   .v-loading-region[aria-busy='true'] > .v-loading-region__content {
-    opacity: var(--v-opacity-disabled);
+    opacity: var(--v-state-disabled-opacity);
   }
 
   .v-loading-region__mark {

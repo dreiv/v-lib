@@ -9,8 +9,8 @@ export const px = (rem: string) => `${Math.round(parseFloat(rem) * 16)}px`
 
 export const percent = (value: string) => `${Math.round(Number(value) * 100)}%`
 
-export const overlay = (foreground: string, mix: string, base: string) =>
-  `color-mix(in oklab, ${v(`color-${foreground}`)} ${Math.round(Number(mix) * 100)}%, ${v(`color-${base}`)})`
+export const hovered = (foreground: string, base: string) =>
+  `color-mix(in oklab, ${v(`color-${foreground}`)} ${v('state-hover')}, ${v(`color-${base}`)})`
 
 export function tokensOf(...path: string[]): Token[] {
   const group = path.reduce<TokenGroup>(
@@ -60,7 +60,7 @@ export const accents = [
   { name: 'Graphite', value: '#8c8c8c' },
 ]
 
-const accentName = `${tokenPrefix}color-accent`
+const accentName = `${tokenPrefix}color-surface-accent`
 
 const accentDependents = (() => {
   const all = flatten(tokens as TokenGroup)
@@ -111,11 +111,11 @@ export const SchemePanels = defineComponent({
       colorScheme: scheme,
       background: v('color-surface'),
       color: v('color-text'),
-      border: `${v('border-width')} solid ${v('color-divider')}`,
-      borderRadius: v('radius-2'),
+      border: `${v('border-width')} solid ${v('color-border-muted')}`,
+      borderRadius: v('radius-md'),
       padding: v('space-4'),
       minInlineSize: '0',
-      font: `${v('font-weight-regular')} ${v('font-size-sm')}/${v('line-height-base')} ${v('font-sans')}`,
+      font: `${v('font-weight-regular')} ${v('font-size-sm')}/${v('line-height-normal')} ${v('font-sans')}`,
       ...overrides(),
     })
     const label = {
@@ -167,15 +167,15 @@ export const ui = {
     colorScheme: scheme,
     background: v('color-surface'),
     color: v('color-text'),
-    border: `${v('border-width')} solid ${v('color-divider')}`,
-    borderRadius: v('radius-1'),
+    border: `${v('border-width')} solid ${v('color-border-muted')}`,
+    borderRadius: v('radius-sm'),
     padding: v('space-3'),
     display: 'flex',
     alignItems: 'center',
     gap: v('space-3'),
     minBlockSize: '3.5rem',
     minInlineSize: '0',
-    font: `${v('font-weight-regular')} ${v('font-size-md')}/${v('line-height-base')} ${v('font-sans')}`,
+    font: `${v('font-weight-regular')} ${v('font-size-md')}/${v('line-height-normal')} ${v('font-sans')}`,
   }),
   chip: (fill: string) => ({
     flex: 'none',
@@ -183,7 +183,7 @@ export const ui = {
     blockSize: '2.5rem',
     background: fill,
     border: `${v('border-width')} solid ${v('color-border')}`,
-    borderRadius: v('radius-1'),
+    borderRadius: v('radius-sm'),
   }),
 }
 

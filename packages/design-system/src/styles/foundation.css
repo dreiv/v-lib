@@ -10,7 +10,7 @@
   :where(html) {
     font-family: var(--v-font-sans);
     font-size: var(--v-font-size-md);
-    line-height: var(--v-line-height-base);
+    line-height: var(--v-line-height-normal);
     color: var(--v-color-text);
     background: var(--v-color-surface);
     text-size-adjust: 100%;

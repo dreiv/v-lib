@@ -55,7 +55,7 @@
 - 1.3.1 Info and Relationships, 3.3.2 Labels or Instructions: native label association.
 - 3.3.1 Error Identification: the error is text, referenced by `aria-describedby`, with `aria-invalid`.
 - 4.1.3 Status Messages: error text has `role="alert"` so a newly-appearing error is announced without requiring a focus change.
-- 1.4.3 Contrast (Minimum), 1.4.11 Non-text Contrast: the radio's border and fill now come directly from `--v-color-border` and `--v-color-accent-ink` (via `appearance: none` + custom styling), the same tokens the contrast test suite checks, rather than being left to the browser's unchecked-state default. In `forced-colors` mode the custom styling is dropped (`appearance: auto`) and the control reverts to the OS-rendered radio.
+- 1.4.3 Contrast (Minimum), 1.4.11 Non-text Contrast: the radio's border and fill now come directly from `--v-color-border` and `--v-color-text-accent` (via `appearance: none` + custom styling), the same tokens the contrast test suite checks, rather than being left to the browser's unchecked-state default. In `forced-colors` mode the custom styling is dropped (`appearance: auto`) and the control reverts to the OS-rendered radio.
 - 2.4.7 Focus Visible, 2.4.11 Focus Not Obscured (Minimum): focus ring on the option row via `:has(:focus-visible)`.
 - 2.5.8 Target Size (Minimum): 44px medium control height, full-width label as the actual hit target (the visible 20px circle is smaller, but the clickable area is not).
 
@@ -68,7 +68,7 @@
 
 - [ ] `role="radiogroup"` on a `fieldset` behaves the same as a plain fieldset in NVDA, JAWS and VoiceOver.
 - [ ] Arrow-key behavior with a null model and with a preselected option.
-- [ ] Forced colors: selected and unselected radios are distinguishable, and the row-level focus ring is still visible (it relies on `--v-color-focus`, which resolves to system colors but has not been checked in this mode).
+- [ ] Forced colors: selected and unselected radios are distinguishable, and the row-level focus ring is still visible (it relies on `--v-focus-color`, which resolves to system colors but has not been checked in this mode).
 - [ ] 200% zoom and 400% reflow with long legends and option labels.
 - [ ] Screen readers announce label, required, description, invalid state and error on focus.
 - [x] An error that appears while the control is focused is announced — fixed via `role="alert"`; still worth a manual pass per AT/browser combo since `role="alert"` support has known quirks (e.g. some VoiceOver/Safari versions).

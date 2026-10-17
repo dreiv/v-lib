@@ -1,7 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/vue3-vite'
 import { ref } from 'vue'
-import { tokenPrefix, tokens } from '@v/design-tokens'
-import { SchemePanels, accents, overlay, schemes, tokensOf, ui, v } from './foundations-shared.ts'
+import { VAlert } from '@v/design-system/alert'
+import { tokenPrefix } from '@v/design-tokens'
+import { SchemePanels, accents, hovered, schemes, tokensOf, ui, v } from './foundations-shared.ts'
 
 const meta = { title: 'Foundations/Color' } satisfies Meta
 
@@ -20,7 +21,16 @@ const groups: { title: string; roles: Role[] }[] = [
     title: 'Surfaces',
     roles: [
       { name: 'surface', note: 'Default background. Follows the system canvas color.' },
-      { name: 'surface-subtle', note: 'A quiet step away from the page, for grouped regions.' },
+      { name: 'surface-muted', note: 'A quiet step away from the page, for grouped regions.' },
+      {
+        name: 'surface-raised',
+        note: 'Cards and other raised elements. The same as surface in light mode, a step lighter in dark mode.',
+      },
+      {
+        name: 'surface-overlay',
+        note: 'Menus, popovers, and dialogs. The same as surface in light mode, a little lighter again than raised in dark mode.',
+      },
+      { name: 'surface-scrim', note: 'Dims the page behind modal content.' },
     ],
   },
   {
@@ -35,7 +45,7 @@ const groups: { title: string; roles: Role[] }[] = [
     roles: [
       { name: 'border', note: 'Outline of controls. Tested at 3:1 against surface.' },
       {
-        name: 'divider',
+        name: 'border-muted',
         note: 'Hairline separators between regions. Not covered by the contrast tests, so use it for decoration only.',
       },
     ],
@@ -44,42 +54,37 @@ const groups: { title: string; roles: Role[] }[] = [
     title: 'Accent',
     roles: [
       {
-        name: 'accent',
-        note: 'The operating system accent color. It differs per user, so use accent-ink for text and focus.',
+        name: 'surface-accent',
+        note: 'The operating system accent color. It differs per user, so use text-accent for text and focus.',
       },
       {
-        name: 'accent-text',
+        name: 'text-on-accent',
         note: 'Text on an accent fill. Chosen by the operating system, so the token tests do not cover this pairing.',
-        on: 'accent',
+        on: 'surface-accent',
       },
       {
-        name: 'accent-ink',
+        name: 'text-accent',
         note: 'The accent, darkened in light mode and lightened in dark mode until it can carry text. Tested at 4.5:1.',
         text: true,
       },
     ],
   },
   {
-    title: 'Status',
+    title: 'Status text and icons',
     roles: [
-      { name: 'info', note: 'Informational text and icons.', text: true },
-      { name: 'success', note: 'Success text and icons.', text: true },
-      { name: 'warning', note: 'Warning text and icons.', text: true },
-      { name: 'danger', note: 'Error and destructive text and icons.', text: true },
-      { name: 'info-surface', note: 'Tinted background for info messages.' },
-      { name: 'success-surface', note: 'Tinted background for success messages.' },
-      { name: 'warning-surface', note: 'Tinted background for warning messages.' },
-      { name: 'danger-surface', note: 'Tinted background for error messages.' },
+      { name: 'text-info', note: 'Informational text and icons.', text: true },
+      { name: 'text-success', note: 'Success text and icons.', text: true },
+      { name: 'text-warning', note: 'Warning text and icons.', text: true },
+      { name: 'text-danger', note: 'Error and destructive text and icons.', text: true },
     ],
   },
   {
-    title: 'Overlay and focus',
+    title: 'Status surfaces',
     roles: [
-      {
-        name: 'focus',
-        note: 'Focus indicator. Same value as accent-ink. Tested at 3:1 against surface.',
-      },
-      { name: 'scrim', note: 'Dims the page behind modal content.' },
+      { name: 'surface-info', note: 'Tinted background for info messages.' },
+      { name: 'surface-success', note: 'Tinted background for success messages.' },
+      { name: 'surface-warning', note: 'Tinted background for warning messages.' },
+      { name: 'surface-danger', note: 'Tinted background for error messages.' },
     ],
   },
 ]
@@ -151,7 +156,7 @@ export const Roles: Story = {
 export const Status: Story = {
   tags: ['!dev'],
   render: () => ({
-    components: { SchemePanels },
+    components: { SchemePanels, VAlert },
     setup: () => ({
       v,
       tones: [
@@ -163,24 +168,14 @@ export const Status: Story = {
           body: 'Free up space before it runs out.',
         },
         { tone: 'danger', title: 'Payment failed', body: 'Update your payment method to retry.' },
-      ],
+      ] as const,
     }),
     template: `
       <SchemePanels>
         <div :style="{ display: 'grid', gap: v('space-3') }">
-          <div
-            v-for="item in tones"
-            :key="item.tone"
-            :style="{
-              background: v('color-' + item.tone + '-surface'),
-              border: v('border-width') + ' solid ' + v('color-' + item.tone),
-              borderRadius: v('radius-1'),
-              padding: v('space-3'),
-            }"
-          >
-            <p :style="{ margin: 0, color: v('color-' + item.tone), fontWeight: v('font-weight-bold') }">{{ item.title }}</p>
-            <p :style="{ margin: 0, color: v('color-text-muted') }">{{ item.body }}</p>
-          </div>
+          <VAlert v-for="item in tones" :key="item.tone" :tone="item.tone" :title="item.title" show-icon>
+            {{ item.body }}
+          </VAlert>
         </div>
       </SchemePanels>
     `,
@@ -189,31 +184,31 @@ export const Status: Story = {
 
 const textMin = 4.5
 const nonTextMin = 3
-const stateMix = overlay('text', tokens.state.mix, 'surface')
+const stateHover = hovered('text', 'surface')
 
 const pairs = [
   ['text', 'surface', textMin],
-  ['text', 'surface-subtle', textMin],
-  ['text', 'state-mix', textMin],
+  ['text', 'surface-muted', textMin],
+  ['text', 'state-hover', textMin],
   ['text-muted', 'surface', textMin],
-  ['text-muted', 'surface-subtle', textMin],
-  ['text-muted', 'info-surface', textMin],
-  ['text-muted', 'success-surface', textMin],
-  ['text-muted', 'warning-surface', textMin],
-  ['text-muted', 'danger-surface', textMin],
+  ['text-muted', 'surface-muted', textMin],
+  ['text-muted', 'surface-info', textMin],
+  ['text-muted', 'surface-success', textMin],
+  ['text-muted', 'surface-warning', textMin],
+  ['text-muted', 'surface-danger', textMin],
   ['border', 'surface', nonTextMin],
-  ['danger', 'surface', textMin],
-  ['danger', 'surface-subtle', textMin],
-  ['danger', 'danger-surface', textMin],
-  ['success', 'surface', textMin],
-  ['success', 'surface-subtle', textMin],
-  ['success', 'success-surface', textMin],
-  ['warning', 'surface', textMin],
-  ['warning', 'surface-subtle', textMin],
-  ['warning', 'warning-surface', textMin],
-  ['info', 'surface', textMin],
-  ['info', 'surface-subtle', textMin],
-  ['info', 'info-surface', textMin],
+  ['text-danger', 'surface', textMin],
+  ['text-danger', 'surface-muted', textMin],
+  ['text-danger', 'surface-danger', textMin],
+  ['text-success', 'surface', textMin],
+  ['text-success', 'surface-muted', textMin],
+  ['text-success', 'surface-success', textMin],
+  ['text-warning', 'surface', textMin],
+  ['text-warning', 'surface-muted', textMin],
+  ['text-warning', 'surface-warning', textMin],
+  ['text-info', 'surface', textMin],
+  ['text-info', 'surface-muted', textMin],
+  ['text-info', 'surface-info', textMin],
 ] as const
 
 export const ContrastPairs: Story = {
@@ -229,7 +224,7 @@ export const ContrastPairs: Story = {
         bg,
         min,
         key: `${fg}-${bg}`,
-        background: bg === 'state-mix' ? stateMix : v(`color-${bg}`),
+        background: bg === 'state-hover' ? stateHover : v(`color-${bg}`),
       })),
     }),
     template: `
@@ -247,7 +242,7 @@ export const ContrastPairs: Story = {
               v-if="row.min === 3"
               role="img"
               :aria-label="row.fg + ' border on ' + row.bg + ', ' + scheme"
-              :style="{ inlineSize: '100%', blockSize: '1.5rem', border: '2px solid ' + v('color-' + row.fg), borderRadius: v('radius-1') }"
+              :style="{ inlineSize: '100%', blockSize: '1.5rem', border: '2px solid ' + v('color-' + row.fg), borderRadius: v('radius-sm') }"
             />
             <span v-else :style="{ color: v('color-' + row.fg), fontWeight: 700 }">Aa Sample text</span>
           </div>
@@ -273,16 +268,16 @@ export const AccentColors: Story = {
         <SchemePanels :accent="accent">
           <div :style="{ display: 'grid', gap: v('space-3'), justifyItems: 'start' }">
             <div :style="{ display: 'flex', alignItems: 'center', gap: v('space-3') }">
-              <span :style="ui.chip(v('color-accent'))" />
-              <code :style="ui.code">accent</code>
+              <span :style="ui.chip(v('color-surface-accent'))" />
+              <code :style="ui.code">surface-accent</code>
             </div>
-            <p :style="{ margin: 0, color: v('color-accent-ink'), fontWeight: v('font-weight-bold') }">
-              Accent ink: readable text in the accent hue
+            <p :style="{ margin: 0, color: v('color-text-accent'), fontWeight: v('font-weight-bold') }">
+              Accent text: readable text in the accent hue
             </p>
             <span
               :style="{
                 padding: v('space-2') + ' ' + v('space-3'),
-                borderRadius: v('radius-1'),
+                borderRadius: v('radius-sm'),
                 outline: v('focus-ring'),
                 outlineOffset: v('focus-offset'),
               }"

@@ -8,8 +8,9 @@ import * as MotionStories from './FoundationsMotion.stories'
 ## Durations and easing
 
 Two durations and one easing curve are defined: `--v-duration-fast` for immediate feedback and
-`--v-duration-base` for state changes. Always take a duration from these tokens instead of writing
-a time yourself: the reduced-motion overrides below only reach animations that read the tokens.
+`--v-duration-normal` for state changes, with `--v-easing-out` as the curve. Always take a duration
+from these tokens instead of writing a time yourself: the reduced-motion overrides below only
+reach animations that read the tokens.
 
 <Story of={MotionStories.Durations} />
 
@@ -23,11 +24,12 @@ component.
 
 ## Interaction states
 
-Hover and press are not new colors. They are a small share of the text color laid over whatever
-surface the control sits on, so they work in light mode, dark mode, and under any accent. The
+Hover is not a new color. `--v-state-hover` is a small share of the text color laid over whatever
+surface the control sits on, so it works in light mode, dark mode, and under any accent. The
 text on a hovered surface is tested at 4.5:1, and that includes the hover overlay.
 
-Disabled controls fade as a whole. WCAG exempts inactive controls from the contrast minimums
+Disabled controls fade as a whole with `--v-state-disabled-opacity`, and pressed controls shrink
+slightly with `--v-state-press-scale`. WCAG exempts inactive controls from the contrast minimums
 ([1.4.3](https://www.w3.org/TR/WCAG22/#contrast-minimum)), but make sure a disabled control is
 still recognizable as a control.
 

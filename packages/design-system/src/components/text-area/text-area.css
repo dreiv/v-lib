@@ -2,7 +2,7 @@
   .v-text-area {
     display: block;
     field-sizing: content;
-    min-block-size: calc(var(--v-control-height-medium) * 2);
+    min-block-size: calc(var(--v-control-height-md) * 2);
     max-block-size: 60vh;
     padding: var(--v-space-2) var(--v-space-3);
     resize: vertical;

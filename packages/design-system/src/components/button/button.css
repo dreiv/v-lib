@@ -6,10 +6,10 @@
 
 @layer v.components {
   .v-button {
-    --_h: var(--v-control-height-medium);
+    --_h: var(--v-control-height-md);
     --_gain: 1;
 
-    --_bg: var(--v-color-surface-subtle);
+    --_bg: var(--v-color-surface-muted);
     --_bd: var(--v-color-border);
     --_fg: contrast-color(var(--_bg));
 
@@ -31,7 +31,7 @@
 
     background: none;
     border: 0;
-    border-radius: var(--v-radius-2);
+    border-radius: var(--v-radius-md);
 
     cursor: pointer;
     user-select: none;
@@ -57,11 +57,11 @@
       border-radius: inherit;
 
       pointer-events: none;
-      transition: --_button-mix var(--v-duration-fast) var(--v-easing-standard);
+      transition: --_button-mix var(--v-duration-fast) var(--v-easing-out);
     }
 
     &::after {
-      inset: min(0px, calc((100% - var(--v-control-height-medium)) / 2));
+      inset: min(0px, calc((100% - var(--v-control-height-md)) / 2));
     }
 
     & > .v-button__label {
@@ -81,14 +81,14 @@
       inset: 0;
 
       margin: auto;
-      inline-size: var(--v-control-indicator);
-      block-size: var(--v-control-indicator);
+      inline-size: var(--v-control-indicator-size);
+      block-size: var(--v-control-indicator-size);
 
       pointer-events: none;
     }
 
     &[data-size='small'] {
-      --_h: var(--v-control-height-small);
+      --_h: var(--v-control-height-sm);
 
       padding-block: var(--v-space-1);
       padding-inline: var(--v-space-3);
@@ -97,7 +97,7 @@
     }
 
     &[data-size='large'] {
-      --_h: var(--v-control-height-large);
+      --_h: var(--v-control-height-lg);
 
       padding-inline: var(--v-space-6);
 
@@ -120,35 +120,35 @@
     }
 
     &[data-variant='primary'] {
-      --_bg: var(--v-color-accent);
+      --_bg: var(--v-color-surface-accent);
     }
 
     &[data-variant='danger'] {
-      --_bg: var(--v-color-danger);
+      --_bg: var(--v-color-text-danger);
     }
 
     &[data-variant='quiet'] {
       --_gain: 2;
 
       --_bg: transparent;
-      --_fg: var(--v-color-accent-ink);
+      --_fg: var(--v-color-text-accent);
     }
 
     &:not(:disabled, [aria-disabled='true']) {
       @media (hover: hover) {
         &:hover::before {
-          --_button-mix: var(--v-state-mix);
+          --_button-mix: var(--v-state-hover);
         }
       }
 
       &:active::before {
-        --_button-mix: var(--v-state-mix);
+        --_button-mix: var(--v-state-hover);
       }
     }
 
     &[aria-pressed='true'] {
       &::before {
-        --_button-mix: var(--v-state-mix);
+        --_button-mix: var(--v-state-hover);
 
         outline: 2px solid currentColor;
         outline-offset: -5px;
@@ -157,12 +157,12 @@
       &:not(:disabled, [aria-disabled='true']) {
         @media (hover: hover) {
           &:hover::before {
-            --_button-mix: calc(var(--v-state-mix) * 2);
+            --_button-mix: calc(var(--v-state-hover) * 2);
           }
         }
 
         &:active::before {
-          --_button-mix: calc(var(--v-state-mix) * 2);
+          --_button-mix: calc(var(--v-state-hover) * 2);
         }
       }
     }
@@ -174,7 +174,7 @@
 
     &:disabled,
     &[aria-disabled='true']:not([aria-busy='true']) {
-      opacity: var(--v-opacity-disabled);
+      opacity: var(--v-state-disabled-opacity);
     }
 
     &:disabled,
@@ -193,11 +193,11 @@
     @media (prefers-reduced-motion: no-preference) {
       &::before {
         transition-property: --_button-mix, scale;
-        transition-duration: var(--v-duration-fast), var(--v-duration-base);
+        transition-duration: var(--v-duration-fast), var(--v-duration-normal);
       }
 
       &:not(:disabled, [aria-disabled='true']):active::before {
-        scale: var(--v-scale-press);
+        scale: var(--v-state-press-scale);
         transition-duration: var(--v-duration-fast);
       }
     }

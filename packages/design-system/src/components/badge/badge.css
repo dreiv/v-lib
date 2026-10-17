@@ -4,8 +4,8 @@
     min-block-size: var(--v-control-height-xs);
     padding-inline: var(--v-space-2);
     border: var(--v-border-width) solid var(--v-color-border);
-    border-radius: var(--v-radius-1);
-    background: var(--v-color-surface-subtle);
+    border-radius: var(--v-radius-sm);
+    background: var(--v-color-surface-muted);
     color: var(--v-color-text);
     font-size: var(--v-font-size-sm);
     line-height: var(--v-line-height-tight);
@@ -13,27 +13,27 @@
   }
 
   .v-badge[data-tone='info'] {
-    background: var(--v-color-info-surface);
-    color: var(--v-color-info);
-    border-color: var(--v-color-info);
+    background: var(--v-color-surface-info);
+    color: var(--v-color-text-info);
+    border-color: var(--v-color-text-info);
   }
 
   .v-badge[data-tone='success'] {
-    background: var(--v-color-success-surface);
-    color: var(--v-color-success);
-    border-color: var(--v-color-success);
+    background: var(--v-color-surface-success);
+    color: var(--v-color-text-success);
+    border-color: var(--v-color-text-success);
   }
 
   .v-badge[data-tone='warning'] {
-    background: var(--v-color-warning-surface);
-    color: var(--v-color-warning);
-    border-color: var(--v-color-warning);
+    background: var(--v-color-surface-warning);
+    color: var(--v-color-text-warning);
+    border-color: var(--v-color-text-warning);
   }
 
   .v-badge[data-tone='danger'] {
-    background: var(--v-color-danger-surface);
-    color: var(--v-color-danger);
-    border-color: var(--v-color-danger);
+    background: var(--v-color-surface-danger);
+    color: var(--v-color-text-danger);
+    border-color: var(--v-color-text-danger);
   }
 
   @media (forced-colors: active) {

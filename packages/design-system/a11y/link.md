@@ -95,13 +95,13 @@
 - External handling only for `target="_blank"`; no same-origin detection.
 - No block variant with a minimum target size, no disabled state, no `:visited` styling.
 - `aria-current` only for the exact route, not ancestors.
-- Accent ink is `light-dark(oklch(from <mix> min(l, 0.48) c h), oklch(from <mix> max(l, 0.66) c h))`, with `<mix>` = `color-mix(in oklab, var(--v-color-accent) 60%, CanvasText)`. It held 4.5:1 on the surface, subtle surface, hover and info tint for 3367 swept accents in light and dark. Only extreme accents are changed.
+- Accent ink is `light-dark(oklch(from <mix> min(l, 0.48) c h), oklch(from <mix> max(l, 0.66) c h))`, with `<mix>` = `color-mix(in oklab, var(--v-color-surface-accent) 60%, CanvasText)`. It held 4.5:1 on the surface, subtle surface, hover and info tint for 3367 swept accents in light and dark. Only extreme accents are changed.
 - Set `color-scheme` in CSS (e.g. `html[data-theme='dark'] { color-scheme: dark }`) or follow `prefers-color-scheme`. Vite 8's Lightning CSS rewrites `light-dark()` into toggles driven only by CSS `color-scheme`, so setting `style.colorScheme` from script leaves light values in dark mode. Script-driven consumers should set `build.cssTarget` / Lightning CSS targets to browsers with native `light-dark()`.
 - No Storybook example of the routed case (no vue-router in apps/docs).
 
 ## Verification date
 
-2026-10-14: automated tests plus Chromium 141 (headless) for wrapping, long URLs, 320px reflow, focus ring, forced-colors emulation and route clicks. Chromium 141 lacks `AccentColor`, so `--v-color-accent` was set explicitly. Not done: Firefox, Safari, real Windows High Contrast, screen readers.
+2026-10-14: automated tests plus Chromium 141 (headless) for wrapping, long URLs, 320px reflow, focus ring, forced-colors emulation and route clicks. Chromium 141 lacks `AccentColor`, so `--v-color-surface-accent` was set explicitly. Not done: Firefox, Safari, real Windows High Contrast, screen readers.
 
 ## Verified versions
 

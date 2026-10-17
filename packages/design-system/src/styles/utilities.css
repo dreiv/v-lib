@@ -92,7 +92,7 @@
   }
 
   .v-container {
-    inline-size: min(100%, var(--v-container-inline));
+    inline-size: min(100%, var(--v-container-max-inline));
     margin-inline: auto;
     padding-inline: var(--v-space-4);
   }

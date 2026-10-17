@@ -18,27 +18,27 @@ The layout utilities expose the same eight steps as `v-gap-*` classes.
 
 ## Radius and border
 
-Two radii (`--v-radius-1`, `--v-radius-2`) and one border width (`--v-border-width`). Pair the
+Two radii (`--v-radius-sm`, `--v-radius-md`) and one border width (`--v-border-width`). Pair the
 border with `--v-color-border` for controls, which is tested at 3:1 against the surface.
 
 <Story of={SpacingStories.Shape} />
 
 ## Control sizes
 
-`--v-control-height-*` sets the block size of buttons and fields, and `--v-control-indicator` the
-size of check and radio indicators.
+`--v-control-height-*` sets the block size of buttons and fields, and `--v-control-indicator-size`
+the size of check and radio indicators.
 
-- `medium` is the default and is 2.75rem, which is 44px at the default root size. A test asserts
+- `md` is the default and is 2.75rem, which is 44px at the default root size. A test asserts
   this value, so it keeps matching the 44px target recommended by
   [2.5.5 Target Size (Enhanced)](https://www.w3.org/TR/WCAG22/#target-size-enhanced).
 - `xs` is 1.5rem, which is 24px at the default root size: exactly the minimum in
   [2.5.8 Target Size (Minimum)](https://www.w3.org/TR/WCAG22/#target-size-minimum). Use it only
   where the control cannot grow, and leave spacing around it.
-- `small` sits between `xs` and `medium`, and `large` is above `medium`.
+- `sm` sits between `xs` and `md`, and `lg` is above `md`.
 
 <Story of={SpacingStories.ControlHeights} />
 
 ## Container
 
-`--v-container-inline` is the maximum inline size for page content. The `v-container` utility
+`--v-container-max-inline` is the maximum inline size for page content. The `v-container` utility
 applies it. It is documented with the Layout Utilities.

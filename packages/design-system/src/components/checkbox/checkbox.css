@@ -5,11 +5,11 @@
 
   .v-checkbox__row {
     display: flex;
-    min-block-size: var(--v-control-height-medium);
+    min-block-size: var(--v-control-height-md);
     padding-inline: var(--v-space-2);
     margin-inline: calc(var(--v-space-2) * -1);
     cursor: pointer;
-    border-radius: var(--v-radius-2);
+    border-radius: var(--v-radius-md);
   }
 
   .v-checkbox__row:has(.v-checkbox__input:focus-visible) {
@@ -19,10 +19,10 @@
 
   .v-checkbox__input {
     flex: none;
-    inline-size: var(--v-control-indicator);
-    block-size: var(--v-control-indicator);
+    inline-size: var(--v-control-indicator-size);
+    block-size: var(--v-control-indicator-size);
     margin: 0;
-    accent-color: var(--v-color-accent);
+    accent-color: var(--v-color-surface-accent);
     cursor: inherit;
   }
 
@@ -32,11 +32,11 @@
 
   .v-checkbox .v-field__description,
   .v-checkbox .v-field__error {
-    margin-inline-start: calc(var(--v-control-indicator) + var(--v-space-3));
+    margin-inline-start: calc(var(--v-control-indicator-size) + var(--v-space-3));
   }
 
   .v-checkbox[data-disabled] .v-checkbox__row {
     cursor: not-allowed;
-    opacity: var(--v-opacity-disabled);
+    opacity: var(--v-state-disabled-opacity);
   }
 }

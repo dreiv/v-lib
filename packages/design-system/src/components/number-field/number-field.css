@@ -2,21 +2,21 @@
   .v-number-field {
     display: inline-flex;
     inline-size: 100%;
-    min-block-size: var(--v-control-height-medium);
+    min-block-size: var(--v-control-height-md);
 
     border: var(--v-border-width) solid var(--v-color-border);
-    border-radius: var(--v-radius-2);
+    border-radius: var(--v-radius-md);
 
     background: var(--v-color-surface);
 
-    transition: border-color var(--v-duration-fast) var(--v-easing-standard);
+    transition: border-color var(--v-duration-fast) var(--v-easing-out);
 
     &[data-invalid] {
-      border-color: var(--v-color-danger);
+      border-color: var(--v-color-text-danger);
     }
 
     &[data-disabled] {
-      opacity: var(--v-opacity-disabled);
+      opacity: var(--v-state-disabled-opacity);
     }
 
     &:has(.v-number-field__input:focus-visible) {
@@ -67,13 +67,13 @@
     border-radius: 0;
 
     &:first-child {
-      border-start-start-radius: calc(var(--v-radius-2) - var(--v-border-width));
-      border-end-start-radius: calc(var(--v-radius-2) - var(--v-border-width));
+      border-start-start-radius: calc(var(--v-radius-md) - var(--v-border-width));
+      border-end-start-radius: calc(var(--v-radius-md) - var(--v-border-width));
     }
 
     &:last-child {
-      border-start-end-radius: calc(var(--v-radius-2) - var(--v-border-width));
-      border-end-end-radius: calc(var(--v-radius-2) - var(--v-border-width));
+      border-start-end-radius: calc(var(--v-radius-md) - var(--v-border-width));
+      border-end-end-radius: calc(var(--v-radius-md) - var(--v-border-width));
     }
   }
 }
