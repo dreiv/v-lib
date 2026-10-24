@@ -36,7 +36,7 @@ Every folder under `packages/design-system/src/components` needs `packages/desig
 
 ## Icons
 
-An icon is one file, `packages/icons/src/<kebab-name>.ts`, exporting `VIcon<PascalName>`. A second name for the same drawing goes in `packages/icons/aliases.json` (`{ "<alias>": "<target>" }`), not in a copy of the file. After adding or removing an icon or alias run `vp run icons:generate`; tests fail when `index.ts` is out of sync or two files draw the same thing.
+An icon is one file, `packages/icons/src/<kebab-name>.ts`, exporting `VIcon<PascalName>`. After adding or removing an icon run `vp run icons:generate`; tests fail when `index.ts` is out of sync or two files draw the same thing.
 
 ## Text and translation
 
