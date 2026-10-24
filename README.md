@@ -18,8 +18,9 @@ Node 24.21 or newer (see `.node-version`).
 | `packages/design-system`      | `@v/design-system`. Components, one entry point each (`@v/design-system/button`), plus the styles. |
 | `packages/icons`              | `@v/icons`. Icon components. `src/index.ts` is generated, see below.                               |
 | `packages/design-system/a11y` | One accessibility record per component. A test fails when a component has no complete record.      |
-| `apps/docs`                   | Storybook: foundations, introduction, and the button page.                                                 |
-| `tools/scripts`               | Repository scripts (token and icon generation).            |
+| `apps/docs`                   | Storybook: foundations, introduction, and the button page.                                         |
+| `apps/playground`             | A hello-world app that uses the built package.                                                     |
+| `tools/scripts`               | Repository scripts (token and icon generation).                                                    |
 
 ## Scripts
 

@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vp run -F docs dev",
+    "dev:playground": "vp run -F playground dev",
     "build": "vp run -r build",
     "typecheck": "vp run -r typecheck",
     "tokens": "node tools/scripts/src/generate-tokens.ts",
