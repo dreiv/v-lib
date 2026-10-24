@@ -16,14 +16,24 @@ const config: StorybookConfig = {
       ? mergeConfig(viteConfig, {
           resolve: {
             alias: [
-              { find: /^@v\/design-tokens$/, replacement: packages('tokens/src/index.ts') },
-              { find: /^@v\/design-system$/, replacement: packages('design-system/src/index.ts') },
+              {
+                find: /^@v\/design-tokens$/,
+                replacement: packages('tokens/src/index.ts'),
+              },
+              {
+                find: /^@v\/design-system$/,
+                replacement: packages('design-system/src/index.ts'),
+              },
               {
                 find: /^@v\/design-system\/(button|spinner)$/,
                 replacement: `${packages('design-system/src/components')}/$1/index.ts`,
               },
               {
-                find: /^@v\/design-system\/(styles|utilities|tokens)$/,
+                find: /^@v\/design-system\/styles$/,
+                replacement: packages('design-system/src/styles/index.css'),
+              },
+              {
+                find: /^@v\/design-system\/(utilities|tokens)$/,
                 replacement: `${packages('design-system/src/styles')}/$1.css`,
               },
             ],
