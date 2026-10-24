@@ -1,6 +1,8 @@
 name: CI
 
 on:
+  push:
+    branches: [main]
   pull_request:
 
 permissions:
@@ -14,6 +16,7 @@ jobs:
   ready:
     name: ready
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v6
         with:

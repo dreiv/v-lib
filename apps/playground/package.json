@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "vp dev",
     "build": "vp build",
-    "preview": "vp preview"
+    "preview": "vp preview",
+    "typecheck": "vue-tsc --noEmit"
   },
   "dependencies": {
     "@v/design-system": "workspace:*",
@@ -16,6 +17,7 @@
     "@vitejs/plugin-vue": "catalog:",
     "typescript": "catalog:",
     "vite": "catalog:",
-    "vite-plus": "catalog:"
+    "vite-plus": "catalog:",
+    "vue-tsc": "catalog:"
   }
 }

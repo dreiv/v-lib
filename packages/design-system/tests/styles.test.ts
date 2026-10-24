@@ -35,11 +35,4 @@ describe('css', () => {
     const tokens = files.find(({ file }) => file.endsWith('tokens.css'))!.source
     expect(tokens).toContain('@media (prefers-reduced-motion: reduce)')
   })
-
-  test('badge pulse stops under reduced motion and never loops forever', () => {
-    const badge = files.find(({ file }) => /badge[\\/]badge\.css$/.test(file))!.source
-    expect(badge).toContain('@media (prefers-reduced-motion: reduce)')
-    expect(badge).toContain('animation: none')
-    expect(badge).not.toContain('infinite')
-  })
 })

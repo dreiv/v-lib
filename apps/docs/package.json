@@ -5,7 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "storybook dev -p 6006",
-    "build": "storybook build"
+    "build": "storybook build",
+    "typecheck": "vue-tsc --noEmit"
   },
   "dependencies": {
     "@v/design-system": "workspace:*",
@@ -17,10 +18,12 @@
     "@storybook/addon-a11y": "catalog:",
     "@storybook/addon-docs": "catalog:",
     "@storybook/vue3-vite": "catalog:",
+    "@types/node": "catalog:",
     "@vitejs/plugin-vue": "catalog:",
     "storybook": "catalog:",
     "typescript": "catalog:",
     "vite": "catalog:",
-    "vite-plus": "catalog:"
+    "vite-plus": "catalog:",
+    "vue-tsc": "catalog:"
   }
 }

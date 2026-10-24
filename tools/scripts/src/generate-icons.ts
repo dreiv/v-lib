@@ -1,19 +1,22 @@
 // Regenerates packages/icons/src/index.ts from the icon files in packages/icons/src and the
 // alias list in packages/icons/aliases.json. Never edit index.ts by hand.
 //
-//   vp run icons:generate            rewrite index.ts
-//   vp run icons:generate -- --check fail when index.ts is out of date (no write)
+//   vp run icons:generate   rewrite index.ts
+//   vp run icons:check      fail when index.ts is out of date (no write)
 //
 // An icon is one file, src/<kebab-name>.ts, exporting VIcon<PascalName>. A second name for the same
 // drawing (a renamed upstream icon, a synonym) is an entry in aliases.json, { "<alias>": "<target>" },
 // and has no file of its own. Two files with the same drawing are an error: alias one of them.
-import { readdirSync, readFileSync, writeFileSync } from 'node:fs'
+import { readdirSync, readFileSync } from 'node:fs'
 import { join } from 'node:path'
 import { fileURLToPath } from 'node:url'
+import { check, lf, sync } from './generated.ts'
 
 const icons = fileURLToPath(new URL('../../../packages/icons', import.meta.url))
 const src = join(icons, 'src')
-const check = process.argv.includes('--check')
+const support = new Set(['index.ts', 'svg.ts'])
+
+const read = (file: string) => lf(readFileSync(file, 'utf-8'))
 
 const pascal = (kebab: string) =>
   `VIcon${kebab
@@ -22,25 +25,22 @@ const pascal = (kebab: string) =>
     .join('')}`
 
 const files = readdirSync(src)
-  .filter((file) => file.endsWith('.ts') && file !== 'index.ts' && file !== 'svg.ts')
+  .filter((file) => file.endsWith('.ts') && !support.has(file))
   .map((file) => file.slice(0, -3))
   .sort()
 
-const aliases = JSON.parse(readFileSync(join(icons, 'aliases.json'), 'utf-8')) as Record<
-  string,
-  string
->
+const aliases = JSON.parse(read(join(icons, 'aliases.json'))) as Record<string, string>
 
 const errors: string[] = []
 const drawings = new Map<string, string>()
 
 for (const name of files) {
-  const source = readFileSync(join(src, `${name}.ts`), 'utf-8')
-  const declared = /export const (\w+) = \{\n  name: '(\w+)',/.exec(source)
+  const source = read(join(src, `${name}.ts`))
+  const declared = /export const (\w+) = \{\s*name: '(\w+)',/.exec(source)
   if (declared?.[1] !== pascal(name) || declared[2] !== pascal(name)) {
     errors.push(`${name}.ts must export a component named ${pascal(name)}`)
   }
-  const drawing = source.split('setup:')[1] ?? ''
+  const drawing = (source.split('setup:')[1] ?? '').trim()
   const twin = drawings.get(drawing)
   if (twin) errors.push(`${name}.ts draws the same icon as ${twin}.ts: make one an alias`)
   else drawings.set(drawing, name)
@@ -66,15 +66,6 @@ const lines = [
   .sort((a, b) => (a.name < b.name ? -1 : a.name > b.name ? 1 : 0))
   .map(({ line }) => line)
 
-const next = `${lines.join('\n')}\n`
-const target = join(src, 'index.ts')
+sync(join(src, 'index.ts'), `${lines.join('\n')}\n`, 'vp run icons:generate')
 
-if (check) {
-  if (readFileSync(target, 'utf-8') !== next) {
-    console.error('packages/icons/src/index.ts is out of date: run `vp run icons:generate`')
-    process.exit(1)
-  }
-} else {
-  writeFileSync(target, next)
-  process.stdout.write(`${files.length} icons, ${Object.keys(aliases).length} aliases\n`)
-}
+if (!check) process.stdout.write(`${files.length} icons, ${Object.keys(aliases).length} aliases\n`)

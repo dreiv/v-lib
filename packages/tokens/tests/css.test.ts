@@ -59,7 +59,7 @@ function usedTokens() {
 }
 
 describe('tokens.css', () => {
-  test('matches the generated output apart from formatting (run: vp run tokens)', () => {
+  test('matches the generated output apart from formatting (run: vp run tokens:generate)', () => {
     expect(normalize(read(`${styles}/styles/tokens.css`))).toBe(normalize(toCss()))
   })
 

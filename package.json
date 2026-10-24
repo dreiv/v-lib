@@ -8,8 +8,10 @@
     "dev:playground": "vp run -F playground dev",
     "build": "vp run -r build",
     "typecheck": "vp run -r typecheck",
-    "tokens": "node tools/scripts/src/generate-tokens.ts",
+    "tokens:generate": "node tools/scripts/src/generate-tokens.ts",
+    "tokens:check": "node tools/scripts/src/generate-tokens.ts --check",
     "icons:generate": "node tools/scripts/src/generate-icons.ts",
+    "icons:check": "node tools/scripts/src/generate-icons.ts --check",
     "ready": "vp run -r build && vp check && vp run typecheck && vp test",
     "prepare": "vp config"
   },

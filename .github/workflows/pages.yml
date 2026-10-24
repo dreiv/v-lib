@@ -9,6 +9,8 @@ on:
       - pnpm-lock.yaml
       - pnpm-workspace.yaml
       - package.json
+      - tsconfig.json
+      - vite.config.ts
       - vite.shared.ts
       - .node-version
       - .github/workflows/pages.yml

@@ -12,11 +12,7 @@ export default defineConfig({
   plugins: [vue({ script: { fs: vueFs } })],
   pack: {
     plugins: [vueRolldown({ script: { fs: vueFs } })],
-    entry: [
-      'src/index.ts',
-      'src/components/button/index.ts',
-      'src/components/spinner/index.ts',
-    ],
+    entry: ['src/index.ts', 'src/components/button/index.ts', 'src/components/spinner/index.ts'],
     format: ['esm'],
     dts: { vue: true },
     sourcemap: true,
