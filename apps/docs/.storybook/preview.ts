@@ -22,6 +22,7 @@ const preview: Preview = {
             'Focus',
             'Motion and states',
             'Layout Utilities',
+            'All tokens',
           ],
           'Actions',
           'Forms',

@@ -3,5 +3,5 @@
   "compilerOptions": {
     "types": ["node"]
   },
-  "include": [".storybook/**/*", "stories", "vite.config.ts", "src"]
+  "include": [".storybook/**/*", "stories", "tests", "vite.config.ts", "src"]
 }

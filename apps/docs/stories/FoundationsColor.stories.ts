@@ -2,7 +2,16 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite'
 import { ref } from 'vue'
 import { tokenPrefix } from '@v/design-tokens'
 import { VIconAlertTriangle, VIconCircleAlert, VIconCircleCheck, VIconInfo } from '@v/icons'
-import { SchemePanels, Tile, accents, hovered, source, tokensOf, v } from './foundations-shared.ts'
+import {
+  SchemePair,
+  SchemePanels,
+  Tile,
+  accents,
+  hovered,
+  source,
+  tokensOf,
+  v,
+} from './foundations-shared.ts'
 
 const meta = { title: 'Foundations/Color' } satisfies Meta
 
@@ -482,6 +491,107 @@ export const AccentColors: Story = {
             <span class="fd-focus-sample">Focus ring</span>
           </div>
         </SchemePanels>
+      </div>
+    `,
+  }),
+}
+
+const guidance = [
+  {
+    title: 'Never let color alone carry a message',
+    note: 'A red outline does not tell everyone the field is invalid. Add an icon and a message in words.',
+    dont: { kind: 'field-color-only', caption: 'Only the outline changes.' },
+    do: { kind: 'field-with-message', caption: 'Outline, icon, and message.' },
+  },
+  {
+    title: 'Use border for controls, border-muted for decoration',
+    note: 'border-muted has no contrast test. A control outline has to reach 3:1 so people can find the control.',
+    dont: { kind: 'field-muted', caption: 'A control outlined with border-muted.' },
+    do: { kind: 'field-border', caption: 'A control outlined with border.' },
+  },
+  {
+    title: 'Reach for a role, not a hue',
+    note: 'A hard-coded color does not adapt to dark mode, forced colors, or the user accent, and no test covers it.',
+    dont: { kind: 'code-hex', caption: 'Raw hex values.' },
+    do: { kind: 'code-token', caption: 'Role tokens.' },
+  },
+]
+
+const hexCode = 'color: #d93025;\nbackground: #fce8e6;'
+const tokenCode = 'color: var(--v-color-text-danger);\nbackground: var(--v-color-surface-danger);'
+
+const guidanceSource = `
+<!-- Do: outline, icon, and words together. -->
+<input aria-invalid="true" aria-describedby="email-error" />
+<p id="email-error" class="error"><VIconCircleAlert /> Enter a valid email address.</p>
+
+<style>
+input[aria-invalid='true'] {
+  border: var(--v-border-width) solid var(--v-color-border-danger);
+}
+
+.error {
+  color: var(--v-color-text-danger);
+}
+
+/* Do: border for controls. border-muted is for dividers only. */
+input {
+  border: var(--v-border-width) solid var(--v-color-border);
+}
+</style>
+`
+
+export const Guidance: Story = {
+  tags: ['!dev'],
+  parameters: source(guidanceSource),
+  render: () => ({
+    components: { SchemePair, VIconCircleAlert },
+    setup: () => ({
+      guidance: guidance.map((item) => ({
+        ...item,
+        sides: [
+          { verdict: 'dont', label: "Don't", mark: '✗', ...item.dont },
+          { verdict: 'do', label: 'Do', mark: '✓', ...item.do },
+        ],
+      })),
+      hexCode,
+      tokenCode,
+      v,
+    }),
+    template: `
+      <div class="fd-guidance">
+        <section v-for="item in guidance" :key="item.title" class="fd-guide">
+          <p class="fd-group">{{ item.title }}</p>
+          <p class="fd-note">{{ item.note }}</p>
+          <div class="fd-verdicts">
+            <figure
+              v-for="side in item.sides"
+              :key="side.verdict"
+              class="fd-verdict"
+            >
+              <SchemePair single>
+                <div class="fd-pad">
+                  <div v-if="side.kind === 'field-color-only'" class="fd-edge" :style="{ borderColor: v('color-border-danger') }">name@</div>
+                  <div v-else-if="side.kind === 'field-with-message'" class="fd-stack">
+                    <div class="fd-edge" :style="{ borderColor: v('color-border-danger'), inlineSize: '100%' }">name@</div>
+                    <p class="fd-hint">
+                      <VIconCircleAlert class="fd-status-icon" aria-hidden="true" />
+                      Enter a valid email address.
+                    </p>
+                  </div>
+                  <div v-else-if="side.kind === 'field-muted'" class="fd-edge" :style="{ borderColor: v('color-border-muted') }">Search</div>
+                  <div v-else-if="side.kind === 'field-border'" class="fd-edge" :style="{ borderColor: v('color-border') }">Search</div>
+                  <pre v-else-if="side.kind === 'code-hex'" class="fd-codeblock">{{ hexCode }}</pre>
+                  <pre v-else class="fd-codeblock">{{ tokenCode }}</pre>
+                </div>
+              </SchemePair>
+              <figcaption class="fd-verdict-caption">
+                <span class="fd-verdict-label" :data-verdict="side.verdict"><span aria-hidden="true">{{ side.mark }}</span> {{ side.label }}</span>
+                {{ side.caption }}
+              </figcaption>
+            </figure>
+          </div>
+        </section>
       </div>
     `,
   }),

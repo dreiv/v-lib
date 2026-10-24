@@ -1,0 +1,22 @@
+import { Meta, Canvas } from '@storybook/addon-docs/blocks'
+import * as TokenStories from './FoundationsTokens.stories'
+
+<Meta of={TokenStories} />
+
+# All tokens
+
+Every design token in one list, generated from `@v/design-tokens`, so it cannot drift from the
+code. Filter by name or value, or narrow to one page. Click a token name to copy it as
+`var(--v-…)`. The last column links to the page that explains the token with live examples.
+
+Values that use `light-dark()` resolve differently per scheme. The swatches in the third column
+show the light and dark result side by side for color tokens.
+
+<Canvas of={TokenStories.Reference} layout="padded" />
+
+## Keeping this in sync
+
+This list is generated, so a new token appears here the moment it exists. A test
+(`apps/docs/tests/token-coverage.test.ts`) also fails when a token is not registered in
+`stories/token-docs.ts` against the page that explains it, so every token gets a foundations page
+too, not only a row in this table.
