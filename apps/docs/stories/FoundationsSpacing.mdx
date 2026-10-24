@@ -1,4 +1,4 @@
-import { Meta, Story } from '@storybook/addon-docs/blocks'
+import { Meta, Canvas } from '@storybook/addon-docs/blocks'
 import * as SpacingStories from './FoundationsSpacing.stories'
 
 <Meta of={SpacingStories} />
@@ -14,14 +14,14 @@ a different step, not a new token.
 
 The layout utilities expose the same eight steps as `v-gap-*` classes.
 
-<Story of={SpacingStories.Space} />
+<Canvas of={SpacingStories.Space} layout="padded" />
 
 ## Radius and border
 
 Two radii (`--v-radius-sm`, `--v-radius-md`) and one border width (`--v-border-width`). Pair the
 border with `--v-color-border` for controls, which is tested at 3:1 against the surface.
 
-<Story of={SpacingStories.Shape} />
+<Canvas of={SpacingStories.Shape} layout="padded" />
 
 ## Control sizes
 
@@ -43,7 +43,7 @@ and radio indicators.
   as a checkbox or a radio group, must make the whole option row the click target: the indicator
   and its label together, at least `--v-control-target-min` tall.
 
-<Story of={SpacingStories.ControlHeights} />
+<Canvas of={SpacingStories.ControlHeights} layout="padded" />
 
 ## Container
 

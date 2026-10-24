@@ -1,7 +1,10 @@
 import { defineComponent } from 'vue'
 import { flatten, tokenPrefix, tokens, type Token, type TokenGroup } from '@v/design-tokens'
+import './foundations.css'
 
 export const schemes = ['light', 'dark'] as const
+
+export { source } from './source.ts'
 
 export const v = (name: string) => `var(${tokenPrefix}${name})`
 
@@ -97,59 +100,85 @@ export const SchemePanels = defineComponent({
   props: {
     system: { type: Boolean, default: false },
     accent: { type: String, default: '' },
+    vars: { type: Object as () => Record<string, string>, default: () => ({}) },
   },
   setup(props) {
     const panels = () =>
       props.system
-        ? [{ scheme: 'light dark', label: 'Follows your system' }]
+        ? [{ scheme: 'system', label: 'Follows your system' }]
         : schemes.map((scheme) => ({ scheme, label: scheme === 'light' ? 'Light' : 'Dark' }))
 
-    const overrides = () =>
-      props.accent
+    const overrides = () => ({
+      ...(props.accent
         ? Object.fromEntries(
             accentDependents.map((token) => [
               token.name,
               token.name === accentName ? props.accent : token.value,
             ]),
           )
-        : {}
-
-    const wrap = {
-      display: 'grid',
-      gridTemplateColumns: 'repeat(auto-fit, minmax(18rem, 1fr))',
-      gap: '1rem',
-      alignItems: 'start',
-    }
-    const panelStyle = (scheme: string) => ({
-      colorScheme: scheme,
-      background: v('color-surface'),
-      color: v('color-text'),
-      border: `${v('border-width')} solid ${v('color-border-muted')}`,
-      borderRadius: v('radius-md'),
-      padding: v('space-4'),
-      minInlineSize: '0',
-      font: `${v('font-weight-regular')} ${v('font-size-sm')}/${v('line-height-normal')} ${v('font-sans')}`,
-      ...overrides(),
+        : {}),
+      ...props.vars,
     })
-    const label = {
-      margin: `0 0 ${v('space-3')}`,
-      color: v('color-text-muted'),
-      font: `${v('font-weight-bold')} ${v('font-size-xs')}/${v('line-height-tight')} ${v('font-sans')}`,
-    }
-    return { panels, wrap, panelStyle, label }
+
+    return { panels, overrides }
   },
   template: `
-    <div :style="wrap">
+    <div class="fd-panels">
       <section
         v-for="panel in panels()"
         :key="panel.scheme"
-        :style="panelStyle(panel.scheme)"
+        class="fd-panel"
+        :data-scheme="panel.scheme"
+        :style="overrides()"
         :aria-label="panel.label"
       >
-        <p :style="label">{{ panel.label }}</p>
+        <p class="fd-panel-label">{{ panel.label }}</p>
         <slot :scheme="panel.scheme" />
       </section>
     </div>
+  `,
+})
+
+/** Light and dark halves side by side, each in its own `color-scheme`. */
+export const SchemePair = defineComponent({
+  name: 'SchemePair',
+  props: { single: { type: Boolean, default: false } },
+  setup: () => ({ schemes }),
+  template: `
+    <div class="fd-tile-preview" :class="{ 'fd-tile-preview--single': single }">
+      <div
+        v-for="scheme in single ? ['system'] : schemes"
+        :key="scheme"
+        class="fd-half"
+        :data-scheme="scheme"
+      >
+        <slot :scheme="scheme" />
+      </div>
+    </div>
+  `,
+})
+
+/** A preview (light and dark) with its token name, description, and value underneath. */
+export const Tile = defineComponent({
+  name: 'Tile',
+  components: { SchemePair },
+  props: {
+    token: { type: String, required: true },
+    note: { type: String, default: '' },
+    value: { type: String, default: '' },
+    single: { type: Boolean, default: false },
+  },
+  template: `
+    <figure class="fd-tile">
+      <SchemePair :single="single">
+        <template #default="scope"><slot v-bind="scope" /></template>
+      </SchemePair>
+      <figcaption class="fd-tile-caption">
+        <code class="fd-code">{{ token }}</code>
+        <p v-if="note" class="fd-note">{{ note }}</p>
+        <code v-if="value" class="fd-value">{{ value }}</code>
+      </figcaption>
+    </figure>
   `,
 })
 
@@ -258,23 +287,16 @@ export const TokenList = defineComponent({
     },
     labels: { type: Array as () => string[], default: () => ['Token', 'Value', 'Use'] },
   },
-  setup() {
-    return {
-      ui,
-      columns: 'minmax(12rem, 1.2fr) minmax(8rem, 1fr) minmax(12rem, 2fr)',
-      valueStyle: { font: '0.8125rem/1.4 system-ui, sans-serif', overflowWrap: 'anywhere' },
-      noteStyle: { margin: 0, font: '0.8125rem/1.4 system-ui, sans-serif', opacity: 0.8 },
-    }
-  },
+  setup: () => ({ columns: 'minmax(12rem, 1.2fr) minmax(8rem, 1fr) minmax(12rem, 2fr)' }),
   template: `
-    <div>
-      <div :style="{ ...ui.row(columns), borderBlockEnd: 'none', paddingBlock: 0 }">
-        <span v-for="label in labels" :key="label" :style="ui.th">{{ label }}</span>
+    <div class="fd-rows" :style="{ '--fd-columns': columns }">
+      <div class="fd-row fd-row--head">
+        <span v-for="label in labels" :key="label" class="fd-th">{{ label }}</span>
       </div>
-      <div v-for="row in rows" :key="row.token" :style="ui.row(columns)">
-        <code :style="ui.code">{{ row.token }}</code>
-        <span :style="valueStyle">{{ row.value }}</span>
-        <p :style="noteStyle">{{ row.note }}</p>
+      <div v-for="row in rows" :key="row.token" class="fd-row">
+        <code class="fd-code">{{ row.token }}</code>
+        <span class="fd-text">{{ row.value }}</span>
+        <p class="fd-note">{{ row.note }}</p>
       </div>
     </div>
   `,

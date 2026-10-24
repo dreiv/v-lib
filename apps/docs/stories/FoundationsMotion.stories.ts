@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/vue3-vite'
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import { flatten, reducedMotion, tokenPrefix, tokens, type TokenGroup } from '@v/design-tokens'
-import { SchemePanels, TokenList, hovered, percent, tokensOf, ui, v } from './foundations-shared.ts'
+import { SchemePanels, TokenList, percent, source, tokensOf } from './foundations-shared.ts'
 
 const meta = { title: 'Foundations/Motion and states' } satisfies Meta
 
@@ -20,56 +20,65 @@ const reducedNotes: Record<string, string> = {
   normal: 'Transitions complete at once.',
 }
 
+const durationsSource = `
+.panel {
+  transition: translate var(--v-duration-normal) var(--v-easing-out);
+}
+
+.button:hover {
+  transition: background var(--v-duration-fast) var(--v-easing-out);
+}
+`
+
 export const Durations: Story = {
   tags: ['!dev'],
+  parameters: source(durationsSource, 'css'),
   render: () => ({
     components: { SchemePanels },
     setup() {
       const moved = ref(false)
-      const dot = (name: string) => ({
-        inlineSize: v('space-4'),
-        blockSize: v('space-4'),
-        background: v('color-text-accent'),
-        borderRadius: v('radius-sm'),
-        translate: moved.value ? '13rem 0' : '0 0',
-        transition: `translate var(${name}) ${v('easing-out')}`,
-      })
+      const reduced = ref(false)
+      const vars = computed(() =>
+        reduced.value
+          ? Object.fromEntries(
+              flatten(reducedMotion as TokenGroup).map((token) => [token.name, token.value]),
+            )
+          : {},
+      )
       return {
-        v,
-        ui,
-        dot,
         moved,
+        reduced,
+        vars,
         easingName: `${tokenPrefix}easing-out`,
         durations: tokensOf('duration').map((token) => ({
           ...token,
           usage: durationUsage[durationKey(token.name)] ?? '',
-          demo: ['fast', 'normal'].includes(durationKey(token.name)),
         })),
-        track: {
-          display: 'flex',
-          alignItems: 'center',
-          inlineSize: '14rem',
-          maxInlineSize: '100%',
-          marginBlockStart: v('space-2'),
-          border: `${v('border-width')} solid ${v('color-border-muted')}`,
-          borderRadius: v('radius-sm'),
-        },
       }
     },
     template: `
-      <SchemePanels system>
-        <div :style="{ display: 'grid', gap: v('space-4') }">
-          <button type="button" :aria-pressed="moved" style="justify-self: start" @click="moved = !moved">
-            {{ moved ? 'Move back' : 'Move' }}
-          </button>
+      <SchemePanels system :vars="vars">
+        <div class="fd-stack">
+          <div class="v-inline v-wrap v-items-center v-gap-4">
+            <button type="button" :aria-pressed="moved" @click="moved = !moved">
+              {{ moved ? 'Move back' : 'Move' }}
+            </button>
+            <label class="fd-switch">
+              <input v-model="reduced" type="checkbox" />
+              Simulate reduced motion
+            </label>
+          </div>
           <div v-for="item in durations" :key="item.name">
-            <code :style="ui.code">{{ item.name }}: {{ item.value }}</code>
-            <p :style="ui.note">{{ item.usage }}</p>
-            <div v-if="item.demo" :style="track"><span :style="dot(item.name)" /></div>
+            <code class="fd-code">{{ item.name }}</code>
+            <code class="fd-value">{{ item.value }}</code>
+            <p class="fd-note">{{ item.usage }}</p>
+            <div class="fd-track" :data-moved="moved" :style="{ '--fd-duration': 'var(' + item.name + ')' }">
+              <span class="fd-dot" />
+            </div>
           </div>
           <div>
-            <code :style="ui.code">{{ easingName }}</code>
-            <p :style="ui.note">Every demo above uses this curve: quick at first, then easing gently to rest.</p>
+            <code class="fd-code">{{ easingName }}</code>
+            <p class="fd-note">Every demo above uses this curve: quick at first, then easing gently to rest.</p>
           </div>
         </div>
       </SchemePanels>
@@ -77,19 +86,28 @@ export const Durations: Story = {
   }),
 }
 
+const reducedSource = `
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --v-duration-fast: 0.01ms;
+    --v-duration-normal: 0.01ms;
+  }
+}
+`
+
 export const ReducedMotion: Story = {
   tags: ['!dev'],
+  parameters: source(reducedSource, 'css'),
   render: () => ({
     components: { TokenList },
     setup() {
       const all = flatten(tokens as TokenGroup)
       const changed = flatten(reducedMotion as TokenGroup).map((token) => {
         const original = all.find((item) => item.name === token.name)
-        const key = durationKey(token.name)
         return {
           token: token.name,
           value: `${original?.value ?? ''} to ${token.value}`,
-          note: reducedNotes[key] ?? '',
+          note: reducedNotes[durationKey(token.name)] ?? '',
         }
       })
       return { rows: changed, labels: ['Token', 'With reduced motion', 'Effect'] }
@@ -98,46 +116,54 @@ export const ReducedMotion: Story = {
   }),
 }
 
-const box = {
-  padding: `${v('space-3')} ${v('space-4')}`,
-  border: `${v('border-width')} solid ${v('color-border')}`,
-  borderRadius: v('radius-sm'),
+const statesSource = `
+.row:hover {
+  background: color-mix(in oklab, var(--v-color-text) var(--v-state-hover), var(--v-color-surface));
 }
+
+.control:disabled {
+  opacity: var(--v-state-disabled-opacity);
+}
+
+.control:active {
+  transform: scale(var(--v-state-press-scale));
+}
+`
 
 export const States: Story = {
   tags: ['!dev'],
+  parameters: source(statesSource, 'css'),
   render: () => ({
     components: { SchemePanels },
     setup: () => ({
-      ui,
       states: [
         {
           label: 'Hover',
+          modifier: 'hover',
           token: `${tokenPrefix}state-hover`,
           note: `${tokens.state.hover} of the text color laid over the surface.`,
-          style: { ...box, background: hovered('text', 'surface') },
         },
         {
           label: 'Disabled',
+          modifier: 'disabled',
           token: `${tokenPrefix}state-disabled-opacity`,
           note: `The whole control drops to ${percent(tokens.state.disabledOpacity)} opacity. Disabled controls are exempt from the contrast minimums.`,
-          style: { ...box, opacity: v('state-disabled-opacity') },
         },
         {
           label: 'Pressed size',
+          modifier: 'pressed',
           token: `${tokenPrefix}state-press-scale`,
           note: `The control shrinks to ${percent(tokens.state.pressScale)} of its size while pressed.`,
-          style: { ...box, display: 'inline-block', transform: `scale(${v('state-press-scale')})` },
         },
       ],
     }),
     template: `
       <SchemePanels>
-        <div class="v-stack v-gap-4 v-items-start">
+        <div class="fd-stack">
           <div v-for="state in states" :key="state.token">
-            <div :style="state.style">{{ state.label }}</div>
-            <code :style="ui.code">{{ state.token }}</code>
-            <p :style="ui.note">{{ state.note }}</p>
+            <div class="fd-state" :class="'fd-state--' + state.modifier">{{ state.label }}</div>
+            <code class="fd-code">{{ state.token }}</code>
+            <p class="fd-note">{{ state.note }}</p>
           </div>
         </div>
       </SchemePanels>

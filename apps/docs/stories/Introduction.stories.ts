@@ -1,31 +1,10 @@
 import type { Meta, StoryObj } from '@storybook/vue3-vite'
-import { VButton } from '@v/design-system/button'
-import { SchemePanels, ui, v } from './foundations-shared.ts'
+import { ui } from './foundations-shared.ts'
 
 const meta = { title: 'Introduction', parameters: { layout: 'padded' } } satisfies Meta
 
 export default meta
 type Story = StoryObj<typeof meta>
-
-export const Sampler: Story = {
-  tags: ['!dev'],
-  render: () => ({
-    components: { SchemePanels, VButton },
-    setup: () => ({ v }),
-    template: `
-      <SchemePanels>
-        <div :style="{ display: 'grid', gap: v('space-4'), justifyItems: 'start' }">
-          <div class="v-inline v-wrap v-items-center v-gap-3">
-            <VButton variant="primary">Save</VButton>
-            <VButton variant="secondary">Cancel</VButton>
-            <VButton variant="danger">Delete</VButton>
-            <VButton variant="quiet">Learn more</VButton>
-          </div>
-        </div>
-      </SchemePanels>
-    `,
-  }),
-}
 
 const packages = [
   {

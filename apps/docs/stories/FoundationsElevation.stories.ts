@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/vue3-vite'
 import { tokenPrefix } from '@v/design-tokens'
-import { SchemePanels, TokenList, describeColor, tokensOf, ui, v } from './foundations-shared.ts'
+import { SchemePair, TokenList, describeColor, source, tokensOf } from './foundations-shared.ts'
 
 const meta = { title: 'Foundations/Elevation and layers' } satisfies Meta
 
@@ -27,17 +27,26 @@ const layerUsage: Record<string, string> = {
   tooltip: 'Tooltips, always on top.',
 }
 
+const layerKey = (name: string) => name.slice(`${tokenPrefix}z-`.length)
+
+const elevationSource = `
+.menu {
+  background: var(--v-color-surface-raised);
+  border: var(--v-border-width) solid var(--v-color-border);
+  border-radius: var(--v-radius-md);
+  box-shadow: var(--v-shadow-overlay);
+}
+`
+
 export const Elevation: Story = {
   tags: ['!dev'],
+  parameters: source(elevationSource, 'css'),
   render: () => ({
-    components: { SchemePanels },
+    components: { SchemePair },
     setup() {
       const all = tokensOf('shadow')
       const color = all.find((token) => token.name.endsWith('-color'))
       return {
-        v,
-        ui,
-        surface: `${tokenPrefix}color-surface-raised`,
         levels: all
           .filter((token) => token !== color)
           .map((token) => ({
@@ -50,46 +59,73 @@ export const Elevation: Story = {
               .join(' '),
           })),
         shadowColor: color ? describeColor(color.value) : '',
+        surface: `${tokenPrefix}color-surface-raised`,
       }
     },
     template: `
       <div>
-        <SchemePanels>
-          <div :style="{ display: 'grid', gap: v('space-6') }">
-            <div v-for="level in levels" :key="level.name">
-              <code :style="ui.code">{{ level.name }}</code>
-              <p :style="ui.note">{{ level.note }}</p>
-              <div
-                :style="{
-                  marginBlockStart: v('space-3'),
-                  padding: v('space-4'),
-                  background: v('color-surface-raised'),
-                  border: v('border-width') + ' solid ' + v('color-border'),
-                  borderRadius: v('radius-md'),
-                  boxShadow: 'var(' + level.name + ')',
-                }"
-              >{{ surface }}</div>
-            </div>
-          </div>
-        </SchemePanels>
-        <p :style="ui.note">Shadow color: {{ shadowColor }}</p>
+        <div class="fd-tiles" :style="{ '--fd-tile': '20rem' }">
+          <figure v-for="level in levels" :key="level.name" class="fd-tile">
+            <SchemePair>
+              <div class="fd-stage fd-stage--roomy">
+                <div class="fd-elevated" :style="{ boxShadow: 'var(' + level.name + ')' }">
+                  <span class="fd-muted fd-small">{{ surface }}</span>
+                </div>
+              </div>
+            </SchemePair>
+            <figcaption class="fd-tile-caption">
+              <code class="fd-code">{{ level.name }}</code>
+              <p class="fd-note">{{ level.note }}</p>
+            </figcaption>
+          </figure>
+        </div>
+        <p class="fd-note">Shadow color: {{ shadowColor }}</p>
       </div>
     `,
   }),
 }
 
+const layersSource = `
+.dialog {
+  z-index: var(--v-z-modal);
+}
+
+.tooltip {
+  z-index: var(--v-z-tooltip);
+}
+`
+
 export const Layers: Story = {
   tags: ['!dev'],
+  parameters: source(layersSource, 'css'),
   render: () => ({
-    components: { TokenList },
-    setup: () => ({
-      rows: tokensOf('z').map((token) => ({
-        token: token.name,
-        value: token.value,
-        note: layerUsage[token.name.slice(`${tokenPrefix}z-`.length)] ?? '',
-      })),
-      labels: ['Token', 'Stacking order', 'Use'],
-    }),
-    template: `<TokenList :rows="rows" :labels="labels" />`,
+    components: { SchemePair, TokenList },
+    setup() {
+      const layers = tokensOf('z')
+      return {
+        layers,
+        rows: layers.map((token) => ({
+          token: token.name,
+          value: token.value,
+          note: layerUsage[layerKey(token.name)] ?? '',
+        })),
+        labels: ['Token', 'Stacking order', 'Use'],
+      }
+    },
+    template: `
+      <div>
+        <SchemePair>
+          <div class="fd-stage fd-stage--roomy">
+            <div class="fd-stack-layers" role="img" aria-label="Layers stacked from sticky at the bottom to tooltip on top">
+              <div v-for="(layer, index) in layers" :key="layer.name" class="fd-layer" :style="{ '--fd-i': index, zIndex: 'var(' + layer.name + ')' }">
+                <code class="fd-code">{{ layer.name }}</code>
+                <code class="fd-value">{{ layer.value }}</code>
+              </div>
+            </div>
+          </div>
+        </SchemePair>
+        <TokenList :rows="rows" :labels="labels" />
+      </div>
+    `,
   }),
 }

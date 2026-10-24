@@ -2,11 +2,36 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite'
 import { VButton } from '@v/design-system/button'
 import { VIconPlus } from '@v/icons'
 import { ref } from 'vue'
+import { source } from './source.ts'
+
+const attribute = (name: string, value: unknown) => {
+  if (value === undefined || value === false || value === '') return ''
+  const key = name.replace(/[A-Z]/g, (letter) => `-${letter.toLowerCase()}`)
+  if (value === true) return ` ${key}`
+  return ` ${key}="${typeof value === 'string' ? value : JSON.stringify(value)}"`
+}
+
+const buttonSource = (args: Record<string, unknown>) => {
+  const names = ['variant', 'size', 'type', 'pending', 'disabled', 'full', 'iconOnly']
+  const attributes = names.map((name) => attribute(name, args[name])).join('')
+  return `<VButton${attributes}>Save</VButton>`
+}
 
 const meta = {
   title: 'Actions/VButton',
   component: VButton,
   args: { variant: 'primary', size: 'medium' },
+  parameters: {
+    docs: {
+      source: {
+        language: 'html',
+        // The generated source can come back empty or still holding `v-bind="args"`. Rebuild it
+        // from the live args so Show code always matches the Controls.
+        transform: (code: string, context: { args: Record<string, unknown> }) =>
+          !code.includes('<') || code.includes('v-bind=') ? buttonSource(context.args) : code,
+      },
+    },
+  },
   argTypes: {
     variant: {
       control: 'select',
@@ -38,6 +63,11 @@ export const Quiet: Story = { args: { variant: 'quiet' } }
 export const Pending: Story = { args: { pending: true } }
 
 export const PendingSizes: Story = {
+  parameters: source(`
+<VButton size="small" pending>Save</VButton>
+<VButton size="medium" pending>Save</VButton>
+<VButton size="large" pending>Save</VButton>
+`),
   render: (args) => ({
     components: { VButton },
     setup: () => ({ args, sizes: ['small', 'medium', 'large'] as const }),
@@ -54,6 +84,9 @@ export const Large: Story = { args: { size: 'large' } }
 export const FullWidth: Story = { args: { full: true } }
 
 export const WithIcon: Story = {
+  parameters: source(`
+<VButton variant="primary"><VIconPlus />Add item</VButton>
+`),
   render: (args) => ({
     components: { VButton, VIconPlus },
     setup: () => ({ args }),
@@ -62,6 +95,9 @@ export const WithIcon: Story = {
 }
 
 export const IconOnly: Story = {
+  parameters: source(`
+<VButton variant="primary" icon-only aria-label="Add"><VIconPlus /></VButton>
+`),
   args: { iconOnly: true },
   render: (args) => ({
     components: { VButton, VIconPlus },
@@ -71,6 +107,23 @@ export const IconOnly: Story = {
 }
 
 export const SaveChanges: Story = {
+  parameters: source(`
+<script setup lang="ts">
+import { ref } from 'vue'
+import { VButton } from '@v/design-system/button'
+
+const pending = ref(false)
+
+function save() {
+  pending.value = true
+  setTimeout(() => (pending.value = false), 3000)
+}
+</script>
+
+<template>
+  <VButton variant="primary" :pending="pending" @click="save">Save changes</VButton>
+</template>
+`),
   render: () => ({
     components: { VButton },
     setup() {
@@ -105,6 +158,11 @@ export const SaveChanges: Story = {
 }
 
 export const Multiline: Story = {
+  parameters: source(`
+<VButton>A very long label that has to wrap onto several lines without clipping</VButton>
+<VButton variant="primary">Download the full quarterly report with attachments</VButton>
+<VButton variant="danger">Delete this project and everything inside it</VButton>
+`),
   render: () => ({
     components: { VButton },
     template: `
@@ -118,6 +176,14 @@ export const Multiline: Story = {
 }
 
 export const Matrix: Story = {
+  parameters: source(`
+<VButton variant="primary" size="small">primary</VButton>
+<VButton variant="primary" size="medium">primary</VButton>
+<VButton variant="primary" size="large">primary</VButton>
+<VButton variant="primary" icon-only aria-label="Add"><VIconPlus /></VButton>
+<VButton variant="primary" disabled>Disabled</VButton>
+<VButton variant="primary" pending>Pending</VButton>
+`),
   tags: ['!dev'],
   render: () => ({
     components: { VButton, VIconPlus },

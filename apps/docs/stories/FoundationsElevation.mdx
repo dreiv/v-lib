@@ -1,4 +1,4 @@
-import { Meta, Story } from '@storybook/addon-docs/blocks'
+import { Meta, Canvas } from '@storybook/addon-docs/blocks'
 import * as ElevationStories from './FoundationsElevation.stories'
 
 <Meta of={ElevationStories} />
@@ -22,7 +22,7 @@ A shadow is decoration. Do not rely on it to show where a control or container e
 remove shadows entirely, and in light mode `surface-raised` is the same color as the page, so the
 border is what is left to mark the edge.
 
-<Story of={ElevationStories.Elevation} />
+<Canvas of={ElevationStories.Elevation} layout="padded" />
 
 ## Layers
 
@@ -34,4 +34,4 @@ raw number.
 To dim the page behind modal content, use `--v-color-surface-scrim`. It is documented with the
 Color tokens.
 
-<Story of={ElevationStories.Layers} />
+<Canvas of={ElevationStories.Layers} layout="padded" />

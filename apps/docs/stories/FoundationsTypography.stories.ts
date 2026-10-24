@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/vue3-vite'
 import { tokenPrefix } from '@v/design-tokens'
-import { SchemePanels, px, tokensOf, ui, v } from './foundations-shared.ts'
+import { SchemePanels, px, source, tokensOf } from './foundations-shared.ts'
 
 const meta = { title: 'Foundations/Typography' } satisfies Meta
 
@@ -35,13 +35,27 @@ const sizeUsage: Record<string, string> = {
   '2xl': 'Page headings.',
 }
 
+const familiesSource = `
+body {
+  font-family: var(--v-font-sans);
+  font-weight: var(--v-font-weight-regular);
+}
+
+code {
+  font-family: var(--v-font-mono);
+}
+
+th {
+  font-weight: var(--v-font-weight-bold);
+}
+`
+
 export const Families: Story = {
   tags: ['!dev'],
+  parameters: source(familiesSource, 'css'),
   render: () => ({
     components: { SchemePanels },
     setup: () => ({
-      v,
-      ui,
       sample,
       families,
       weights: tokensOf('font', 'weight').map((token) => ({
@@ -51,16 +65,20 @@ export const Families: Story = {
     }),
     template: `
       <SchemePanels system>
-        <div :style="{ display: 'grid', gap: v('space-4') }">
-          <div v-for="family in families" :key="family.name">
-            <code :style="ui.code">{{ family.name }}</code>
-            <p :style="ui.note">{{ family.note }}</p>
-            <p :style="{ margin: 0, fontFamily: 'var(' + family.name + ')', fontSize: v('font-size-lg') }">{{ sample }}</p>
+        <div class="fd-rows" :style="{ '--fd-columns': 'minmax(11rem, 1fr) 2fr' }">
+          <div v-for="family in families" :key="family.name" class="fd-row">
+            <div>
+              <code class="fd-code">{{ family.name }}</code>
+              <p class="fd-note">{{ family.note }}</p>
+            </div>
+            <p class="fd-sample" :style="{ fontFamily: 'var(' + family.name + ')' }">{{ sample }}</p>
           </div>
-          <div v-for="weight in weights" :key="weight.name">
-            <code :style="ui.code">{{ weight.name }}: {{ weight.value }}</code>
-            <p :style="ui.note">{{ weight.usage }}</p>
-            <p :style="{ margin: 0, fontWeight: 'var(' + weight.name + ')', fontSize: v('font-size-lg') }">{{ sample }}</p>
+          <div v-for="weight in weights" :key="weight.name" class="fd-row">
+            <div>
+              <code class="fd-code">{{ weight.name }}: {{ weight.value }}</code>
+              <p class="fd-note">{{ weight.usage }}</p>
+            </div>
+            <p class="fd-sample" :style="{ fontWeight: 'var(' + weight.name + ')' }">{{ sample }}</p>
           </div>
         </div>
       </SchemePanels>
@@ -68,13 +86,23 @@ export const Families: Story = {
   }),
 }
 
+const sizesSource = `
+h1 {
+  font-size: var(--v-font-size-2xl);
+  line-height: var(--v-line-height-tight);
+}
+
+small {
+  font-size: var(--v-font-size-sm);
+}
+`
+
 export const Sizes: Story = {
   tags: ['!dev'],
+  parameters: source(sizesSource, 'css'),
   render: () => ({
     components: { SchemePanels },
     setup: () => ({
-      v,
-      ui,
       sample,
       sizes: tokensOf('font', 'size').map((token) => ({
         ...token,
@@ -84,32 +112,50 @@ export const Sizes: Story = {
     }),
     template: `
       <SchemePanels system>
-        <div v-for="size in sizes" :key="size.name" :style="{ paddingBlock: v('space-2'), borderBlockEnd: v('border-width') + ' solid ' + v('color-border-muted') }">
-          <code :style="ui.code">{{ size.name }} · {{ size.value }} ({{ size.px }} at the default root size)</code>
-          <p :style="ui.note">{{ size.usage }}</p>
-          <p :style="{ margin: 0, fontSize: 'var(' + size.name + ')', lineHeight: v('line-height-tight') }">{{ sample }}</p>
+        <div class="fd-rows" :style="{ '--fd-columns': 'minmax(11rem, 1fr) 2fr' }">
+          <div v-for="size in sizes" :key="size.name" class="fd-row">
+            <div>
+              <code class="fd-code">{{ size.name }}</code>
+              <code class="fd-value">{{ size.value }} · {{ size.px }} at the default root size</code>
+              <p class="fd-note">{{ size.usage }}</p>
+            </div>
+            <p class="fd-sample" :style="{ fontSize: 'var(' + size.name + ')', lineHeight: 'var(--v-line-height-tight)' }">{{ sample }}</p>
+          </div>
         </div>
       </SchemePanels>
     `,
   }),
 }
 
+const lineHeightsSource = `
+p {
+  line-height: var(--v-line-height-normal);
+}
+
+h1 {
+  line-height: var(--v-line-height-tight);
+}
+
+.article {
+  line-height: var(--v-line-height-relaxed);
+}
+`
+
 export const LineHeights: Story = {
   tags: ['!dev'],
+  parameters: source(lineHeightsSource, 'css'),
   render: () => ({
     components: { SchemePanels },
     setup: () => ({
-      v,
-      ui,
       heights: tokensOf('lineHeight'),
       text: 'Spacing between lines changes how long passages read. Wider line spacing helps people who track lines with difficulty, and tighter spacing suits headings that wrap onto two lines.',
     }),
     template: `
       <SchemePanels system>
-        <div :style="{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(14rem, 1fr))', gap: v('space-6') }">
+        <div class="fd-cols">
           <div v-for="height in heights" :key="height.name">
-            <code :style="ui.code">{{ height.name }}: {{ height.value }}</code>
-            <p :style="{ margin: 0, lineHeight: 'var(' + height.name + ')', maxInlineSize: '36ch' }">{{ text }}</p>
+            <code class="fd-code">{{ height.name }}: {{ height.value }}</code>
+            <p class="fd-prose" :style="{ lineHeight: 'var(' + height.name + ')' }">{{ text }}</p>
           </div>
         </div>
       </SchemePanels>

@@ -1,4 +1,4 @@
-import { Meta, Story } from '@storybook/addon-docs/blocks'
+import { Meta, Canvas } from '@storybook/addon-docs/blocks'
 import * as TypographyStories from './FoundationsTypography.stories'
 
 <Meta of={TypographyStories} />
@@ -14,7 +14,7 @@ face people already read comfortably.
 are defined: regular (400), medium (500), and bold (700). Use the weight tokens rather than raw
 numbers so the set stays small.
 
-<Story of={TypographyStories.Families} />
+<Canvas of={TypographyStories.Families} layout="padded" />
 
 ## Size scale
 
@@ -25,7 +25,7 @@ people who raise their default text size rely on that scaling
 
 The page itself is set in the `md` size by the base styles.
 
-<Story of={TypographyStories.Sizes} />
+<Canvas of={TypographyStories.Sizes} layout="padded" />
 
 ## Line height
 
@@ -33,4 +33,4 @@ Use `--v-line-height-normal` for running text, `--v-line-height-tight` for headi
 text that might wrap, and `--v-line-height-relaxed` for long reading passages. All three are
 unitless, so they follow the element's own font size.
 
-<Story of={TypographyStories.LineHeights} />
+<Canvas of={TypographyStories.LineHeights} layout="padded" />

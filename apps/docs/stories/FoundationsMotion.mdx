@@ -1,4 +1,4 @@
-import { Meta, Story } from '@storybook/addon-docs/blocks'
+import { Meta, Canvas } from '@storybook/addon-docs/blocks'
 import * as MotionStories from './FoundationsMotion.stories'
 
 <Meta of={MotionStories} />
@@ -12,7 +12,7 @@ Two durations and one easing curve are defined: `--v-duration-fast` for immediat
 from these tokens instead of writing a time yourself: the reduced-motion overrides below only
 reach animations that read the tokens.
 
-<Story of={MotionStories.Durations} />
+<Canvas of={MotionStories.Durations} layout="padded" />
 
 ## Reduced motion
 
@@ -20,7 +20,7 @@ When the user asks their system to reduce motion (`prefers-reduced-motion: reduc
 tokens are redefined and every animation built on them follows. Nothing else has to be done in a
 component.
 
-<Story of={MotionStories.ReducedMotion} />
+<Canvas of={MotionStories.ReducedMotion} layout="padded" />
 
 ## Interaction states
 
@@ -33,4 +33,4 @@ slightly with `--v-state-press-scale`. WCAG exempts inactive controls from the c
 ([1.4.3](https://www.w3.org/TR/WCAG22/#contrast-minimum)), but make sure a disabled control is
 still recognizable as a control.
 
-<Story of={MotionStories.States} />
+<Canvas of={MotionStories.States} layout="padded" />

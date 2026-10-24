@@ -1,4 +1,4 @@
-import { Meta, Story } from '@storybook/addon-docs/blocks'
+import { Meta, Canvas } from '@storybook/addon-docs/blocks'
 import * as ColorStories from './FoundationsColor.stories'
 
 <Meta of={ColorStories} />
@@ -14,9 +14,9 @@ text and icons, `--v-color-border-*` for lines. A status has a text color and a 
 for the message and `surface-danger` for the tinted background behind it. Danger also has
 `border-danger`, the outline of an invalid control.
 
-Every swatch on this page is rendered live with the real tokens. Light and dark examples sit
-in their own `color-scheme` container, so both schemes are visible at once regardless of your
-system setting.
+Every swatch on this page is rendered live with the real tokens. Each example sits in a light half
+and a dark half, each in its own `color-scheme` container, so both schemes are visible at once
+regardless of your system setting. Use **Show code** under an example for the CSS to copy.
 
 ## How color adapts
 
@@ -33,7 +33,18 @@ system setting.
 
 ## Roles
 
-<Story of={ColorStories.Roles} />
+Surfaces, text, and lines. Surfaces carry sample text on top, because a surface is only useful
+together with the text that sits on it. The status colors have their own section below.
+
+<Canvas of={ColorStories.Roles} layout="padded" />
+
+## Status
+
+A status is a set: the tinted `surface-*`, the `text-*` color for the icon and the title, and
+default `text` for the message. Always pair the color with an icon and a word, because color alone
+does not say "error" ([1.4.1 Use of Color](https://www.w3.org/TR/WCAG22/#use-of-color)).
+
+<Canvas of={ColorStories.Status} layout="padded" />
 
 ## Selection
 
@@ -46,7 +57,7 @@ Color alone does not say "selected" ([1.4.1 Use of Color](https://www.w3.org/TR/
 so always add a second cue such as a check mark. `surface-selected` follows the accent, so it
 changes with the user's system accent while text on it stays at 4.5:1.
 
-<Story of={ColorStories.Selection} />
+<Canvas of={ColorStories.Selection} layout="padded" />
 
 ## Accessibility
 
@@ -59,7 +70,10 @@ interface boundaries and focus indicators
 The checks run against three backdrops: light (`#ffffff` on `#000000`), the dark scheme as
 Chromium renders it (`#121212`), and the dark scheme as Firefox renders it (`#1c1b22`).
 
-<Story of={ColorStories.ContrastPairs} />
+Each tile below is one background, with every foreground that is tested on it. Text reaches 4.5:1
+and borders reach 3:1.
+
+<Canvas of={ColorStories.ContrastPairs} layout="padded" />
 
 ### Accent colors
 
@@ -76,7 +90,7 @@ assert:
 
 Pick an accent to see `text-accent`, the selected surface, and the focus ring adapt.
 
-<Story of={ColorStories.AccentColors} />
+<Canvas of={ColorStories.AccentColors} layout="padded" />
 
 ### What the tests do not cover
 
