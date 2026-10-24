@@ -10,7 +10,7 @@
     "typecheck": "vp run -r typecheck",
     "tokens": "node tools/scripts/src/generate-tokens.ts",
     "icons:generate": "node tools/scripts/src/generate-icons.ts",
-    "ready": "vp run -r build && vp check && vp run typecheck && vp run -r test",
+    "ready": "vp run -r build && vp check && vp run typecheck && vp test",
     "prepare": "vp config"
   },
   "devDependencies": {
