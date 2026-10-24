@@ -31,6 +31,6 @@ export default defineConfig({
     },
   },
   test: {
-    projects: ['packages/*'],
+    projects: ['packages/*', 'apps/docs'],
   },
 })

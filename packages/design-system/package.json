@@ -11,20 +11,32 @@
   ],
   "exports": {
     ".": {
+      "@v/source": "./src/index.ts",
       "types": "./dist/index.d.mts",
       "import": "./dist/index.mjs"
     },
     "./button": {
+      "@v/source": "./src/components/button/index.ts",
       "types": "./dist/components/button/index.d.mts",
       "import": "./dist/components/button/index.mjs"
     },
     "./spinner": {
+      "@v/source": "./src/components/spinner/index.ts",
       "types": "./dist/components/spinner/index.d.mts",
       "import": "./dist/components/spinner/index.mjs"
     },
-    "./styles": "./dist/styles/index.css",
-    "./utilities": "./dist/styles/utilities.css",
-    "./tokens": "./dist/styles/tokens.css",
+    "./styles": {
+      "@v/source": "./src/styles/index.css",
+      "default": "./dist/styles/index.css"
+    },
+    "./utilities": {
+      "@v/source": "./src/styles/utilities.css",
+      "default": "./dist/styles/utilities.css"
+    },
+    "./tokens": {
+      "@v/source": "./src/styles/tokens.css",
+      "default": "./dist/styles/tokens.css"
+    },
     "./package.json": "./package.json"
   },
   "scripts": {
