@@ -2,7 +2,6 @@
 // alias list in packages/icons/aliases.json. Never edit index.ts by hand.
 //
 //   vp run icons:generate   rewrite index.ts
-//   vp run icons:check      fail when index.ts is out of date (no write)
 //
 // An icon is one file, src/<kebab-name>.ts, exporting VIcon<PascalName>. A second name for the same
 // drawing (a renamed upstream icon, a synonym) is an entry in aliases.json, { "<alias>": "<target>" },
@@ -10,7 +9,7 @@
 import { readdirSync, readFileSync } from 'node:fs'
 import { join } from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { check, lf, sync } from './generated.ts'
+import { lf, sync } from './generated.ts'
 
 const icons = fileURLToPath(new URL('../../../packages/icons', import.meta.url))
 const src = join(icons, 'src')
@@ -57,7 +56,10 @@ if (errors.length > 0) {
 }
 
 const lines = [
-  ...files.map((name) => ({ name, line: `export { ${pascal(name)} } from './${name}'` })),
+  ...files.map((name) => ({
+    name,
+    line: `export { ${pascal(name)} } from './${name}'`,
+  })),
   ...Object.entries(aliases).map(([alias, target]) => ({
     name: alias,
     line: `export { ${pascal(target)} as ${pascal(alias)} } from './${target}'`,
@@ -66,6 +68,6 @@ const lines = [
   .sort((a, b) => (a.name < b.name ? -1 : a.name > b.name ? 1 : 0))
   .map(({ line }) => line)
 
-sync(join(src, 'index.ts'), `${lines.join('\n')}\n`, 'vp run icons:generate')
+sync(join(src, 'index.ts'), `${lines.join('\n')}\n`)
 
-if (!check) process.stdout.write(`${files.length} icons, ${Object.keys(aliases).length} aliases\n`)
+process.stdout.write(`${files.length} icons, ${Object.keys(aliases).length} aliases\n`)

@@ -1,7 +1,7 @@
 import { readdirSync, readFileSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
 import { describe, expect, test } from 'vite-plus/test'
-import { flatten, layers, toCss, tokens } from '../src/index.ts'
+import { flatten, layers, normalizeCss, toCss, tokens } from '../src/index.ts'
 
 const styles = fileURLToPath(new URL('../../design-system/src', import.meta.url))
 
@@ -30,10 +30,6 @@ function read(path: string) {
   return readFileSync(path, 'utf-8').replaceAll('\r\n', '\n')
 }
 
-function normalize(css: string) {
-  return css.replace(/\s+/g, ' ').replace(/\( /g, '(').replace(/ \)/g, ')').trim()
-}
-
 function cssFiles() {
   return readdirSync(styles, { recursive: true, encoding: 'utf-8' })
     .filter((file) => file.endsWith('.css'))
@@ -60,7 +56,7 @@ function usedTokens() {
 
 describe('tokens.css', () => {
   test('matches the generated output apart from formatting (run: vp run tokens:generate)', () => {
-    expect(normalize(read(`${styles}/styles/tokens.css`))).toBe(normalize(toCss()))
+    expect(normalizeCss(read(`${styles}/styles/tokens.css`))).toBe(normalizeCss(toCss()))
   })
 
   test('declares the cascade layers in order', () => {

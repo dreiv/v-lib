@@ -56,3 +56,7 @@ export function toCss() {
     '',
   ].join('\n')
 }
+
+export function normalizeCss(css: string) {
+  return css.replace(/\s+/g, ' ').replace(/\( /g, '(').replace(/ \)/g, ')').trim()
+}

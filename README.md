@@ -24,8 +24,8 @@ Node 24.21 or newer (see `.node-version`).
 
 ## Scripts
 
-- `vp run tokens:generate`: regenerate `packages/design-system/src/styles/tokens.css` after editing `packages/tokens/src/tokens.ts`. `vp run tokens:check` fails when it is stale without writing; a test does the same.
-- `vp run icons:generate`: rewrite `packages/icons/src/index.ts` (see Icons). `vp run icons:check` fails when it is stale without writing.
+- `vp run tokens:generate`: regenerate `packages/design-system/src/styles/tokens.css` after editing `packages/tokens/src/tokens.ts`. A test fails when it is stale.
+- `vp run icons:generate`: rewrite `packages/icons/src/index.ts` (see Icons). A test fails when it is stale.
 - `vp run typecheck`: every workspace that has a `typecheck` script. `docs` and `playground` check against the built packages, so run `vp run build` first.
 
 `vp run dev` reads package sources directly (no build needed). Production Storybook and the playground use the built packages.
