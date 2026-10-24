@@ -1,0 +1,134 @@
+@layer v.reset, v.tokens, v.base, v.components, v.utilities;
+
+@layer v.tokens {
+  :root {
+    color-scheme: light dark;
+
+    --v-font-sans: system-ui, -apple-system, 'Segoe UI', sans-serif;
+    --v-font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace;
+    --v-font-size-xs: 0.75rem;
+    --v-font-size-sm: 0.875rem;
+    --v-font-size-md: 1rem;
+    --v-font-size-lg: 1.25rem;
+    --v-font-size-xl: 1.5rem;
+    --v-font-size-2xl: 2rem;
+    --v-font-weight-regular: 400;
+    --v-font-weight-medium: 500;
+    --v-font-weight-bold: 700;
+
+    --v-line-height-tight: 1.25;
+    --v-line-height-normal: 1.5;
+    --v-line-height-relaxed: 1.65;
+
+    --v-space-1: 0.25rem;
+    --v-space-2: 0.5rem;
+    --v-space-3: 0.75rem;
+    --v-space-4: 1rem;
+    --v-space-6: 1.5rem;
+    --v-space-8: 2rem;
+    --v-space-10: 2.5rem;
+    --v-space-16: 4rem;
+
+    --v-radius-sm: 0.25rem;
+    --v-radius-md: 0.5rem;
+
+    --v-border-width: 1px;
+
+    --v-control-target-min: max(1.5rem, 24px);
+    --v-control-height-xs: var(--v-control-target-min);
+    --v-control-height-sm: 2rem;
+    --v-control-height-md: 2.75rem;
+    --v-control-height-lg: 3.25rem;
+    --v-control-indicator-size: 1.25rem;
+
+    --v-color-surface: Canvas;
+    --v-color-surface-muted: color-mix(in oklab, var(--v-color-text) 6%, var(--v-color-surface));
+    --v-color-surface-raised: light-dark(
+      var(--v-color-surface),
+      color-mix(in oklab, var(--v-color-text) 8%, var(--v-color-surface))
+    );
+    --v-color-surface-scrim: light-dark(rgb(0 0 0 / 40%), rgb(0 0 0 / 60%));
+    --v-color-surface-accent: AccentColor;
+    --v-color-surface-selected: color-mix(
+      in oklab,
+      var(--v-color-surface-accent) 12%,
+      var(--v-color-surface)
+    );
+    --v-color-surface-info: color-mix(
+      in oklab,
+      var(--v-color-text-info) 12%,
+      var(--v-color-surface)
+    );
+    --v-color-surface-success: color-mix(
+      in oklab,
+      var(--v-color-text-success) 12%,
+      var(--v-color-surface)
+    );
+    --v-color-surface-warning: color-mix(
+      in oklab,
+      var(--v-color-text-warning) 12%,
+      var(--v-color-surface)
+    );
+    --v-color-surface-danger: color-mix(
+      in oklab,
+      var(--v-color-text-danger) 12%,
+      var(--v-color-surface)
+    );
+    --v-color-text: CanvasText;
+    --v-color-text-muted: color-mix(in oklab, var(--v-color-text) 60%, var(--v-color-surface));
+    --v-color-text-accent: light-dark(
+      oklch(
+        from color-mix(in oklab, var(--v-color-surface-accent) 60%, var(--v-color-text))
+          min(l, 0.48) c h
+      ),
+      oklch(
+        from color-mix(in oklab, var(--v-color-surface-accent) 60%, var(--v-color-text))
+          max(l, 0.66) c h
+      )
+    );
+    --v-color-text-on-accent: AccentColorText;
+    --v-color-text-info: light-dark(oklch(50% 0.16 250), oklch(78% 0.16 250));
+    --v-color-text-success: light-dark(oklch(50% 0.14 150), oklch(78% 0.15 150));
+    --v-color-text-warning: light-dark(oklch(52% 0.12 70), oklch(82% 0.14 85));
+    --v-color-text-danger: light-dark(oklch(50% 0.19 27), oklch(75% 0.14 20));
+    --v-color-border: light-dark(
+      color-mix(in oklab, var(--v-color-text) 45%, var(--v-color-surface)),
+      color-mix(in oklab, var(--v-color-text) 48%, var(--v-color-surface))
+    );
+    --v-color-border-danger: var(--v-color-text-danger);
+    --v-color-border-muted: color-mix(in oklab, var(--v-color-text) 18%, var(--v-color-surface));
+
+    --v-shadow-color: light-dark(rgb(0 0 0 / 12%), rgb(0 0 0 / 55%));
+    --v-shadow-raised: 0 2px 8px var(--v-shadow-color);
+    --v-shadow-overlay: 0 4px 16px var(--v-shadow-color);
+
+    --v-focus-color: var(--v-color-text-accent);
+    --v-focus-width: 3px;
+    --v-focus-offset: 2px;
+    --v-focus-ring: var(--v-focus-width) solid var(--v-focus-color);
+
+    --v-state-hover: 8%;
+    --v-state-disabled-opacity: 0.6;
+    --v-state-press-scale: 0.97;
+
+    --v-duration-fast: 120ms;
+    --v-duration-normal: 200ms;
+
+    --v-easing-out: cubic-bezier(0.22, 1, 0.36, 1);
+
+    --v-container-max-inline: 72rem;
+
+    --v-z-sticky: 100;
+    --v-z-modal: 1000;
+    --v-z-popover: 1100;
+    --v-z-toast: 1200;
+    --v-z-tooltip: 1300;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    :root {
+      --v-duration-fast: 0.01ms;
+      --v-duration-normal: 0.01ms;
+    }
+  }
+}

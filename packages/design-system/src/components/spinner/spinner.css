@@ -1,0 +1,54 @@
+@layer v.components {
+  .v-spinner {
+    --_base: var(--v-control-indicator-size);
+    --_size: var(--v-spinner-size, var(--_base));
+
+    display: inline-flex;
+
+    &[data-size='small'] {
+      --_base: calc(var(--v-control-indicator-size) * 0.8);
+    }
+
+    &[data-size='large'] {
+      --_base: calc(var(--v-control-indicator-size) * 1.5);
+    }
+  }
+
+  .v-spinner__mark {
+    flex: none;
+    inline-size: var(--_size, var(--v-control-indicator-size));
+    block-size: var(--_size, var(--v-control-indicator-size));
+    animation: v-spin 900ms linear infinite;
+  }
+
+  .v-spinner__mark circle {
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 3;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-dasharray: 70 100;
+  }
+
+  @keyframes v-spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  @keyframes v-pulse {
+    50% {
+      opacity: 0.5;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .v-spinner__mark {
+      animation: v-pulse 1.6s ease-in-out infinite;
+    }
+
+    .v-spinner__mark circle {
+      stroke-dasharray: none;
+    }
+  }
+}

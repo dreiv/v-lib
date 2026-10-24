@@ -1,0 +1,36 @@
+import { Meta, Story } from '@storybook/addon-docs/blocks'
+import * as FocusStories from './FoundationsFocus.stories'
+
+<Meta of={FocusStories} />
+
+# Focus
+
+Every focusable element gets the same visible indicator from the base styles: an outline in
+`--v-focus-color`, set off from the element by `--v-focus-offset`. It appears on `:focus-visible`,
+so keyboard users always see it and mouse clicks on buttons do not trigger it.
+
+## Tokens
+
+<Story of={FocusStories.Tokens} />
+
+## The indicator
+
+<Story of={FocusStories.Ring} />
+
+## Contrast
+
+The focus color is the accent adjusted by `text-accent`, so it follows the user's system accent and
+still stays visible. The token tests assert 3:1 against the surface in light and dark, for each
+representative system accent. That is the threshold for
+[1.4.11 Non-text Contrast](https://www.w3.org/TR/WCAG22/#non-text-contrast).
+
+## Forced colors
+
+When the user turns on a forced-colors mode such as Windows contrast themes, the base styles swap
+the outline color for the system `Highlight` color, so the indicator stays in the user's palette.
+
+## Rules for components
+
+- Do not remove the outline. If a component restyles focus, build it from the focus tokens.
+- Where a container clips its children, such as a menu or listbox, draw the ring inside the item
+  instead: the popup items set a negative offset equal to the ring width.

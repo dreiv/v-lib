@@ -1,0 +1,87 @@
+import { Meta, Story } from '@storybook/addon-docs/blocks'
+import * as ColorStories from './FoundationsColor.stories'
+
+<Meta of={ColorStories} />
+
+# Color
+
+Color tokens are named by **role**, not by hue. Reach for `--v-color-text-danger`, not for "red",
+and the library decides what that means in light mode, in dark mode, and under the user's accent
+color.
+
+Names follow one pattern: `--v-color-surface-*` for fills and backgrounds, `--v-color-text-*` for
+text and icons, `--v-color-border-*` for lines. A status has a text color and a surface: `text-danger`
+for the message and `surface-danger` for the tinted background behind it. Danger also has
+`border-danger`, the outline of an invalid control.
+
+Every swatch on this page is rendered live with the real tokens. Light and dark examples sit
+in their own `color-scheme` container, so both schemes are visible at once regardless of your
+system setting.
+
+## How color adapts
+
+- **System colors.** `surface`, `text`, and `surface-accent` map to `Canvas`, `CanvasText`, and
+  `AccentColor`, and `text-on-accent` maps to `AccentColorText`. The browser supplies the right
+  value for the user's scheme and, where supported, their operating system accent.
+- **`light-dark()`.** Status text colors, `surface-scrim`, `text-accent`, `border`, and
+  `surface-raised` pick a light or dark value from the active `color-scheme`. The tokens set
+  `color-scheme: light dark` on `:root`.
+- **Derived colors.** Muted surface, muted text, `border`, and `border-muted` are mixes of
+  `CanvasText` into `Canvas` with `color-mix()`. Status surfaces mix 12% of the status text color
+  into `surface`, and `surface-selected` mixes 12% of the accent into it. `border-danger` is an
+  alias of `text-danger`.
+
+## Roles
+
+<Story of={ColorStories.Roles} />
+
+## Selection
+
+Two states can sit on the same option at once. **Highlighted** is where the keyboard or pointer is:
+it is transient and uses the hover overlay, a share of `text` laid over the surface
+(`--v-state-hover`). **Selected** is the chosen value: it persists, and uses `surface-selected`.
+The same pair applies to listbox options, menu items, tabs, and table rows.
+
+Color alone does not say "selected" ([1.4.1 Use of Color](https://www.w3.org/TR/WCAG22/#use-of-color)),
+so always add a second cue such as a check mark. `surface-selected` follows the accent, so it
+changes with the user's system accent while text on it stays at 4.5:1.
+
+<Story of={ColorStories.Selection} />
+
+## Accessibility
+
+Color pairs are checked in `packages/tokens/tests/tokens.test.ts` by resolving each token to a
+real color and computing the WCAG contrast ratio. Thresholds follow WCAG 2.2: 4.5:1 for text
+([1.4.3 Contrast (Minimum)](https://www.w3.org/TR/WCAG22/#contrast-minimum)) and 3:1 for
+interface boundaries and focus indicators
+([1.4.11 Non-text Contrast](https://www.w3.org/TR/WCAG22/#non-text-contrast)).
+
+The checks run against three backdrops: light (`#ffffff` on `#000000`), the dark scheme as
+Chromium renders it (`#121212`), and the dark scheme as Firefox renders it (`#1c1b22`).
+
+<Story of={ColorStories.ContrastPairs} />
+
+### Accent colors
+
+The accent comes from the operating system, so its value is unknown at build time. `text-accent`
+exists to make that safe: it takes the accent, mixes it toward the text color, and clamps its
+lightness (at most 0.48 in light mode, at least 0.66 in dark mode). In all three backdrops above,
+and with each of nine representative system accents (listed in the picker below), the tests
+assert:
+
+- `text-accent` on `surface` reaches 4.5:1, including under the hover overlay (`--v-state-hover`).
+- `--v-focus-color`, which is `text-accent`, reaches 3:1 on `surface`.
+- `text` and `text-muted` on `surface-selected` reach 4.5:1, and `text` still does under the hover
+  overlay.
+
+Pick an accent to see `text-accent`, the selected surface, and the focus ring adapt.
+
+<Story of={ColorStories.AccentColors} />
+
+### What the tests do not cover
+
+- `border-muted` and `surface-scrim` have no contrast assertion.
+- `text-on-accent` on `surface-accent` is decided by the operating system.
+- Tests resolve colors with their own implementation of `color-mix()`, `light-dark()`, and
+  relative color syntax, not in a browser. Review the live swatches above when you change a
+  token.

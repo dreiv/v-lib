@@ -1,0 +1,82 @@
+import { Meta, Story } from '@storybook/addon-docs/blocks'
+import * as LayoutUtilitiesStories from './LayoutUtilities.stories'
+
+<Meta of={LayoutUtilitiesStories} />
+
+# Layout utilities
+
+Plain CSS classes from `utilities.css`. They are not components: put them directly on any
+element. A layout is a direction (`v-stack` or `v-inline`), an optional `v-wrap`, a `v-gap-*` step,
+and `v-items-*` and `v-justify-*` for alignment.
+
+Spacing between children comes from `gap`, never from margins, so nothing collapses and nothing
+needs a first or last child exception. Every step is a [space token](?path=/docs/foundations-spacing-and-shape--docs).
+
+The classes sit in the last cascade layer, `v.utilities`, so they win over component styles. Your
+own unlayered CSS still wins over them.
+
+## Class reference
+
+Generated from `utilities.css`, so it cannot drift from the file. A class without a description is
+flagged under the table, and so is a description whose class has left the file.
+
+<Story of={LayoutUtilitiesStories.Reference} />
+
+## Direction
+
+`v-stack` lays children out in a column and `v-inline` in a row. Both stretch their children
+across the cross axis unless you add a `v-items-*` class, and both can shrink inside a flex or
+grid parent instead of forcing it wider.
+
+<Story of={LayoutUtilitiesStories.Stack} />
+
+<Story of={LayoutUtilitiesStories.Inline} />
+
+## Wrapping groups
+
+Add `v-wrap` to `v-inline` for content that should flow onto new lines instead of overflowing:
+tag lists, filter chips, anything of unknown or variable count. A row that cannot wrap can break
+[1.4.10 Reflow](https://www.w3.org/TR/WCAG22/#reflow) on narrow screens and at high zoom.
+
+<Story of={LayoutUtilitiesStories.Wrap} />
+
+## Gap scale
+
+Every step of the space scale has a `v-gap-*` class. The rows are generated from
+`@v/design-tokens`, so a new space step appears here the moment it exists, flagged if its class is
+missing. Add the class to `utilities.css` at the same time as the token.
+
+<Story of={LayoutUtilitiesStories.GapScale} />
+
+## Alignment
+
+`v-items-*` sets the cross axis (`align-items`) and `v-justify-*` sets the main axis
+(`justify-content`). Neither is tied to a direction class, so both work on `v-stack` and
+`v-inline`.
+
+<Story of={LayoutUtilitiesStories.AlignItems} />
+
+<Story of={LayoutUtilitiesStories.JustifyContent} />
+
+## Composing
+
+The same few classes cover most layouts. A toolbar pairs `v-justify-between` with `v-items-center`.
+An action row pushes its buttons to the end with `v-justify-end`. A section stacks its parts and
+lets the tag list wrap.
+
+<Story of={LayoutUtilitiesStories.Composed} />
+
+## Container
+
+`v-container` centers page content, caps it at `--v-container-max-inline`, and keeps a one-step
+gutter on both sides.
+
+<Story of={LayoutUtilitiesStories.Container} />
+
+## Visually hidden
+
+`v-visually-hidden` removes an element from view and leaves it available to screen readers. Use it
+for the text that names a control whose visible design is only an icon. Do not use it to hide
+content from everyone: for that, use `hidden`.
+
+<Story of={LayoutUtilitiesStories.VisuallyHidden} />

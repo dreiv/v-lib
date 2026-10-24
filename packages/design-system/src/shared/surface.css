@@ -1,0 +1,52 @@
+@property --_mix {
+  syntax: '<percentage>';
+  inherits: false;
+  initial-value: 0%;
+}
+
+@layer v.components {
+  :where(.v-button, .v-tag) {
+    --_rest: 0;
+    --_over: 1;
+    --_down: 1.5;
+
+    position: relative;
+    isolation: isolate;
+
+    display: inline-flex;
+
+    box-sizing: border-box;
+    max-inline-size: 100%;
+
+    border-radius: var(--v-radius-md);
+
+    &::before {
+      --_mix: calc(var(--v-state-hover) * var(--_rest));
+
+      position: absolute;
+      z-index: -1;
+      inset: 0;
+
+      box-sizing: border-box;
+      content: '';
+
+      background-color: color-mix(
+        in oklab,
+        var(--_bg),
+        var(--_mix-color, currentColor) var(--_mix)
+      );
+      border: var(--_bw, var(--v-border-width)) var(--_bs, solid) var(--_bd);
+      border-radius: inherit;
+
+      pointer-events: none;
+      transition: --_mix var(--v-duration-fast) var(--v-easing-out);
+    }
+
+    @media (prefers-reduced-motion: no-preference) {
+      &::before {
+        transition-property: --_mix, scale;
+        transition-duration: var(--v-duration-fast), var(--v-duration-normal);
+      }
+    }
+  }
+}

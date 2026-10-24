@@ -1,0 +1,29 @@
+@layer v.reset {
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+}
+
+@layer v.base {
+  :where(html) {
+    font-family: var(--v-font-sans);
+    font-size: var(--v-font-size-md);
+    line-height: var(--v-line-height-normal);
+    color: var(--v-color-text);
+    background: var(--v-color-surface);
+    text-size-adjust: 100%;
+  }
+
+  :where(:focus-visible) {
+    outline: var(--v-focus-ring);
+    outline-offset: var(--v-focus-offset);
+  }
+
+  @media (forced-colors: active) {
+    :where(:focus-visible) {
+      outline-color: Highlight;
+    }
+  }
+}

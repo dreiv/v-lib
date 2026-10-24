@@ -1,0 +1,213 @@
+@layer v.components {
+  .v-button {
+    --_h: var(--v-control-height-md);
+
+    --_bg: var(--v-color-surface-muted);
+    --_bd: var(--v-color-border);
+    --_fg: contrast-color(var(--_bg));
+    --_mix-color: var(--_fg);
+
+    min-block-size: var(--_h);
+    padding: var(--v-space-2) var(--v-space-4);
+
+    font: var(--v-font-weight-medium) var(--v-font-size-md) / var(--v-line-height-tight)
+      var(--v-font-sans);
+    text-align: center;
+    text-wrap: balance;
+    overflow-wrap: anywhere;
+    color: var(--_fg);
+
+    background: none;
+    border: 0;
+
+    cursor: pointer;
+    user-select: none;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+
+    &::after {
+      position: absolute;
+      inset: min(0px, calc((100% - var(--v-control-height-md)) / 2));
+
+      content: '';
+    }
+
+    & > .v-button__label {
+      display: inline-flex;
+      min-inline-size: 0;
+
+      & > svg {
+        flex: none;
+
+        inline-size: 1.25em;
+        block-size: 1.25em;
+      }
+    }
+
+    & > .v-button__spinner {
+      position: absolute;
+      inset: 0;
+
+      justify-content: center;
+
+      pointer-events: none;
+    }
+
+    &[data-size='small'] {
+      --_h: var(--v-control-height-sm);
+
+      padding-block: var(--v-space-1);
+      padding-inline: var(--v-space-3);
+
+      font-size: var(--v-font-size-sm);
+    }
+
+    &[data-size='large'] {
+      --_h: var(--v-control-height-lg);
+
+      padding-inline: var(--v-space-6);
+
+      font-size: 1.125rem;
+    }
+
+    &[data-icon-only] {
+      inline-size: var(--_h);
+      padding-inline: 0;
+    }
+
+    &[data-full] {
+      display: flex;
+
+      inline-size: 100%;
+    }
+
+    &:is([data-variant='primary'], [data-variant='danger'], [data-variant='quiet']) {
+      --_bd: transparent;
+    }
+
+    &:is([data-variant='primary'], [data-variant='danger']) {
+      --_mix-color: contrast-color(var(--_fg));
+    }
+
+    &[data-variant='primary'] {
+      --_bg: var(--v-color-surface-accent);
+    }
+
+    &[data-variant='danger'] {
+      --_bg: var(--v-color-text-danger);
+    }
+
+    &[data-variant='quiet'] {
+      --_over: 2;
+      --_down: 3;
+
+      --_bg: transparent;
+      --_fg: var(--v-color-text-accent);
+    }
+
+    &:not(:disabled, [aria-disabled='true']) {
+      @media (hover: hover) {
+        &:hover::before {
+          --_mix: calc(var(--v-state-hover) * var(--_over));
+        }
+      }
+
+      &:active::before {
+        --_mix: calc(var(--v-state-hover) * var(--_down));
+      }
+    }
+
+    &[aria-pressed='true'] {
+      --_rest: 1;
+      --_over: 2;
+      --_down: 2.5;
+
+      &::before {
+        outline: 2px solid currentColor;
+        outline-offset: calc(-1 * (var(--v-space-1) + var(--v-border-width)));
+      }
+    }
+
+    &:disabled,
+    &[aria-disabled='true']:not([aria-busy='true']) {
+      opacity: var(--v-state-disabled-opacity);
+    }
+
+    &:disabled,
+    &[aria-disabled='true'] {
+      cursor: not-allowed;
+    }
+
+    &[aria-busy='true'] {
+      cursor: progress;
+
+      & > .v-button__label {
+        opacity: 0;
+      }
+    }
+
+    @media (prefers-reduced-motion: no-preference) {
+      &:not(:disabled, [aria-disabled='true']):active::before {
+        scale: var(--v-state-press-scale);
+        transition-duration: var(--v-duration-fast);
+      }
+    }
+
+    @media (prefers-contrast: more) {
+      &:not([data-variant='quiet']) {
+        --_bd: currentColor;
+
+        &::before {
+          border-width: 2px;
+        }
+      }
+    }
+
+    @media (forced-colors: active) {
+      color: ButtonText;
+
+      &::before {
+        background-color: ButtonFace;
+        border-color: ButtonText;
+      }
+
+      &[data-variant='primary']::before {
+        border-width: 2px;
+      }
+
+      &[data-variant='danger']::before {
+        border-width: 3px;
+        border-style: double;
+      }
+
+      &[data-variant='quiet'] {
+        text-decoration: underline;
+        text-underline-offset: 0.25em;
+
+        &::before {
+          border-color: Canvas;
+        }
+      }
+
+      &[aria-pressed='true']::before {
+        outline-color: ButtonText;
+      }
+
+      &:not(:disabled, [aria-disabled='true']):is(:hover, :active)::before {
+        border-color: Highlight;
+      }
+
+      &:disabled,
+      &[aria-disabled='true']:not([aria-busy='true']) {
+        opacity: 1;
+
+        color: GrayText;
+
+        &::before {
+          border-color: GrayText;
+          border-style: dashed;
+        }
+      }
+    }
+  }
+}
